@@ -1,0 +1,11 @@
+PASS	Basic Statistics	SRR4841864_1.trim.fastq
+PASS	Per base sequence quality	SRR4841864_1.trim.fastq
+PASS	Per sequence quality scores	SRR4841864_1.trim.fastq
+PASS	Per base sequence content	SRR4841864_1.trim.fastq
+PASS	Per sequence GC content	SRR4841864_1.trim.fastq
+PASS	Per base N content	SRR4841864_1.trim.fastq
+WARN	Sequence Length Distribution	SRR4841864_1.trim.fastq
+PASS	Sequence Duplication Levels	SRR4841864_1.trim.fastq
+PASS	Overrepresented sequences	SRR4841864_1.trim.fastq
+PASS	Adapter Content	SRR4841864_1.trim.fastq
+FAIL	Kmer Content	SRR4841864_1.trim.fastq
