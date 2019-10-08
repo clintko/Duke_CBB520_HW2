@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Project: Calling SNPs for Yeast strain YJF153'
+project = 'Project: Calling SNPs in Yeast strain YJF153'
 copyright = '2019, Clintko'
 author = 'Clintko'
 

@@ -1,15 +1,16 @@
-Project: Calling SNPs from Yeast Strain YJF153
+Project: Calling SNPs in Yeast Strain YJF153 (Ref: S288c)
 ===================================
 
 source material can be cloned from:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Data Download
+   :caption: Section 01: Data Download
    
    00_check_environment.ipynb
    01_fastq_download.ipynb
    02_fastq_exploration.ipynb
+   03_fastq_generator.ipynb
    
 Indices and tables
 ==================
