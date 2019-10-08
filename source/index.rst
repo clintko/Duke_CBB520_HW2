@@ -9,6 +9,7 @@ source material can be cloned from:
    
    00_check_environment.ipynb
    01_fastq_download.ipynb
+   02_fastq_exploration.ipynb
    
 Indices and tables
 ==================

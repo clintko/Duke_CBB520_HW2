@@ -46,7 +46,6 @@ export QC_FILTER=$CUROUT/qc_output_filter
 export MYINFO=$CUROUT/myinfo
 export ADAPTERS=$MYINFO/TruSeq_adapter.fasta
 
-
-
+### Commands
 alias vcfutils="/usr/bin/bcftools-1.9/misc/vcfutils.pl"
 alias plot-vcfstats="/usr/bin/bcftools-1.9/misc/plot-vcfstats"
