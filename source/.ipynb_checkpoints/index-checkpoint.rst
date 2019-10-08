@@ -5,9 +5,10 @@ source material can be cloned from:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Unix Shell
+   :caption: Data Download
    
    00_check_environment.ipynb
+   01_fastq_download.ipynb
    
 Indices and tables
 ==================
