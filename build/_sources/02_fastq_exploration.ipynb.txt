@@ -1,0 +1,162 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Explore the data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In the previous notebook, we just downloaded the data SRR4841864.sra. The goal of the notebook is to explore the data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Explore the SRA File"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total 3.6G\n",
+      "-rw-r--r-- 1 jovyan users 1.5G Sep 21 00:48 SRR4841864_1.fastq\n",
+      "-rw-r--r-- 1 jovyan users 1.5G Sep 21 00:48 SRR4841864_2.fastq\n",
+      "-rw-r--r-- 1 jovyan users 707M Sep 21 00:38 SRR4841864.sra\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls -lh $RAW_FASTQS"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Read 5 spots for /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864.sra\n",
+      "Written 5 spots for /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864.sra\n",
+      "@SRR4841864.1 1 length=202\n",
+      "NGGCATACCAATGGGAAGAGCATGCGTGGGAATGGTATTCAAAAATCGAGAAAGAAGGATGCTGCTGCTGCTGCCGCTGTTGGGAAAGCTATAAAGGATGATGTCATTTTCATTTTCGTTGTCGTTGTCGTTGTCATTGTCATTGTCGTTGTCGTTGTCGTTGTTGTTTTCATTGTCGTTGTCGTTGTCTTCATCGTTATTG\n",
+      "+SRR4841864.1 1 length=202\n",
+      "#1:BDFFFDHFHDGGBBGGHGIGGHEHGIFIHGFDB?FHGHIIIDDGFHGCHIIIIIIIIIHGCCCBBDFDFCCECCCCBCCCBBABBCCCCCCECCCCCC==1A:BDDHFHHFIIIGIGHIAFGGCEHI?:?:CFD*:BDFHEH*?DHIBBF6<FAHBBCACEHFFH>CCBED;6@BC@=?AB@BCBCCCCDA@??BBBCC\n",
+      "@SRR4841864.2 2 length=202\n",
+      "NAGCTTCGTTAAGACTTTGACTGGTAAGACCATCACTTTGGAAGTTGAATCTTCTGACACCATTGACAATGTCAAGTCCAAGATCCAAGACAAGGAAGGTAACTTTCTCTTTCTACAGTTGGTAGCTCTTGGTGGCAATCTGGCGTAACATTTACGTCAAACAGAATTGTCACAGTTGTATTTGGAAGCCAAGGCTTTCAAA\n",
+      "+SRR4841864.2 2 length=202\n",
+      "#1=BDDDD?CFFFIIEFIFFHFIEFHIBHFFEFEFFIFEFIIFE<<?D?DGFIFIIGFEDFFIEGFFGGCC7@EFE7=AEEEDDDDDC@CCCBBBBBBBA>;1=BADD4:D2<4C<EA2C<B+AC<A:AB>>F=?)??*19:9*:00?D@ADD*?1(8--)==AA)77?=A###############################\n",
+      "@SRR4841864.3 3 length=202\n",
+      "NTTATATCTATGAATGAATATGCATTGCTCTTCTGATACTATGGTATGAGAGGCCTTGGTAAAGGGCATCGATAACCGAAAGAATCATCCGCAGAGAAGTACAGACGATAACGATAAGCCTCAAAAAGTTGTGTCCTCTCATCATCCTCGATCACCAGTATATCATAAGCAAAGAATCTTCGATAATGATTTGGAAAAAAAG\n",
+      "+SRR4841864.3 3 length=202\n",
+      "#1=?DDD?F?D8<FEGBABHBA<FHE93AAAHD<AFEG4?:ED<?DD<B4B918B@?FH8BDG?)BDFDHID@6;3=:59=<ACCCA@>CBB8?B253<:31=++2?A+++2<;?;1?97=+?CAABA:AA*1:=AB>==A=?BA#########################################################\n",
+      "@SRR4841864.4 4 length=202\n",
+      "NAGTCAGAAGTTTGGTTGTCAACGTTCAAAACACCGTTAGAACGAGACAAGTCCAAAGCAGAGACTTCTGGGACGCATTGGTCCTTTCTTTCTCTTTCTTCGAACTGCCTCTACACATTATAATGTGTTTTTGATATCAGTATACTAACAAGTAGAATTGCATTTACAAACTTTTTATTTTGTATTGCTTTTCGTCATTTTA\n",
+      "+SRR4841864.4 4 length=202\n",
+      "#1:DDBB=D?<<:<A2AA<A<4F@ACDEEEIE>DDDDC?DDEEIDDADCDDEEC@@@CCDDC=A@??;;7A;AA;'3<=AA5>A>AA>AAA>A>:AA>>>>1=12AA=A72@><+2+2,33<A,,@,33+<C)?B>B77<ABB?9A?B>7?7A*000=BBB?<*=)7)>B2=A7AB=;>;77AA9A################\n",
+      "@SRR4841864.5 5 length=202\n",
+      "NAAGACTTGATGCGACCAATGTTATTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTGTGCTTTCTCTTTAGAGATTTCAGACAAGGTGTTACCTAAAAAGCTTTCATGATCCAAACTGATTTTAGTAATACCACAACATGCCTTATTTGCGCCTGGAA\n",
+      "+SRR4841864.5 5 length=202\n",
+      "#1=DDFFFHHGHHJIJJJJJJIJJJJJJIJJIJIJJJJJJJJIIEIGHICHI@DGIJIJHHHHHHFFCEFFDEEEEDDDDDDDDDDDDDDD:ACDDDDDDCCCCFFFFFHHHHHJIIJJJJJIJJJJJJJCGHDHIJIJJJIIIIJJJJJIIIJJJJJJJJJIIJJJJJCHHHIIJJJJHGHHFFFFFFEEEFDDDDDDDDD\n"
+     ]
+    }
+   ],
+   "source": [
+    "fastq-dump -X 5 -Z $RAW_FASTQS/SRR4841864.sra"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Read the Pair-end files"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "@SRR4841864.1 1 length=101\n",
+      "NGGCATACCAATGGGAAGAGCATGCGTGGGAATGGTATTCAAAAATCGAGAAAGAAGGATGCTGCTGCTGCTGCCGCTGTTGGGAAAGCTATAAAGGATGA\n",
+      "+SRR4841864.1 1 length=101\n",
+      "#1:BDFFFDHFHDGGBBGGHGIGGHEHGIFIHGFDB?FHGHIIIDDGFHGCHIIIIIIIIIHGCCCBBDFDFCCECCCCBCCCBBABBCCCCCCECCCCCC\n",
+      "@SRR4841864.2 2 length=101\n",
+      "NAGCTTCGTTAAGACTTTGACTGGTAAGACCATCACTTTGGAAGTTGAATCTTCTGACACCATTGACAATGTCAAGTCCAAGATCCAAGACAAGGAAGGTA\n",
+      "+SRR4841864.2 2 length=101\n",
+      "#1=BDDDD?CFFFIIEFIFFHFIEFHIBHFFEFEFFIFEFIIFE<<?D?DGFIFIIGFEDFFIEGFFGGCC7@EFE7=AEEEDDDDDC@CCCBBBBBBBA>\n"
+     ]
+    }
+   ],
+   "source": [
+    "head -8 $RAW_FASTQS/SRR4841864_1.fastq"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "@SRR4841864.1 1 length=101\n",
+      "TGTCATTTTCATTTTCGTTGTCGTTGTCGTTGTCATTGTCATTGTCGTTGTCGTTGTCGTTGTTGTTTTCATTGTCGTTGTCGTTGTCTTCATCGTTATTG\n",
+      "+SRR4841864.1 1 length=101\n",
+      "==1A:BDDHFHHFIIIGIGHIAFGGCEHI?:?:CFD*:BDFHEH*?DHIBBF6<FAHBBCACEHFFH>CCBED;6@BC@=?AB@BCBCCCCDA@??BBBCC\n",
+      "@SRR4841864.2 2 length=101\n",
+      "ACTTTCTCTTTCTACAGTTGGTAGCTCTTGGTGGCAATCTGGCGTAACATTTACGTCAAACAGAATTGTCACAGTTGTATTTGGAAGCCAAGGCTTTCAAA\n",
+      "+SRR4841864.2 2 length=101\n",
+      ";1=BADD4:D2<4C<EA2C<B+AC<A:AB>>F=?)??*19:9*:00?D@ADD*?1(8--)==AA)77?=A###############################\n"
+     ]
+    }
+   ],
+   "source": [
+    "head -8 $RAW_FASTQS/SRR4841864_2.fastq"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

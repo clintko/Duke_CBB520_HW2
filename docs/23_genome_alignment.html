@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>&lt;no title&gt; &mdash; Project: Calling SNPs for Yeast strain YJF153 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Project: Calling SNPs for Yeast strain YJF153
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Unix Shell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="00_check_environment.html">Check if the environment is correctly setup</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Project: Calling SNPs for Yeast strain YJF153</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>&lt;no title&gt;</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/23_genome_alignment.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">source</span> config.sh
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="nv">$RAW_FASTQS</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="nv">$GENOME</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.amb
+Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.ann
+Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.bwt
+<span class="ansi-red-intense-fg ansi-bold">Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz</span>
+Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.pac
+Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.sa
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>/<span class="nv">$FA</span>.gz
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="nv">$ALIGN_RAW</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/home/jovyan/work/Data/SRR4841864/align_raw
+</pre></div></div>
+</div>
+<p><a class="reference external" href="https://github.com/lh3/bwa">https://github.com/lh3/bwa</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">lh3</span><span class="o">/</span><span class="n">bwa</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">bwa</span><span class="p">;</span> <span class="n">make</span>
+<span class="o">./</span><span class="n">bwa</span> <span class="n">index</span> <span class="n">ref</span><span class="o">.</span><span class="n">fa</span>
+<span class="o">./</span><span class="n">bwa</span> <span class="n">mem</span> <span class="n">ref</span><span class="o">.</span><span class="n">fa</span> <span class="n">read</span><span class="o">-</span><span class="n">se</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span> <span class="o">|</span> <span class="n">gzip</span> <span class="o">-</span><span class="mi">3</span> <span class="o">&gt;</span> <span class="n">aln</span><span class="o">-</span><span class="n">se</span><span class="o">.</span><span class="n">sam</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">./</span><span class="n">bwa</span> <span class="n">mem</span> <span class="n">ref</span><span class="o">.</span><span class="n">fa</span> <span class="n">read1</span><span class="o">.</span><span class="n">fq</span> <span class="n">read2</span><span class="o">.</span><span class="n">fq</span> <span class="o">|</span> <span class="n">gzip</span> <span class="o">-</span><span class="mi">3</span> <span class="o">&gt;</span> <span class="n">aln</span><span class="o">-</span><span class="n">pe</span><span class="o">.</span><span class="n">sam</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>lscpu
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+CPU(s):              12
+On-line CPU(s) list: 0-11
+Thread(s) per core:  2
+Core(s) per socket:  6
+Socket(s):           1
+NUMA node(s):        1
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               158
+Model name:          Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+Stepping:            10
+CPU MHz:             1533.946
+CPU max MHz:         4700.0000
+CPU min MHz:         800.0000
+BogoMIPS:            7392.00
+Virtualization:      VT-x
+L1d cache:           32K
+L1i cache:           32K
+L2 cache:            256K
+L3 cache:            12288K
+NUMA node0 CPU(s):   0-11
+Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp md_clear flush_l1d
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>-M -t <span class="m">16</span>
+-t INT      Number of threads <span class="o">[</span><span class="m">1</span><span class="o">]</span>
+-M  Mark shorter split hits as secondary <span class="o">(</span><span class="k">for</span> Picard compatibility<span class="o">)</span>.
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nv">REFFA</span><span class="o">=</span><span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+<span class="nv">READ1</span><span class="o">=</span><span class="nv">$RAW_FASTQS</span>/SRR4841864_1.fastq
+<span class="nv">READ2</span><span class="o">=</span><span class="nv">$RAW_FASTQS</span>/SRR4841864_2.fastq
+bwa mem -t <span class="m">8</span> <span class="nv">$REFFA</span> <span class="nv">$READ1</span> <span class="nv">$READ2</span> &gt; <span class="nv">$ALIGN_RAW</span>/aln_pe.sam
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 792080 sequences (80000080 bp)...
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (2, 341412, 24, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (223, 290, 352)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 610)
+[M::mem_pestat] mean and std.dev: (289.36, 95.27)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 739)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (134, 263, 1100)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3032)
+[M::mem_pestat] mean and std.dev: (549.25, 596.06)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 3998)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.465 CPU sec, 4.914 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (1, 341633, 25, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (221, 289, 351)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 611)
+[M::mem_pestat] mean and std.dev: (287.65, 95.26)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 741)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (122, 927, 1123)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3125)
+[M::mem_pestat] mean and std.dev: (659.33, 539.59)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 4126)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 41.222 CPU sec, 5.077 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (2, 341512, 26, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (218, 286, 348)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 608)
+[M::mem_pestat] mean and std.dev: (284.82, 94.57)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 738)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (134, 245, 569)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 1439)
+[M::mem_pestat] mean and std.dev: (361.25, 351.41)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 1874)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 42.117 CPU sec, 5.186 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 341280, 23, 1)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (220, 288, 350)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 610)
+[M::mem_pestat] mean and std.dev: (286.85, 95.15)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 740)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (243, 976, 1241)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3237)
+[M::mem_pestat] mean and std.dev: (894.91, 749.77)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 4235)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 40.897 CPU sec, 5.054 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 341181, 26, 1)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (221, 289, 351)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 611)
+[M::mem_pestat] mean and std.dev: (287.98, 95.59)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 741)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (120, 290, 902)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 2466)
+[M::mem_pestat] mean and std.dev: (467.58, 404.92)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 3248)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 40.623 CPU sec, 5.004 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (3, 341540, 19, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (219, 287, 350)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 612)
+[M::mem_pestat] mean and std.dev: (286.27, 95.23)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 743)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (150, 194, 347)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 741)
+[M::mem_pestat] mean and std.dev: (163.93, 82.05)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 938)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 40.774 CPU sec, 5.035 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (4, 341720, 25, 1)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (219, 288, 350)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 612)
+[M::mem_pestat] mean and std.dev: (286.46, 95.16)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 743)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (85, 285, 999)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 2827)
+[M::mem_pestat] mean and std.dev: (430.96, 464.86)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 3741)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 40.828 CPU sec, 5.016 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (2, 343013, 20, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (228, 295, 358)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 618)
+[M::mem_pestat] mean and std.dev: (294.40, 96.52)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 748)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (118, 256, 1095)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3049)
+[M::mem_pestat] mean and std.dev: (670.85, 683.36)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 4026)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.631 CPU sec, 4.867 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 343350, 32, 3)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (227, 295, 357)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 617)
+[M::mem_pestat] mean and std.dev: (293.72, 96.42)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 747)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (139, 319, 1155)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3187)
+[M::mem_pestat] mean and std.dev: (572.83, 524.62)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 4203)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.483 CPU sec, 4.850 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (5, 343309, 28, 1)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (225, 293, 355)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 615)
+[M::mem_pestat] mean and std.dev: (291.98, 96.34)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 745)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (77, 162, 1219)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3503)
+[M::mem_pestat] mean and std.dev: (506.38, 561.45)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 4645)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.265 CPU sec, 4.803 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 342442, 27, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (226, 294, 357)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 619)
+[M::mem_pestat] mean and std.dev: (293.43, 96.92)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 750)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (194, 307, 1104)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 2924)
+[M::mem_pestat] mean and std.dev: (617.59, 523.50)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 3834)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.265 CPU sec, 4.849 real sec
+[M::process] read 792080 sequences (80000080 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (6, 342323, 19, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (226, 294, 357)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 619)
+[M::mem_pestat] mean and std.dev: (293.48, 96.86)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 750)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (139, 254, 371)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 835)
+[M::mem_pestat] mean and std.dev: (195.87, 117.43)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 1067)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.321 CPU sec, 4.833 real sec
+[M::process] read 486404 sequences (49126804 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 342617, 26, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (225, 293, 356)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 618)
+[M::mem_pestat] mean and std.dev: (292.37, 96.68)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 749)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (120, 260, 1155)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 3225)
+[M::mem_pestat] mean and std.dev: (676.81, 688.85)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 4260)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 792080 reads in 39.286 CPU sec, 4.845 real sec
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (1, 210269, 18, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (223, 291, 354)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 616)
+[M::mem_pestat] mean and std.dev: (290.35, 96.64)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 747)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (83, 170, 997)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 2825)
+[M::mem_pestat] mean and std.dev: (402.17, 433.61)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 3739)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 486404 reads in 24.396 CPU sec, 3.012 real sec
+[main] Version: 0.7.17-r1198-dirty
+[main] CMD: bwa mem -t 8 /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq
+[main] Real time: 68.845 sec; CPU: 547.535 sec
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

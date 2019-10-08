@@ -1,0 +1,60 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
+    "fastqc --extract $TRIMMED/SRR4841864_1.trim.fastq -o $QC_TRIM"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
+    "fastqc --extract $TRIMMED/SRR4841864_2.fastq -o $QC_TRIM"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

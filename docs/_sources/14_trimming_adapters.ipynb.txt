@@ -1,0 +1,156 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "TruSeq_adapter.fasta\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $MYINFO"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $RAW_FASTQS"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Command Line: /home/jovyan/work/GitRepo/Duke_CBB520_HW2/myinfo/TruSeq_adapter.fasta /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq -q 20 -x 0.5 -o /home/jovyan/work/Data/SRR4841864/trimmed_fastqs/SRR4841864_1.trim.fastq -o /home/jovyan/work/Data/SRR4841864/trimmed_fastqs/SRR4841864_2.trim.fastq\n",
+      "Scale used: 2.2\n",
+      "Phred: 33\n",
+      "Threshold used: 751 out of 300000\n",
+      "Files: 2\n",
+      "Total reads: 5391722\n",
+      "Too short after clip: 159958\n",
+      "Trimmed 479378 reads (/home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq) by an average of 11.76 bases on quality < 20\n",
+      "Trimmed 910139 reads (/home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq) by an average of 32.52 bases on quality < 20\n"
+     ]
+    }
+   ],
+   "source": [
+    "fastq-mcf $MYINFO/TruSeq_adapter.fasta \\\n",
+    "    $RAW_FASTQS/SRR4841864_1.fastq \\\n",
+    "    $RAW_FASTQS/SRR4841864_2.fastq \\\n",
+    "    -q 20 -x 0.5 \\\n",
+    "    -o $TRIMMED/SRR4841864_1.trim.fastq \\\n",
+    "    -o $TRIMMED/SRR4841864_2.trim.fastq"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra\n",
+      "SRR4841864_1.trim.fastq  SRR4841864_2.trim.fastq\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $RAW_FASTQS\n",
+    "ls $TRIMMED"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  21566888 /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq\n",
+      "  21566888 /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq\n",
+      "  43133776 total\n"
+     ]
+    }
+   ],
+   "source": [
+    "wc -l $RAW_FASTQS/*.fastq"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  20927056 /home/jovyan/work/Data/SRR4841864/trimmed_fastqs/SRR4841864_1.trim.fastq\n",
+      "  20927056 /home/jovyan/work/Data/SRR4841864/trimmed_fastqs/SRR4841864_2.trim.fastq\n",
+      "  41854112 total\n"
+     ]
+    }
+   ],
+   "source": [
+    "wc -l $TRIMMED/*.fastq"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

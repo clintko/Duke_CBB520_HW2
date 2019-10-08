@@ -1,0 +1,154 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/Data/SRR4841864/genome\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $GENOME"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mkdir -p $GENOME"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "--2019-10-07 21:38:43--  ftp://ftp.ensembl.org/pub/release-98/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz\n",
+      "           => ‘/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz’\n",
+      "Resolving ftp.ensembl.org (ftp.ensembl.org)... 193.62.193.8\n",
+      "Connecting to ftp.ensembl.org (ftp.ensembl.org)|193.62.193.8|:21... connected.\n",
+      "Logging in as anonymous ... Logged in!\n",
+      "==> SYST ... done.    ==> PWD ... done.\n",
+      "==> TYPE I ... done.  ==> CWD (1) /pub/release-98/fasta/saccharomyces_cerevisiae/dna ... done.\n",
+      "==> SIZE Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz ... 3784201\n",
+      "==> PASV ... done.    ==> RETR Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz ... done.\n",
+      "Length: 3784201 (3.6M) (unauthoritative)\n",
+      "\n",
+      "Saccharomyces_cerev 100%[===================>]   3.61M  2.06MB/s    in 1.8s    \n",
+      "\n",
+      "2019-10-07 21:38:46 (2.06 MB/s) - ‘/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz’ saved [3784201]\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "wget -P $GENOME $FA_URL "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $GENOME/$FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      ">I dna:chromosome chromosome:R64-1-1:I:1:230218:1 REF\n",
+      "CCACACCACACCCACACACCCACACACCACACCACACACCACACCACACCCACACACACA\n",
+      "CATCCTAACACTACCCTAACACAGCCCTAATCTAACCCTGGCCAACCTGTCTCTCAACTT\n",
+      "ACCCTCCATTACCCTGCCTCCACTCGTTACCCTGTCCCATTCAACCATACCACTCCGAAC\n",
+      "CACCATCCATCCCTCTACTTACTACCACTCACCCACCGTTACCCTCCAATTACCCATATC\n",
+      "CAACCCACTGCCACTTACCCTACCATTACCCTACCATCCACCATGACCTACTCACCATAC\n",
+      "TGTTCTTCTACCCACCATATTGAAACGCTAACAAATGATCGTAAATAACACACACGTGCT\n",
+      "TACCCTACCACTTTATACCACCACCACATGCCATACTCACCCTCACTTGTATACTGATTT\n",
+      "TACGTACGCACACGGATGCTACAGTATATACCATCTCAAACTTACCCTACTCTCAGATTC\n",
+      "CACTTCACTCCATGGCCCATCTCTCACTGAATCAGTACCAAATGCACTCACATCATTATG\n"
+     ]
+    }
+   ],
+   "source": [
+    "zcat $GENOME/$FA | head"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "gunzip -k $GENOME/$FA.gz"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

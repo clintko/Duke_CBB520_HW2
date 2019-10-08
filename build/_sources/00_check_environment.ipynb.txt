@@ -1,0 +1,556 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Check if the environment is correctly setup"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "create the directories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mkdir -p $RAW_FASTQS\n",
+    "mkdir -p $TRIMMED \n",
+    "mkdir -p $FILTER\n",
+    "\n",
+    "mkdir -p $ALIGN_RAW\n",
+    "mkdir -p $ALIGN_TRIM\n",
+    "mkdir -p $ALIGN_FILTER\n",
+    "\n",
+    "mkdir -p $QC_RAW\n",
+    "mkdir -p $QC_TRIM\n",
+    "mkdir -p $QC_FILTER\n",
+    "\n",
+    "mkdir -p $FIG_RAW\n",
+    "mkdir -p $FIG_TRIM\n",
+    "mkdir -p $FIG_FILTER\n",
+    "\n",
+    "mkdir -p $MYINFO"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check EA-Utils"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/bin/fastq-mcf\n",
+      "/usr/bin/fastq-multx\n"
+     ]
+    }
+   ],
+   "source": [
+    "which fastq-mcf\n",
+    "which fastq-multx"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Usage: fastq-mcf [options] <adapters.fa> <reads.fq> [mates1.fq ...] \n",
+      "Version: 1.04.807\n"
+     ]
+    }
+   ],
+   "source": [
+    "fastq-mcf -h | head -2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Usage: fastq-multx [-g|-l|-B] <barcodes.fil> <read1.fq> -o r1.%.fq [mate.fq -o r2.%.fq] ...\n",
+      "Version: 1.02.772\n"
+     ]
+    }
+   ],
+   "source": [
+    "fastq-multx -h | head -2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check Htslib tools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/bin/htslib-1.9/tabix\n"
+     ]
+    }
+   ],
+   "source": [
+    "which tabix"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Version: 1.9\n",
+      "Usage:   tabix [OPTIONS] [FILE] [REGION [...]]\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "tabix &> >(head -3)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check SRA-Tools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/ncbi/sra-tools/bin/sratools\n",
+      "/usr/local/ncbi/sra-tools/bin/prefetch\n",
+      "/usr/local/ncbi/sra-tools/bin/fastq-dump\n"
+     ]
+    }
+   ],
+   "source": [
+    "which sratools\n",
+    "which prefetch\n",
+    "which fastq-dump"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "/usr/local/ncbi/sra-tools/bin/prefetch : 2.10.0\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "prefetch --version"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/local/ncbi/sra-tools/bin/fastq-dump : 2.10.0\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "fastq-dump --help | tail -n2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check Samtools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/bin/samtools-1.9/samtools\n"
+     ]
+    }
+   ],
+   "source": [
+    "which samtools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "samtools 1.9\n",
+      "Using htslib 1.9\n",
+      "Copyright (C) 2018 Genome Research Ltd.\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools --version"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check BCFTools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/bin/bcftools-1.9/bcftools\n"
+     ]
+    }
+   ],
+   "source": [
+    "which bcftools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)\n",
+      "Version: 1.9 (using htslib 1.9)\n"
+     ]
+    }
+   ],
+   "source": [
+    "bcftools --help | head -3"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check BWA Tools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/bin/bwa/bwa\n"
+     ]
+    }
+   ],
+   "source": [
+    "which bwa"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Check if the command exist in t"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**\n",
+    "```\n",
+    "Program: bwa (alignment via Burrows-Wheeler transformation)\n",
+    "Version: 0.7.17-r1198-dirty\n",
+    "Contact: Heng Li <lh3@sanger.ac.uk>\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Program: bwa (alignment via Burrows-Wheeler transformation)\n",
+      "Version: 0.7.17-r1198-dirty\n",
+      "Contact: Heng Li <lh3@sanger.ac.uk>\n",
+      "\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "1",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "bwa &> >(head -5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Check Other tools"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check if the command exist in the environment**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/usr/bin/fastqc\n",
+      "/opt/conda/bin/multiqc\n"
+     ]
+    }
+   ],
+   "source": [
+    "which fastqc\n",
+    "which multiqc"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Check the version**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "FastQC v0.11.5\n"
+     ]
+    }
+   ],
+   "source": [
+    "fastqc -v"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "This is \u001b[01;31m\u001b[KMultiQC\u001b[m\u001b[K v1.7\n"
+     ]
+    },
+    {
+     "ename": "",
+     "evalue": "2",
+     "output_type": "error",
+     "traceback": []
+    }
+   ],
+   "source": [
+    "multiqc &> >(grep MultiQC)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

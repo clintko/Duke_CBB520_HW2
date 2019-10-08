@@ -1,0 +1,92 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/Data/SRR4841864/genome\n",
+      "Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $GENOME\n",
+    "echo $FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[0m\u001b[01;31mSaccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $GENOME"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[bwa_index] Pack FASTA... 0.15 sec\n",
+      "[bwa_index] Construct BWT for the packed sequence...\n",
+      "[BWTIncCreate] textLength=24314210, availableWord=13710632\n",
+      "[BWTIncConstructFromPacked] 10 iterations done. 22615426 characters processed.\n",
+      "[bwt_gen] Finished constructing BWT in 11 iterations.\n",
+      "[bwa_index] 3.45 seconds elapse.\n",
+      "[bwa_index] Update BWT... 0.10 sec\n",
+      "[bwa_index] Pack forward-only FASTA... 0.09 sec\n",
+      "[bwa_index] Construct SA from BWT and Occ... 1.52 sec\n",
+      "[main] Version: 0.7.17-r1198-dirty\n",
+      "[main] CMD: bwa index -a bwtsw -p /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz\n",
+      "[main] Real time: 5.384 sec; CPU: 5.313 sec\n"
+     ]
+    }
+   ],
+   "source": [
+    "bwa index -a bwtsw $GENOME/$FA.gz -p $GENOME/$FA"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

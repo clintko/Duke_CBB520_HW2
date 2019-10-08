@@ -1,0 +1,179 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "DIR_DAT=\"$HOME/work/Data/SRR4841864\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "RAW_FASTQS=\"$HOME/work/Data/SRR4841864\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# We used these in the last notebook\n",
+    "DATA_BASE=\"$HOME/work/Data/SRR4841864\"\n",
+    "RAW_FASTQS=\"$DATA_BASE/rawdata\"\n",
+    "TRIMMED=\"$DATA_BASE/trimmed_fastqs\"\n",
+    "\n",
+    "# The following are new for this notebook\n",
+    "CUROUT=\"$HOME/work/GitRepo/Duke_CBB520_HW2\"\n",
+    "\n",
+    "QC_RAW=$CUROUT/qc_output_raw\n",
+    "QC_TRIM=$CUROUT/qc_output_trim\n",
+    "\n",
+    "MYINFO=$CUROUT/myinfo"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mkdir -p $QC_RAW\n",
+    "mkdir -p $QC_TRIM"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "data_download.ipynb     \u001b[0m\u001b[01;34mqc_output\u001b[0m            Test_environment.ipynb\n",
+      "data_exploration.ipynb  quality_score.ipynb\n",
+      "fastqc.ipynb            README.md\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $CUROUT"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $RAW_FASTQS"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Started analysis of SRR4841864_1.fastq\n",
+      "Approx 5% complete for SRR4841864_1.fastq\n",
+      "Approx 10% complete for SRR4841864_1.fastq\n",
+      "Approx 15% complete for SRR4841864_1.fastq\n",
+      "Approx 20% complete for SRR4841864_1.fastq\n",
+      "Approx 25% complete for SRR4841864_1.fastq\n",
+      "Approx 30% complete for SRR4841864_1.fastq\n",
+      "Approx 35% complete for SRR4841864_1.fastq\n",
+      "Approx 40% complete for SRR4841864_1.fastq\n",
+      "Approx 45% complete for SRR4841864_1.fastq\n",
+      "Approx 50% complete for SRR4841864_1.fastq\n",
+      "Approx 55% complete for SRR4841864_1.fastq\n",
+      "Approx 60% complete for SRR4841864_1.fastq\n",
+      "Approx 65% complete for SRR4841864_1.fastq\n",
+      "Approx 70% complete for SRR4841864_1.fastq\n",
+      "Approx 75% complete for SRR4841864_1.fastq\n",
+      "Approx 80% complete for SRR4841864_1.fastq\n",
+      "Approx 85% complete for SRR4841864_1.fastq\n",
+      "Approx 90% complete for SRR4841864_1.fastq\n",
+      "Approx 95% complete for SRR4841864_1.fastq\n",
+      "Analysis complete for SRR4841864_1.fastq\n"
+     ]
+    }
+   ],
+   "source": [
+    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
+    "fastqc --extract $RAW_FASTQS/SRR4841864_1.fastq -o $QC_RAW"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Started analysis of SRR4841864_2.fastq\n",
+      "Approx 5% complete for SRR4841864_2.fastq\n",
+      "Approx 10% complete for SRR4841864_2.fastq\n",
+      "Approx 15% complete for SRR4841864_2.fastq\n",
+      "Approx 20% complete for SRR4841864_2.fastq\n",
+      "Approx 25% complete for SRR4841864_2.fastq\n",
+      "Approx 30% complete for SRR4841864_2.fastq\n",
+      "Approx 35% complete for SRR4841864_2.fastq\n",
+      "Approx 40% complete for SRR4841864_2.fastq\n",
+      "Approx 45% complete for SRR4841864_2.fastq\n",
+      "Approx 50% complete for SRR4841864_2.fastq\n",
+      "Approx 55% complete for SRR4841864_2.fastq\n",
+      "Approx 60% complete for SRR4841864_2.fastq\n",
+      "Approx 65% complete for SRR4841864_2.fastq\n",
+      "Approx 70% complete for SRR4841864_2.fastq\n",
+      "Approx 75% complete for SRR4841864_2.fastq\n",
+      "Approx 80% complete for SRR4841864_2.fastq\n",
+      "Approx 85% complete for SRR4841864_2.fastq\n",
+      "Approx 90% complete for SRR4841864_2.fastq\n",
+      "Approx 95% complete for SRR4841864_2.fastq\n",
+      "Analysis complete for SRR4841864_2.fastq\n"
+     ]
+    }
+   ],
+   "source": [
+    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
+    "fastqc --extract $RAW_FASTQS/SRR4841864_2.fastq -o $QC_RAW"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
