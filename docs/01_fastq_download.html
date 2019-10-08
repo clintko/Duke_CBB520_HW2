@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Project: Calling SNPs for Yeast strain YJF153 1.0 documentation</title>
+  <title>Download SRA Data: SRR4841864 &mdash; Project: Calling SNPs for Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Check if the environment is correctly setup" href="00_check_environment.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -78,9 +79,18 @@
               
             
             
-              <p class="caption"><span class="caption-text">Unix Shell</span></p>
-<ul>
+              <p class="caption"><span class="caption-text">Data Download</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="00_check_environment.html">Check if the environment is correctly setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Download SRA Data: SRR4841864</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Information-of-the-data">Information of the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Fetch-the-SRA-data">Fetch the SRA data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Set-the-directories-for-my-analysis">Set the directories for my analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Split-the-paired-end-data-into-read-1-and-read-2">Split the paired-end data into read 1 and read 2</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -126,7 +136,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Download SRA Data: SRR4841864</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -367,26 +377,92 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="section" id="Download-SRA-Data:-SRR4841864">
+<h1>Download SRA Data: SRR4841864<a class="headerlink" href="#Download-SRA-Data:-SRR4841864" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Information-of-the-data">
+<h2>Information of the data<a class="headerlink" href="#Information-of-the-data" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Title: Saccharomyces cerevisiae YJF153 paired-end Illumina WGS</p>
+<ul>
+<li><p>Abstract: Saccharomyces cerevisiae YJF153 (derivative of oak strain YPS163) whole genome sequence</p></li>
+<li><p>Alias: run_1008_s_1_3_withindex_sequence.txt_GAGTACG.YJF153.fq.gz</p></li>
+</ul>
+</li>
+<li><p>Study: SRP092474</p></li>
+<li><p>Experiment: SRX2321838</p>
+<ul>
+<li><p>Name: YJF153</p></li>
+<li><p>Strategy: WGS</p></li>
+<li><p>Source: GENOMIC</p></li>
+<li><p>Selection: RANDOM</p></li>
+<li><p>Layout: PAIRED</p></li>
+<li><p>Instrument Model: Illumina HiSeq 2500</p></li>
+</ul>
+</li>
+<li><p>Reference:</p>
+<ul>
+<li><p><a class="reference external" href="https://trace.ddbj.nig.ac.jp/DRASearch/run?acc=SRR4841864">DRASearch: SRR4841864</a></p></li>
+<li><p><a class="reference external" href="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR4841864">NCBI: SRR4841864-SRA browser</a></p></li>
+<li><p><a class="reference external" href="https://www.ncbi.nlm.nih.gov//bioproject/352256">NCBI: SRR4841864-BioProject</a></p></li>
+<li><p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/biosample/SAMN05968761">NCBI: SRR4841864-BioSample</a></p></li>
+<li><p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/SRR4841864/">NCBI: SRR4841864-Experiment</a></p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>prefetch -v SRR4841864
+<span></span><span class="nb">source</span> config.sh
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="nv">$RAW_FASTQS</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-
-Command &#39;prefetch&#39; not found, but can be installed with:
-
-sudo apt install sra-toolkit
-
+/home/jovyan/work/Data/SRR4841864/rawdata
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="nv">$RAW_FASTQS</span>/SRR4841864
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SRR4841864.sra
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Fetch-the-SRA-data">
+<h2>Fetch the SRA data<a class="headerlink" href="#Fetch-the-SRA-data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>prefetch -v SRR4841864 -O <span class="nv">$RAW_FASTQS</span>
+</pre></div>
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -394,53 +470,81 @@ sudo apt install sra-toolkit
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 
+2019-10-08T23:13:41 prefetch.2.10.0: KClientHttpOpen - connected from &#39;172.17.0.5&#39; to trace.ncbi.nlm.nih.gov (130.14.29.113)
+2019-10-08T23:13:41 prefetch.2.10.0: KClientHttpOpen - verifying CA cert
+2019-10-08T23:13:49 prefetch.2.10.0: KClientHttpOpen - connected from &#39;172.17.0.5&#39; to sra-download.ncbi.nlm.nih.gov (130.14.250.26)
+2019-10-08T23:13:49 prefetch.2.10.0: KClientHttpOpen - verifying CA cert
+2019-10-08T23:13:49 prefetch.2.10.0: 1) Downloading &#39;SRR4841864&#39;...
+2019-10-08T23:13:49 prefetch.2.10.0:  Downloading via https...
+2019-10-08T23:13:49 prefetch.2.10.0: https://sra-download.ncbi.nlm.nih.gov/traces/sra7/SRR/004728/SRR4841864 -&gt; /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864/SRR4841864.sra.tmp.11178.tmp
+2019-10-08T23:13:49 prefetch.2.10.0: KClientHttpOpen - connected from &#39;172.17.0.5&#39; to sra-download.ncbi.nlm.nih.gov (130.14.250.25)
+2019-10-08T23:13:49 prefetch.2.10.0: KClientHttpOpen - verifying CA cert
+2019-10-08T23:14:15 prefetch.2.10.0: /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864/SRR4841864.sra.tmp.11178.tmp (740953041)
+2019-10-08T23:14:15 prefetch.2.10.0:  https download succeed
+2019-10-08T23:14:15 prefetch.2.10.0: 1) &#39;SRR4841864&#39; was downloaded successfully
+2019-10-08T23:14:15 prefetch.2.10.0: &#39;SRR4841864&#39; has 0 unresolved dependencies
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="section" id="Set-the-directories-for-my-analysis">
+<h3>Set the directories for my analysis<a class="headerlink" href="#Set-the-directories-for-my-analysis" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>fastq-dump --split-files <span class="nv">$DIR_DAT</span>/SRR4841864.sra
+<span></span>mv <span class="nv">$RAW_FASTQS</span>/SRR4841864/SRR4841864.sra <span class="nv">$RAW_FASTQS</span>/SRR4841864.sra
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Command &#39;fastq-dump&#39; not found, but can be installed with:
-
-sudo apt install sra-toolkit
-
-</pre></div></div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>rm -rf <span class="nv">$RAW_FASTQS</span>/SRR4841864
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Split-the-paired-end-data-into-read-1-and-read-2">
+<h2>Split the paired-end data into read 1 and read 2<a class="headerlink" href="#Split-the-paired-end-data-into-read-1-and-read-2" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>fastq-dump --split-files <span class="nv">$RAW_FASTQS</span>/SRR4841864.sra -O <span class="nv">$RAW_FASTQS</span>
+</pre></div>
+</div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-
+Read 5391722 spots for /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864.sra
+Written 5391722 spots for /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864.sra
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<p><strong>Check the files &amp; directory</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span>ls <span class="nv">$RAW_FASTQS</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra
+</pre></div></div>
+</div>
 </div>
 </div>
 
@@ -449,6 +553,13 @@ sudo apt install sra-toolkit
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="00_check_environment.html" class="btn btn-neutral float-left" title="Check if the environment is correctly setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
