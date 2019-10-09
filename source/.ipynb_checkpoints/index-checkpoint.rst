@@ -1,5 +1,5 @@
 Project: Calling SNPs in Yeast Strain YJF153 (Ref: S288c)
-===================================
+============================================================
 
 source material can be cloned from:
 
