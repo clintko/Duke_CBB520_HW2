@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>filter SNP &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  <title>Sort and Index the alignment results &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -151,7 +151,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>filter SNP</li>
+      <li>Sort and Index the alignment results</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -392,14 +392,114 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<div class="section" id="Sort-and-Index-the-alignment-results">
+<h1>Sort and Index the alignment results<a class="headerlink" href="#Sort-and-Index-the-alignment-results" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span><span class="nb">source</span> config.sh
 </pre></div>
 </div>
+</div>
+<div class="section" id="Converting-SAM-to-BAM-with-samtools">
+<h2><a class="reference external" href="http://quinlanlab.org/tutorials/samtools/samtools.html">Converting SAM to BAM with samtools</a><a class="headerlink" href="#Converting-SAM-to-BAM-with-samtools" title="Permalink to this headline">¶</a></h2>
+<p>Here I followed the instructions from the <a class="reference external" href="http://quinlanlab.org/tutorials/samtools/samtools.html">Samtools Tutorial</a> created by Aaron Quinlan.</p>
+<ul class="simple">
+<li><p>Converting SAM to BAM with samtools “view”</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### convert SAM to BAM</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="o">-</span><span class="n">S</span> <span class="o">-</span><span class="n">b</span> <span class="n">sample</span><span class="o">.</span><span class="n">sam</span> <span class="o">&gt;</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span>
+
+<span class="c1">### print the results</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">|</span> <span class="n">head</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>samtools “sort”</p></li>
+</ul>
+<p>“When you align FASTQ files with all current sequence aligners, the alignments produced are in random order with respect to their position in the reference genome. In other words, the BAM file is in the order that the sequences occurred in the input FASTQ files.”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### Before sort</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">|</span> <span class="n">head</span>
+
+<span class="c1">### sort</span>
+<span class="n">samtools</span> <span class="n">sort</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">-</span><span class="n">o</span> <span class="n">sample</span><span class="o">.</span><span class="n">sorted</span><span class="o">.</span><span class="n">bam</span>
+
+<span class="c1">### After sort</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">|</span> <span class="n">head</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nv">DIR</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$RAW_FASTQS</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TRIMMED</span><span class="s2">&quot;</span>    <span class="s2">&quot;</span><span class="nv">$FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
+<span class="nv">OUT</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_RAW</span><span class="s2">&quot;</span>  <span class="s2">&quot;</span><span class="nv">$ALIGN_TRIM</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
+<span class="nv">REFFA</span><span class="o">=</span><span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+
+<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span><span class="m">0</span><span class="p">;</span> i&lt;<span class="si">${#</span><span class="nv">OUT</span><span class="p">[@]</span><span class="si">}</span><span class="p">;</span> ++i<span class="o">))</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&quot;================================================&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+================================================
+/home/jovyan/work/Data/SRR4841864/align_raw
+================================================
+/home/jovyan/work/Data/SRR4841864/align_trim
+================================================
+/home/jovyan/work/Data/SRR4841864/align_filter
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nv">DIR</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$RAW_FASTQS</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TRIMMED</span><span class="s2">&quot;</span>    <span class="s2">&quot;</span><span class="nv">$FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
+<span class="nv">OUT</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_RAW</span><span class="s2">&quot;</span>  <span class="s2">&quot;</span><span class="nv">$ALIGN_TRIM</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
+<span class="nv">REFFA</span><span class="o">=</span><span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+
+<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span><span class="m">0</span><span class="p">;</span> i&lt;<span class="si">${#</span><span class="nv">OUT</span><span class="p">[@]</span><span class="si">}</span><span class="p">;</span> ++i<span class="o">))</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&quot;================================================&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;++++++++++++++++++++++++&quot;</span>
+
+    <span class="c1">### SAM to BAM</span>
+    samtools view -S -b <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe.sam &gt; <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe.bam
+
+    <span class="c1">### Sorting</span>
+    samtools sort <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe.bam -o <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe_sorted.bam
+<span class="k">done</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+================================================
+/home/jovyan/work/Data/SRR4841864/align_raw
+++++++++++++++++++++++++
+[bam_sort_core] merging from 3 files and 1 in-memory blocks...
+================================================
+/home/jovyan/work/Data/SRR4841864/align_trim
+++++++++++++++++++++++++
+[bam_sort_core] merging from 3 files and 1 in-memory blocks...
+================================================
+/home/jovyan/work/Data/SRR4841864/align_filter
+++++++++++++++++++++++++
+[bam_sort_core] merging from 2 files and 1 in-memory blocks...
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -434,6 +534,15 @@ Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 <div class="highlight"><pre>
 aln_pe.sam
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -583,8 +692,9 @@ SRR4841864.4882163      99      I       13      7       8S21M1D16M56S   =       
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="filter-SNP">
-<h1>filter SNP<a class="headerlink" href="#filter-SNP" title="Permalink to this headline">¶</a></h1>
+<h2>filter SNP<a class="headerlink" href="#filter-SNP" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
@@ -960,6 +1070,7 @@ I       1741    .       T       &lt;*&gt;       0       .       DP=412;I16=308,7
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
