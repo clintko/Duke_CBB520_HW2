@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index Genome using Burrows-Wheeler Aligner (BWA) &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  <title>Index Genome using Samtools &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -37,8 +37,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Align Reads (YJF153) to the Reference (S288c)" href="31_alignment.html" />
-    <link rel="prev" title="Download Yeast Genome (Strain S288c)" href="21_genome_download.html" /> 
+    <link rel="prev" title="Align Reads (YJF153) to the Reference (S288c)" href="31_alignment.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,14 +99,17 @@
 <li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Section 03: Download and Indexing Genome</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_genome_indexing.html">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Section 04: Alignment and calls of SNPs</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Index Genome using Samtools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Samtools-faidx">Samtools faidx</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -153,13 +155,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Index Genome using Burrows-Wheeler Aligner (BWA)</li>
+      <li>Index Genome using Samtools</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/22_genome_indexing.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/32_genome_sort_index.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -394,8 +396,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Index-Genome-using-Burrows-Wheeler-Aligner-(BWA)">
-<h1>Index Genome using Burrows-Wheeler Aligner (BWA)<a class="headerlink" href="#Index-Genome-using-Burrows-Wheeler-Aligner-(BWA)" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Index-Genome-using-Samtools">
+<h1>Index Genome using Samtools<a class="headerlink" href="#Index-Genome-using-Samtools" title="Permalink to this headline">¶</a></h1>
+<p>Before calling SNPs from the alignment results, we need to index the genome again. But instead of using BWA, here we will be using Samtools</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -405,38 +408,59 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>check the files</p>
-<div class="nbinput docutils container">
+<div class="section" id="Samtools-faidx">
+<h2><a class="reference external" href="http://www.htslib.org/doc/faidx.html">Samtools faidx</a><a class="headerlink" href="#Samtools-faidx" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>faidx – an index enabling random access to FASTA and FASTQ files</p></li>
+</ul>
+<p>Using an fai index file in conjunction with a FASTA/FASTQ file containing reference sequences enables efficient access to arbitrary regions within those reference sequences. The index file typically has the same filename as the corresponding FASTA/FASTQ file, with .fai appended. An fai index file is a text file consisting of lines each with five TAB-delimited columns for a FASTA file and six for FASTQ:</p>
+<ul class="simple">
+<li><p>NAME</p>
+<ul>
+<li><p>Name of this reference sequence</p></li>
+</ul>
+</li>
+<li><p>LENGTH</p>
+<ul>
+<li><p>Total length of this reference sequence, in bases</p></li>
+</ul>
+</li>
+<li><p>OFFSET</p>
+<ul>
+<li><p>Offset in the FASTA/FASTQ file of this sequence’s first base</p></li>
+</ul>
+</li>
+<li><p>LINEBASES</p>
+<ul>
+<li><p>The number of bases on each line</p></li>
+</ul>
+</li>
+<li><p>LINEWIDTH</p>
+<ul>
+<li><p>The number of bytes in each line, including the newline</p></li>
+</ul>
+</li>
+<li><p>QUALOFFSET</p>
+<ul>
+<li><p>Offset of sequence’s first quality within the FASTQ file</p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>
-<span class="nb">echo</span> <span class="nv">$FA</span>
-<span class="nb">echo</span> <span class="s2">&quot;==========================&quot;</span>
-ls <span class="nv">$GENOME</span>
+<span></span>samtools faidx <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-/home/jovyan/work/Data/SRR4841864/genome
-Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-==========================
-Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-<span class="ansi-red-intense-fg ansi-bold">Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz</span>
-</pre></div></div>
-</div>
-<p><strong>Index the genome using `BWA &lt;http://bio-bwa.sourceforge.net/&gt;`__</strong></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>bwa index -a bwtsw <span class="nv">$GENOME</span>/<span class="nv">$FA</span>.gz -p <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+<span></span>ls <span class="nv">$GENOME</span>/*.fai
 </pre></div>
 </div>
 </div>
@@ -445,19 +469,9 @@ Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[bwa_index] Pack FASTA... 0.16 sec
-[bwa_index] Construct BWT for the packed sequence...
-[BWTIncCreate] textLength=24314210, availableWord=13710632
-[BWTIncConstructFromPacked] 10 iterations done. 22615426 characters processed.
-[bwt_gen] Finished constructing BWT in 11 iterations.
-[bwa_index] 3.32 seconds elapse.
-[bwa_index] Update BWT... 0.11 sec
-[bwa_index] Pack forward-only FASTA... 0.09 sec
-[bwa_index] Construct SA from BWT and Occ... 1.41 sec
-[main] Version: 0.7.17-r1198-dirty
-[main] CMD: bwa index -a bwtsw -p /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
-[main] Real time: 5.163 sec; CPU: 5.094 sec
+/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.fai
 </pre></div></div>
+</div>
 </div>
 </div>
 
@@ -469,10 +483,8 @@ Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="31_alignment.html" class="btn btn-neutral float-right" title="Align Reads (YJF153) to the Reference (S288c)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="21_genome_download.html" class="btn btn-neutral float-left" title="Download Yeast Genome (Strain S288c)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="31_alignment.html" class="btn btn-neutral float-left" title="Align Reads (YJF153) to the Reference (S288c)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

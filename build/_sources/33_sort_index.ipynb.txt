@@ -1,0 +1,599 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "aln_pe.sam\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $ALIGN_RAW"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "samtools view -S -b $ALIGN_RAW/aln_pe.sam > $ALIGN_RAW/aln_pe.bam"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[bam_sort_core] merging from 3 files and 1 in-memory blocks...\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools sort $ALIGN_RAW/aln_pe.bam -o $ALIGN_RAW/aln_pe_sorted.bam"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864.1\t83\tVII\t224972\t60\t101M\t=\t224852\t-221\tTCATCCTTTATAGCTTTCCCAACAGCGGCAGCAGCAGCAGCATCCTTCTTTCTCGATTTTTGAATACCATTCCCACGCATGCTCTTCCCATTGGTATGCCN\tCCCCCCECCCCCCBBABBCCCBCCCCECCFDFDBBCCCGHIIIIIIIIIHCGHFGDDIIIHGHF?BDFGHIFIGHEHGGIGHGGBBGGDHFHDFFFDB:1#\tNM:i:3\tMD:Z:11G10T77T0\tMC:Z:41S50M10S\tAS:i:90\tXS:i:19\n",
+      "SRR4841864.1\t163\tVII\t224852\t60\t41S50M10S\t=\t224972\t221\tTGTCATTTTCATTTTCGTTGTCGTTGTCGTTGTCATTGTCATTGTCGTTGTCGTTGTCGTTGTTGTTTTCATTGTCGTTGTCGTTGTCTTCATCGTTATTG\t==1A:BDDHFHHFIIIGIGHIAFGGCEHI?:?:CFD*:BDFHEH*?DHIBBF6<FAHBBCACEHFFH>CCBED;6@BC@=?AB@BCBCCCCDA@??BBBCC\tNM:i:0\tMD:Z:50\tMC:Z:101M\tAS:i:50\tXS:i:0\tSA:Z:VII,224835,+,38M6D20M43S,51,7;\n",
+      "SRR4841864.1\t2211\tVII\t224835\t51\t38M6D20M43H\t=\t224972\t238\tTGTCATTTTCATTTTCGTTGTCGTTGTCGTTGTCATTGTCATTGTCGTTGTCGTTGTC\t==1A:BDDHFHHFIIIGIGHIAFGGCEHI?:?:CFD*:BDFHEH*?DHIBBF6<FAHB\tNM:i:7\tMD:Z:34G3^TTGTTT20\tMC:Z:101M\tAS:i:41\tXS:i:0\tSA:Z:VII,224852,+,41S50M10S,60,0;\n",
+      "SRR4841864.2\t83\tXI\t618277\t60\t101M\t=\t618040\t-338\tTACCTTCCTTGTCTTGGATCTTGGACTTGACATTGTCAATGGTGTCAGAAGATTCAACTTCCAAAGTGATGGTCTTACCAGTCAAAGTCTTAACGAAGCTN\t>ABBBBBBBCCC@CDDDDDEEEA=7EFE@7CCGGFFGEIFFDEFGIIFIFGD?D?<<EFIIFEFIFFEFEFFHBIHFEIFHFFIFEIIFFFC?DDDDB=1#\tNM:i:1\tMD:Z:100G0\tMC:Z:101M\tAS:i:100\tXS:i:76\n",
+      "SRR4841864.2\t163\tXI\t618040\t60\t101M\t=\t618277\t338\tACTTTCTCTTTCTACAGTTGGTAGCTCTTGGTGGCAATCTGGCGTAACATTTACGTCAAACAGAATTGTCACAGTTGTATTTGGAAGCCAAGGCTTTCAAA\t;1=BADD4:D2<4C<EA2C<B+AC<A:AB>>F=?)??*19:9*:00?D@ADD*?1(8--)==AA)77?=A###############################\tNM:i:3\tMD:Z:34T20A8T36\tMC:Z:101M\tAS:i:86\tXS:i:66\n",
+      "SRR4841864.3\t99\tIII\t4761\t0\t101M\t=\t5106\t446\tNTTATATCTATGAATGAATATGCATTGCTCTTCTGATACTATGGTATGAGAGGCCTTGGTAAAGGGCATCGATAACCGAAAGAATCATCCGCAGAGAAGTA\t#1=?DDD?F?D8<FEGBABHBA<FHE93AAAHD<AFEG4?:ED<?DD<B4B918B@?FH8BDG?)BDFDHID@6;3=:59=<ACCCA@>CBB8?B253<:3\tNM:i:1\tMD:Z:0A100\tMC:Z:101M\tAS:i:100\tXS:i:100\tXA:Z:XI,-664899,101M,1;\n",
+      "SRR4841864.3\t147\tIII\t5106\t0\t101M\t=\t4761\t-446\tCTTTTTTTCCAAATCATTATCGAAGATTCTTTGCTTATGATATACTGGTGATCGAGGATGATGAGAGGACACAACTTTTTGAGGCTTATCGTTATCGTCTG\t#########################################################AB?=A==>BA=:1*AA:ABAAC?+=79?1;?;<2+++A?2++=1\tNM:i:1\tMD:Z:50C50\tMC:Z:101M\tAS:i:96\tXS:i:96\tXA:Z:XI,+664554,101M,1;\n",
+      "SRR4841864.4\t83\tXIII\t226512\t60\t101M\t=\t226185\t-428\tGAAGAAAGAGAAAGAAAGGACCAATGCGTCCCAGAAGTCTCTGCTTTGGACTTGTCTCGTTCTAACGGTGTTTTGAACGTTGACAACCAAACTTCTGACTN\t>>>>AA:>A>AAA>AA>A>5AA=<3';AA;A7;;??@A=CDDCC@@@CEEDDCDADDIEEDD?CDDDD>EIEEEDCA@F4<A<AA2A<:<<?D=BBDD:1#\tNM:i:2\tMD:Z:25A74T0\tMC:Z:101M\tAS:i:95\tXS:i:85\tXA:Z:IV,+1354914,101M,4;\n",
+      "SRR4841864.4\t163\tXIII\t226185\t60\t101M\t=\t226512\t428\tGAACTGCCTCTACACATTATAATGTGTTTTTGATATCAGTATACTAACAAGTAGAATTGCATTTACAAACTTTTTATTTTGTATTGCTTTTCGTCATTTTA\t1=12AA=A72@><+2+2,33<A,,@,33+<C)?B>B77<ABB?9A?B>7?7A*000=BBB?<*=)7)>B2=A7AB=;>;77AA9A################\tNM:i:1\tMD:Z:52T48\tMC:Z:101M\tAS:i:96\tXS:i:0\n",
+      "SRR4841864.5\t99\tXIII\t495381\t60\t101M\t=\t495405\t125\tNAAGACTTGATGCGACCAATGTTATTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTG\t#1=DDFFFHHGHHJIJJJJJJIJJJJJJIJJIJIJJJJJJJJIIEIGHICHI@DGIJIJHHHHHHFFCEFFDEEEEDDDDDDDDDDDDDDD:ACDDDDDDC\tNM:i:1\tMD:Z:0G100\tMC:Z:101M\tAS:i:100\tXS:i:0\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools view $ALIGN_RAW/aln_pe.bam | head"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864.1882824\t163\tI\t1\t12\t16M3D8M1I10M1D13M53S\t=\t244\t339\tCCACACCACACCCACACCACACACACACACCACACCCACACCACACCCCCACCCCACCCCCACCCCACCCCCACCCCCTCCCAAACCACCCCCCCACCCCC\tCCCFFFFFHGHHGJJIJJHIIB8EAEGHIII@BDHBHGB1CF(.6;@A'95>A################################################\tNM:i:5\tMD:Z:16^CAC18^A13\tMC:Z:5S96M\tAS:i:24\tXS:i:37\n",
+      "SRR4841864.3374304\t99\tI\t1\t0\t1S31M7I26M36S\t=\t111\t208\tACCACACCACACCCACACCCACACACACCACACCCACACCCACACACCACACCACACCCACACACCCACACACCACAACCACCCCCACCCCCCACACCCCC\t@B@FFFFFHHHGHIIGIIGHIIJIJJJIIG=GGII?FHG(;5@CG15;6?;;;=ACB?@BBB?<@8=B0<??@############################\tNM:i:9\tMD:Z:17A1C37\tMC:Z:29M2I37M1D31M2S\tAS:i:34\tXS:i:47\n",
+      "SRR4841864.4256138\t99\tI\t1\t7\t17S33M51S\t=\t111\t207\tACACCCACACACCACACCCACACCACACCCACACACCCACACACCACACCCCAACCCCACACCACACCAACACCACACCCACACCACCCCCCACCCACCCA\t@???BDDBHDFA?E:EFIEGIEHIGGGGIIE6BF1D;@6;;FE##########################################################\tNM:i:0\tMD:Z:33\tMC:Z:29M2I23M2I45M\tAS:i:33\tXS:i:47\n",
+      "SRR4841864.1997645\t163\tI\t2\t17\t3S17M1D12M1I30M38S\t=\t140\t208\tACACACACCACACCCACACACCACACACCACACCCACACACCACACCACACCCACACACACACCACACCCACACCCACCCCCCAACACCCACACACCACAA\t@@@FFFFFDHHFHIJGJFCGGEEHHGGGG3?;BDA6D1C(@@==A########################################################\tNM:i:2\tMD:Z:17^C42\tMC:Z:3S70M28S\tAS:i:45\tXS:i:45\n",
+      "SRR4841864.2052399\t99\tI\t2\t0\t14S32M55S\t=\t118\t197\tACACCACACCCACACACACCACACCCACACACCCACACACCACACCCACACAACCCACACCCCCACCCACACACCCCACCCCCACACCCACACCCCCCCCC\t?@@DBDD?DA@FBF?FHGEGEIDHI>HI?DFG?GDGAF;@D=F##########################################################\tNM:i:0\tMD:Z:32\tMC:Z:20S81M\tAS:i:32\tXS:i:45\n",
+      "SRR4841864.2611097\t99\tI\t2\t8\t38M2I20M41S\t=\t296\t347\tCACACCACACCCACACACCCACACCACACACCACACACCACACACCACACCCACACACACCACACTAACCCTAACACAATCCTAACACTATCCTAATCCAA\t?;?DADDBDDHFH?=G?FH:;;EGCGCB?DAGHEBGBABHGEEG@EECE?EB?DCC=??BB9<?@CCCC<BBCCBCCB8>CCACCBCC<ACCCCAC:@CCC\tNM:i:4\tMD:Z:24A0C32\tMC:Z:19S53M29S\tAS:i:40\tXS:i:42\n",
+      "SRR4841864.490564\t99\tI\t8\t37\t32M2I20M47S\t=\t267\t310\tACACCCACACACCCACACCACACACCACACACCACACACCACACCCACACACACCACACTAACCCTAACACAATCCTAACACTATCCTAATCCAACCCTGA\t@@@DFFFFDHHFDFGHHGJJGGHEIHIJJJJJFHGIJ@FHIEDGGIJHHHBFFDAAB?BCCCCBDBCCDCCB?ACDCCCBDDCC>CCDDC>ACCCABBDC9\tNM:i:4\tMD:Z:18A0C32\tMC:Z:39S51M11S\tAS:i:34\tXS:i:35\n",
+      "SRR4841864.4819083\t163\tI\t12\t22\t9S9M1I13M1D4M1D17M1I27M20S\t=\t106\t186\tACCCACACACCACACACCACACACACCACACCCACACACACCACACCCACACACCACACACCTTAACACTACCCTAACACAATCCTAACACTACCCTAATT\t@@@AFDFFHFDDAGHIIEFGGGHGIIGIIIGGDGGIBHH;FFHI@DGEHGFFFDDDDB=BBBDDDCACDACC<ACCCBDCBDDDDCDD@@CCCCDDCDDCE\tNM:i:6\tMD:Z:22^A4^C23T1C18\tMC:Z:9S34M1I37M1D20M\tAS:i:32\tXS:i:44\n",
+      "SRR4841864.435431\t163\tI\t13\t40\t7S20M74S\t=\t92\t177\tACAGCCACACACACCCACACACCACACGAACAAACAACACACCCCCACACCACGACCCCAGCACACCCCCCCACGCACGAACCCCACACAGCCAACCACAA\t#####################################################################################################\tNM:i:0\tMD:Z:20\tMC:Z:2S48M1I50M\tAS:i:20\tXS:i:23\tXA:Z:XIV,-784298,74S27M,1;XIII,-924361,74S27M,1;XIV,-784126,74S27M,1;XI,-666705,74S27M,1;XV,+59,27M74S,1;\n",
+      "SRR4841864.4882163\t99\tI\t13\t7\t8S21M1D16M56S\t=\t91\t178\tCACACCCACACACACCCACACACCACACCCACACCACACCACACCACACCCACCCACCCACACACCACCCCCACCCACCCCCACCCCACCCCCACACACCC\tCCCFFFFFHGHHGJJJJIGGIIJJJJJJJJJIIJJ@C;CD(6(5@==;AEB##################################################\tNM:i:1\tMD:Z:21^A16\tMC:Z:49M1I51M\tAS:i:30\tXS:i:44\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools view $ALIGN_RAW/aln_pe_sorted.bam | head"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "samtools faidx $GENOME/$FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $GENOME/$FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[warning] samtools mpileup option `g` is functional, but deprecated. Please switch to using bcftools mpileup in future.\n",
+      "[mpileup] 1 samples in 1 input files\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools mpileup -g -f $GENOME/$FA $ALIGN_RAW/aln_pe_sorted.bam > $ALIGN_RAW/raw.bcf"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[mpileup] 1 samples in 1 input files\n"
+     ]
+    }
+   ],
+   "source": [
+    "bcftools mpileup -f $GENOME/$FA $ALIGN_RAW/aln_pe_sorted.bam > $ALIGN_RAW/raw.bcf"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bcftools view $ALIGN_RAW/raw.bcf > $ALIGN_RAW/var.bcf"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## filter SNP"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "##fileformat=VCFv4.2\n",
+      "##FILTER=<ID=PASS,Description=\"All filters passed\">\n",
+      "##samtoolsVersion=1.9+htslib-1.9\n",
+      "##samtoolsCommand=samtools mpileup -g -f /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam\n",
+      "##reference=file:///home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n",
+      "##contig=<ID=I,length=230218>\n",
+      "##contig=<ID=II,length=813184>\n",
+      "##contig=<ID=III,length=316620>\n",
+      "##contig=<ID=IV,length=1531933>\n",
+      "##contig=<ID=V,length=576874>\n"
+     ]
+    }
+   ],
+   "source": [
+    "bcftools view $ALIGN_RAW/var.bcf | head"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bcftools view $ALIGN_RAW/var.bcf | vcfutils varFilter > $ALIGN_RAW/final.vcf"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam  raw.bcf\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $ALIGN_RAW/"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "samtools index $ALIGN_RAW/aln_pe_sorted.bam"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t/home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam\n",
+      "I\t1\t.\tC\t<*>\t0\t.\tDP=3;I16=1,0,0,0,33,1089,0,0,12,144,0,0,0,0,0,0;QS=1,0;MQ0F=0.333333\tPL\t0,3,12\n",
+      "I\t12\t.\tC\t<*>\t0\t.\tDP=8;I16=5,0,0,0,178,6444,0,0,96,2350,0,0,47,487,0,0;QS=1,0;MQ0F=0.25\tPL\t0,15,73\n",
+      "I\t23\t.\tC\t<*>\t0\t.\tDP=14;I16=8,0,0,0,271,9393,0,0,132,3516,0,0,119,2145,0,0;QS=1,0;MQ0F=0.214286\tPL\t0,24,89\n"
+     ]
+    }
+   ],
+   "source": [
+    "# remove header lines and look at top 4 entires\n",
+    "#zcat variants/evolved-6.mpileup.vcf.gz | egrep -v '##' | head -4\n",
+    "cat $ALIGN_RAW/final.vcf | egrep -v '##' | head -4"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "bgzip -c $ALIGN_RAW/final.vcf > $ALIGN_RAW/final.vcf.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "tabix -p vcf $ALIGN_RAW/final.vcf.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#bcftools stats -F assembly/spades_final/scaffolds.fasta -s - variants/evolved-6.mpileup.vcf.gz > variants/evolved-6.mpileup.vcf.gz.stats\n",
+    "bcftools stats -F $GENOME/$FA -s - $ALIGN_RAW/final.vcf.gz > $ALIGN_RAW/final.vcf.gz.stats"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Parsing bcftools stats output: /home/jovyan/work/Data/SRR4841864/align_raw/final.vcf.gz.stats\n",
+      "Warning: Possible version mismatch, the definition line differs\n",
+      "\texpected: # PSC\t[2]id\t[3]sample\t[4]nRefHom\t[5]nNonRefHom\t[6]nHets\t[7]nTransitions\t[8]nTransversions\t[9]nIndels\t[10]average depth\t[11]nSingletons\n",
+      "\tfound:    # PSC\t[2]id\t[3]sample\t[4]nRefHom\t[5]nNonRefHom\t[6]nHets\t[7]nTransitions\t[8]nTransversions\t[9]nIndels\t[10]average depth\t[11]nSingletons\t[12]nHapRef\t[13]nHapAlt\t[14]nMissing\n",
+      "Plotting graphs: python plot.py\n",
+      "Creating PDF: pdflatex summary.tex >plot-vcfstats.log 2>&1\n",
+      "Finished: /home/jovyan/work/Data/SRR4841864/align_raw/summary.pdf\n"
+     ]
+    }
+   ],
+   "source": [
+    "#plot-vcfstats -p variants/plots/ variants/evolved-6.mpileup.vcf.gz.stats\n",
+    "plot-vcfstats -p $ALIGN_RAW $ALIGN_RAW/final.vcf.gz.stats"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $GENOME/$FA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "##fileformat=VCFv4.2\n",
+      "##FILTER=<ID=PASS,Description=\"All filters passed\">\n",
+      "##samtoolsVersion=1.9+htslib-1.9\n",
+      "##samtoolsCommand=samtools mpileup -g -f /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam\n",
+      "##reference=file:///home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n",
+      "##contig=<ID=I,length=230218>\n",
+      "##contig=<ID=II,length=813184>\n",
+      "##contig=<ID=III,length=316620>\n",
+      "##contig=<ID=IV,length=1531933>\n",
+      "##contig=<ID=V,length=576874>\n",
+      "##contig=<ID=VI,length=270161>\n",
+      "##contig=<ID=VII,length=1090940>\n",
+      "##contig=<ID=VIII,length=562643>\n",
+      "##contig=<ID=IX,length=439888>\n",
+      "##contig=<ID=X,length=745751>\n",
+      "##contig=<ID=XI,length=666816>\n",
+      "##contig=<ID=XII,length=1078177>\n",
+      "##contig=<ID=XIII,length=924431>\n",
+      "##contig=<ID=XIV,length=784333>\n",
+      "##contig=<ID=XV,length=1091291>\n",
+      "##contig=<ID=XVI,length=948066>\n",
+      "##contig=<ID=Mito,length=85779>\n",
+      "##ALT=<ID=*,Description=\"Represents allele(s) other than observed.\">\n",
+      "##INFO=<ID=INDEL,Number=0,Type=Flag,Description=\"Indicates that the variant is an INDEL.\">\n",
+      "##INFO=<ID=IDV,Number=1,Type=Integer,Description=\"Maximum number of reads supporting an indel\">\n",
+      "##INFO=<ID=IMF,Number=1,Type=Float,Description=\"Maximum fraction of reads supporting an indel\">\n",
+      "##INFO=<ID=DP,Number=1,Type=Integer,Description=\"Raw read depth\">\n",
+      "##INFO=<ID=VDB,Number=1,Type=Float,Description=\"Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)\",Version=\"3\">\n",
+      "##INFO=<ID=RPB,Number=1,Type=Float,Description=\"Mann-Whitney U test of Read Position Bias (bigger is better)\">\n",
+      "##INFO=<ID=MQB,Number=1,Type=Float,Description=\"Mann-Whitney U test of Mapping Quality Bias (bigger is better)\">\n",
+      "##INFO=<ID=BQB,Number=1,Type=Float,Description=\"Mann-Whitney U test of Base Quality Bias (bigger is better)\">\n",
+      "##INFO=<ID=MQSB,Number=1,Type=Float,Description=\"Mann-Whitney U test of Mapping Quality vs Strand Bias (bigger is better)\">\n",
+      "##INFO=<ID=SGB,Number=1,Type=Float,Description=\"Segregation based metric.\">\n",
+      "##INFO=<ID=MQ0F,Number=1,Type=Float,Description=\"Fraction of MQ0 reads (smaller is better)\">\n",
+      "##INFO=<ID=I16,Number=16,Type=Float,Description=\"Auxiliary tag used for calling, see description of bcf_callret1_t in bam2bcf.h\">\n",
+      "##INFO=<ID=QS,Number=R,Type=Float,Description=\"Auxiliary tag used for calling\">\n",
+      "##FORMAT=<ID=PL,Number=G,Type=Integer,Description=\"List of Phred-scaled genotype likelihoods\">\n",
+      "##bcftools_viewVersion=1.9+htslib-1.9\n",
+      "##bcftools_viewCommand=view /home/jovyan/work/Data/SRR4841864/align_raw/raw.bcf; Date=Tue Oct  8 02:29:01 2019\n",
+      "##bcftools_viewCommand=view /home/jovyan/work/Data/SRR4841864/align_raw/var.bcf; Date=Tue Oct  8 02:32:53 2019\n",
+      "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t/home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam\n",
+      "I\t1\t.\tC\t<*>\t0\t.\tDP=3;I16=1,0,0,0,33,1089,0,0,12,144,0,0,0,0,0,0;QS=1,0;MQ0F=0.333333\tPL\t0,3,12\n",
+      "I\t12\t.\tC\t<*>\t0\t.\tDP=8;I16=5,0,0,0,178,6444,0,0,96,2350,0,0,47,487,0,0;QS=1,0;MQ0F=0.25\tPL\t0,15,73\n",
+      "I\t23\t.\tC\t<*>\t0\t.\tDP=14;I16=8,0,0,0,271,9393,0,0,132,3516,0,0,119,2145,0,0;QS=1,0;MQ0F=0.214286\tPL\t0,24,89\n",
+      "I\t34\t.\tA\t<*>\t0\t.\tDP=9;I16=6,0,0,0,188,6464,0,0,81,1915,0,0,130,3022,0,0;QS=1,0;MQ0F=0.222222\tPL\t0,18,62\n",
+      "I\t45\t.\tC\t<*>\t0\t.\tDP=12;I16=7,0,0,0,216,7148,0,0,136,3560,0,0,153,3549,0,0;QS=1,0;MQ0F=0.166667\tPL\t0,21,85\n",
+      "I\t56\t.\tA\t<*>\t0\t.\tDP=9;I16=6,0,0,0,207,7253,0,0,124,3416,0,0,145,3525,0,0;QS=1,0;MQ0F=0.222222\tPL\t0,18,84\n",
+      "I\t67\t.\tA\t<*>\t0\t.\tDP=4;I16=4,0,0,0,134,4750,0,0,72,1934,0,0,100,2500,0,0;QS=1,0;MQ0F=0.25\tPL\t0,12,62\n",
+      "I\t78\t.\tA\t<*>\t0\t.\tDP=5;I16=5,0,0,0,175,6177,0,0,118,3570,0,0,80,1900,0,0;QS=1,0;MQ0F=0\tPL\t0,15,86\n",
+      "I\t89\t.\tA\t<*>\t0\t.\tDP=12;I16=10,1,0,0,407,15189,0,0,217,6977,0,0,201,4249,0,0;QS=1,0;MQSB=1;MQ0F=0\tPL\t0,33,130\n",
+      "I\t100\t.\tG\t<*>\t0\t.\tDP=17;I16=13,3,0,0,591,23345,0,0,328,10064,0,0,302,6562,0,0;QS=1,0;MQSB=1;MQ0F=0\tPL\t0,48,168\n",
+      "I\t111\t.\tC\tT,<*>\t0\t.\tDP=33;I16=19,6,3,0,939,37443,91,2805,469,13345,40,1522,516,11872,75,1875;QS=0.92,0.08,0;VDB=0.0279572;SGB=-0.511536;RPB=0.217959;MQB=0.627377;MQSB=0.751519;BQB=0.247449;MQ0F=0.0909091\tPL\t0,32,190,75,199,208\n",
+      "I\t122\t.\tC\t<*>\t0\t.\tDP=41;I16=29,8,0,0,1433,58193,0,0,615,18185,0,0,764,17592,0,0;QS=1,0;MQSB=0.89135;MQ0F=0.170732\tPL\t0,111,231\n",
+      "I\t133\t.\tC\t<*>\t0\t.\tDP=42;I16=30,8,0,0,1452,59060,0,0,662,19666,0,0,863,20547,0,0;QS=1,0;MQSB=0.969078;MQ0F=0.166667\tPL\t0,114,218\n",
+      "I\t144\t.\tT\t<*>\t0\t.\tDP=53;I16=31,12,0,0,1675,72945,0,0,739,21237,0,0,895,20651,0,0;QS=1,0;MQSB=0.935376;MQ0F=0.169811\tPL\t0,129,246\n",
+      "I\t155\t.\tT\tA,<*>\t0\t.\tDP=55;I16=27,11,5,1,1531,68771,211,7793,650,18364,126,4142,703,15165,143,3449;QS=0.832908,0.167092,0;VDB=0.0959456;SGB=-0.616816;RPB=0.383195;MQB=0.743748;MQSB=0.893597;BQB=0.852817;MQ0F=0.163636\tPL\t0,4,168,114,186,228\n",
+      "I\t166\t.\tC\tT,<*>\t0\t.\tDP=52;I16=24,15,4,0,1537,65471,163,6643,620,16534,123,4137,690,15242,100,2500;QS=0.836,0.164,0;VDB=0.138245;SGB=-0.556411;RPB=0.591736;MQB=0.0984309;MQSB=0.986376;BQB=0.0819237;MQ0F=0.173077\tPL\t0,18,170,117,182,230\n",
+      "I\t177\t.\tG\tC,<*>\t0\t.\tDP=31;I16=4,7,12,3,469,22643,545,20469,222,6540,255,7109,215,4545,355,8509;QS=0.461053,0.538947,0;VDB=0.0016275;SGB=-0.688148;RPB=0.460355;MQB=0.849623;MQSB=0.951229;BQB=0.999663;MQ0F=0.129032\tPL\t106,0,109,139,155,225\n",
+      "I\t188\t.\tC\tT,<*>\t0\t.\tDP=37;I16=15,12,1,5,959,34747,251,12021,444,11820,145,4441,479,10677,144,3486;QS=0.761246,0.238754,0;VDB=0.0269737;SGB=-0.616816;RPB=0.216133;MQB=0.425696;MQSB=0.937181;BQB=0.995652;MQ0F=0.135135\tPL\t30,0,153,112,171,222\n",
+      "I\t199\t.\tT\t<*>\t0\t.\tDP=28;I16=12,12,0,0,873,33811,0,0,415,12017,0,0,430,9374,0,0;QS=1,0;MQSB=0.998335;MQ0F=0.178571\tPL\t0,72,220\n",
+      "I\t210\t.\tC\t<*>\t0\t.\tDP=3;I16=1,0,0,0,34,1156,0,0,0,0,0,0,8,64,0,0;QS=1,0;MQ0F=1\tPL\t0,3,4\n",
+      "I\t221\t.\tA\t<*>\t0\t.\tDP=9;I16=6,1,0,0,245,8677,0,0,117,3419,0,0,93,1767,0,0;QS=1,0;MQSB=1;MQ0F=0.333333\tPL\t0,21,91\n",
+      "I\t232\t.\tA\t<*>\t0\t.\tDP=15;I16=9,3,0,0,375,12673,0,0,164,4066,0,0,159,2521,0,0;QS=1,0;MQSB=0.962269;MQ0F=0.2\tPL\t0,36,109\n",
+      "I\t243\t.\tA\t<*>\t0\t.\tDP=20;I16=11,4,0,0,507,17785,0,0,168,3124,0,0,246,4844,0,0;QS=1,0;MQSB=0.735784;MQ0F=0.2\tPL\t0,45,101\n",
+      "I\t254\t.\tC\t<*>\t0\t.\tDP=23;I16=11,9,0,0,617,20095,0,0,250,5400,0,0,431,9981,0,0;QS=1,0;MQSB=0.901319;MQ0F=0.26087\tPL\t0,60,136\n",
+      "I\t265\t.\tA\t<*>\t0\t.\tDP=19;I16=9,6,0,0,546,20122,0,0,220,4950,0,0,343,8305,0,0;QS=1,0;MQSB=0.918449;MQ0F=0.210526\tPL\t0,45,136\n",
+      "I\t276\t.\tA\t<*>\t0\t.\tDP=34;I16=11,11,0,0,881,40187,0,0,439,14559,0,0,535,13085,0,0;QS=1,0;MQSB=0.995161;MQ0F=0.205882\tPL\t0,66,223\n",
+      "I\t287\t.\tC\t<*>\t0\t.\tDP=34;I16=13,14,0,0,1151,54125,0,0,486,15298,0,0,675,16875,0,0;QS=1,0;MQSB=0.997354;MQ0F=0.205882\tPL\t0,81,245\n",
+      "I\t298\t.\tT\t<*>\t0\t.\tDP=38;I16=14,15,0,0,1157,52139,0,0,559,17503,0,0,678,16646,0,0;QS=1,0;MQSB=0.734495;MQ0F=0.184211\tPL\t0,87,248\n",
+      "I\t309\t.\tT\tC,<*>\t0\t.\tDP=36;I16=1,10,12,5,369,14551,674,30036,149,3673,383,12035,187,3667,362,8116;QS=0.290323,0.709677,0;VDB=0.00791951;SGB=-0.690438;RPB=0.931639;MQB=0.459798;MQSB=0.899334;BQB=0.500825;MQ0F=0.166667\tPL\t169,0,40,202,91,220\n",
+      "I\t320\t.\tT\t<*>\t0\t.\tDP=36;I16=13,16,0,0,1182,54484,0,0,565,17751,0,0,431,8439,0,0;QS=1,0;MQSB=0.667586;MQ0F=0.194444\tPL\t0,87,255\n",
+      "I\t331\t.\tA\t<*>\t0\t.\tDP=24;I16=9,10,0,0,802,39242,0,0,404,12758,0,0,284,5674,0,0;QS=1,0;MQSB=0.88692;MQ0F=0.0833333\tPL\t0,57,236\n",
+      "I\t342\t.\tT\t<*>\t0\t.\tDP=15;I16=5,6,0,0,494,24874,0,0,231,7031,0,0,189,3893,0,0;QS=1,0;MQSB=0.950952;MQ0F=0.0666667\tPL\t0,33,175\n",
+      "I\t353\t.\tC\t<*>\t0\t.\tDP=7;I16=1,3,0,0,113,3567,0,0,69,1303,0,0,100,2500,0,0;QS=1,0;MQSB=1;MQ0F=0.142857\tPL\t0,12,61\n",
+      "I\t364\t.\tC\t<*>\t0\t.\tDP=8;I16=3,5,0,0,279,9859,0,0,94,1880,0,0,158,3742,0,0;QS=1,0;MQSB=0.150134;MQ0F=0.25\tPL\t0,24,79\n",
+      "I\t375\t.\tA\tG,<*>\t0\t.\tDP=8;I16=1,3,2,2,126,4250,145,5277,47,1061,47,819,90,2068,76,1534;QS=0.484848,0.515152,0;VDB=0.281254;SGB=-0.556411;RPB=0.248092;MQB=0.992367;MQSB=0.150134;BQB=0.868321;MQ0F=0.25\tPL\t25,0,21,37,33,51\n",
+      "I\t386\t.\tA\t<*>\t0\t.\tDP=8;I16=3,5,0,0,259,8609,0,0,94,1880,0,0,133,2693,0,0;QS=1,0;MQSB=0.150134;MQ0F=0.25\tPL\t0,24,77\n",
+      "I\t397\t.\tT\t<*>\t0\t.\tDP=7;I16=2,5,0,0,215,6735,0,0,83,1759,0,0,87,1941,0,0;QS=1,0;MQSB=0;MQ0F=0.285714\tPL\t0,21,71\n",
+      "I\t408\t.\tT\t<*>\t0\t.\tDP=3;I16=1,2,0,0,107,3837,0,0,25,577,0,0,75,1875,0,0;QS=1,0;MQSB=1;MQ0F=0.333333\tPL\t0,9,30\n",
+      "I\t421\t.\tT\t<*>\t0\t.\tDP=3;I16=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;QS=0,0;MQ0F=0.333333\tPL\t0,0,0\n",
+      "I\t432\t.\tA\t<*>\t0\t.\tDP=9;I16=7,2,0,0,298,10104,0,0,126,3462,0,0,58,806,0,0;QS=1,0;MQSB=0.857143;MQ0F=0.111111\tPL\t0,27,97\n",
+      "I\t443\t.\tA\t<*>\t0\t.\tDP=10;I16=9,0,0,0,335,12639,0,0,140,3686,0,0,113,1625,0,0;QS=1,0;MQ0F=0.1\tPL\t0,27,92\n",
+      "I\t454\t.\tT\t<*>\t0\t.\tDP=15;I16=11,2,0,0,498,21068,0,0,182,4432,0,0,218,4688,0,0;QS=1,0;MQSB=0.818182;MQ0F=0.2\tPL\t0,39,114\n",
+      "I\t465\t.\tC\t<*>\t0\t.\tDP=21;I16=15,2,0,0,699,31921,0,0,258,6598,0,0,325,7385,0,0;QS=1,0;MQSB=0.8;MQ0F=0.142857\tPL\t0,51,130\n",
+      "I\t476\t.\tG\tC,T,<*>\t0\t.\tDP=23;I16=0,0,15,2,0,0,712,33112,0,0,258,6598,0,0,392,9346;QS=0,0.839552,0.160448,0;VDB=0.00075436;SGB=-0.690438;MQSB=0.8;MQ0F=0.130435\tPL\t109,45,0,94,8,87,109,45,94,109\n",
+      "I\t487\t.\tA\t<*>\t0\t.\tDP=27;I16=16,3,0,0,782,35116,0,0,302,8214,0,0,441,10665,0,0;QS=1,0;MQSB=0.904837;MQ0F=0.111111\tPL\t0,57,149\n",
+      "I\t498\t.\tC\t<*>\t0\t.\tDP=34;I16=16,10,0,0,1164,59804,0,0,426,11586,0,0,536,12298,0,0;QS=1,0;MQSB=0.818731;MQ0F=0.117647\tPL\t0,78,213\n",
+      "I\t509\t.\tG\tT,A,<*>\t0\t.\tDP=34;I16=0,0,15,9,0,0,1089,57473,0,0,362,9410,0,0,539,12371;QS=0,0.835196,0.164804,0;VDB=0.116873;SGB=-0.692831;MQSB=0.806452;MQ0F=0.117647\tPL\t154,54,0,159,8,141,154,54,159,154\n",
+      "I\t520\t.\tA\tG,<*>\t0\t.\tDP=44;I16=18,12,1,0,1434,77908,31,961,463,13127,7,49,528,11038,25,625;QS=0.985567,0.014433,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.905284;BQB=1;MQ0F=0.204545\tPL\t0,78,228,90,231,228\n",
+      "I\t531\t.\tC\tT,<*>\t0\t.\tDP=44;I16=15,17,1,0,1320,62022,75,5625,442,11082,42,1764,589,13157,21,441;QS=0.916996,0.083004,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.864177;BQB=1;MQ0F=0.204545\tPL\t0,57,183,96,186,210\n",
+      "I\t542\t.\tA\t<*>\t0\t.\tDP=40;I16=11,19,0,0,1145,49117,0,0,423,11435,0,0,611,13999,0,0;QS=1,0;MQSB=0.972375;MQ0F=0.2\tPL\t0,90,205\n",
+      "I\t553\t.\tC\t<*>\t0\t.\tDP=37;I16=10,21,0,0,1198,50022,0,0,455,12475,0,0,626,14484,0,0;QS=1,0;MQSB=0.784208;MQ0F=0.189189\tPL\t0,93,218\n",
+      "I\t564\t.\tA\t<*>\t0\t.\tDP=38;I16=10,21,0,0,1207,51683,0,0,439,11947,0,0,567,12425,0,0;QS=1,0;MQSB=0.623553;MQ0F=0.210526\tPL\t0,93,212\n",
+      "I\t575\t.\tC\t<*>\t0\t.\tDP=38;I16=11,20,0,0,1207,50495,0,0,468,13154,0,0,531,11299,0,0;QS=1,0;MQSB=0.846161;MQ0F=0.210526\tPL\t0,93,219\n",
+      "I\t586\t.\tA\t<*>\t0\t.\tDP=34;I16=12,15,0,0,1030,42690,0,0,363,9425,0,0,470,10252,0,0;QS=1,0;MQSB=0.92664;MQ0F=0.235294\tPL\t0,81,191\n",
+      "I\t597\t.\tT\t<*>\t0\t.\tDP=24;I16=11,8,0,0,802,35714,0,0,294,8448,0,0,362,7766,0,0;QS=1,0;MQSB=0.946915;MQ0F=0.208333\tPL\t0,57,185\n",
+      "I\t608\t.\tT\t<*>\t0\t.\tDP=22;I16=10,8,0,0,750,34000,0,0,300,8616,0,0,325,7581,0,0;QS=1,0;MQSB=0.991158;MQ0F=0.181818\tPL\t0,54,189\n",
+      "I\t619\t.\tA\t<*>\t0\t.\tDP=17;I16=9,6,0,0,565,23317,0,0,263,7879,0,0,282,6568,0,0;QS=1,0;MQSB=0.998265;MQ0F=0.176471\tPL\t0,45,171\n",
+      "I\t630\t.\tC\t<*>\t0\t.\tDP=15;I16=10,2,0,0,513,24051,0,0,248,8188,0,0,249,5569,0,0;QS=1,0;MQSB=1;MQ0F=0.266667\tPL\t0,36,159\n",
+      "I\t641\t.\tA\t<*>\t0\t.\tDP=15;I16=10,2,0,0,501,23467,0,0,248,8188,0,0,215,4461,0,0;QS=1,0;MQSB=1;MQ0F=0.266667\tPL\t0,36,153\n",
+      "I\t652\t.\tG\t<*>\t0\t.\tDP=12;I16=8,3,0,0,404,16256,0,0,205,6507,0,0,194,4148,0,0;QS=1,0;MQSB=0.774755;MQ0F=0.25\tPL\t0,33,138\n",
+      "I\t663\t.\tA\t<*>\t0\t.\tDP=10;I16=7,3,0,0,324,10758,0,0,210,7274,0,0,141,2785,0,0;QS=1,0;MQSB=0.274945;MQ0F=0.3\tPL\t0,30,135\n",
+      "I\t674\t.\tC\t<*>\t0\t.\tDP=9;I16=6,3,0,0,286,9448,0,0,170,5954,0,0,135,2751,0,0;QS=1,0;MQSB=0.231146;MQ0F=0.333333\tPL\t0,27,119\n",
+      "I\t685\t.\tC\t<*>\t0\t.\tDP=8;I16=5,3,0,0,239,7609,0,0,165,5859,0,0,169,3843,0,0;QS=1,0;MQSB=0.150134;MQ0F=0.25\tPL\t0,24,83\n",
+      "I\t696\t.\tC\t<*>\t0\t.\tDP=9;I16=5,4,0,0,303,10617,0,0,180,6084,0,0,201,4715,0,0;QS=1,0;MQSB=0.162433;MQ0F=0.222222\tPL\t0,27,124\n",
+      "I\t707\t.\tT\t<*>\t0\t.\tDP=12;I16=6,6,0,0,394,13628,0,0,233,7913,0,0,197,4139,0,0;QS=1,0;MQSB=0.372712;MQ0F=0.166667\tPL\t0,36,151\n",
+      "I\t718\t.\tG\t<*>\t0\t.\tDP=15;I16=6,8,0,0,479,16557,0,0,260,8278,0,0,221,4619,0,0;QS=1,0;MQSB=0.740818;MQ0F=0.133333\tPL\t0,42,165\n",
+      "I\t729\t.\tA\t<*>\t0\t.\tDP=16;I16=9,7,0,0,569,20683,0,0,291,8377,0,0,295,6533,0,0;QS=1,0;MQSB=0.86931;MQ0F=0.0625\tPL\t0,48,183\n",
+      "I\t740\t.\tC\t<*>\t0\t.\tDP=17;I16=10,5,0,0,537,19621,0,0,296,8442,0,0,306,6836,0,0;QS=1,0;MQSB=0.79702;MQ0F=0.0588235\tPL\t0,45,177\n",
+      "I\t751\t.\tC\t<*>\t0\t.\tDP=23;I16=16,7,0,0,864,32750,0,0,457,13813,0,0,425,9475,0,0;QS=1,0;MQSB=0.799943;MQ0F=0.0434783\tPL\t0,69,224\n",
+      "I\t762\t.\tA\t<*>\t0\t.\tDP=24;I16=18,6,0,0,889,33659,0,0,533,16709,0,0,461,10347,0,0;QS=1,0;MQSB=0.955997;MQ0F=0\tPL\t0,72,247\n",
+      "I\t773\t.\tT\tC,<*>\t0\t.\tDP=21;I16=3,4,13,1,267,10283,523,19991,140,4084,339,10927,164,3946,327,7837;QS=0.287815,0.712185,0;VDB=0.00864269;SGB=-0.686358;RPB=0.0018753;MQB=0.88907;MQSB=0.992359;BQB=0.872525;MQ0F=0\tPL\t138,0,62,159,104,212\n",
+      "I\t784\t.\tA\tG,<*>\t0\t.\tDP=22;I16=16,5,1,0,803,30915,37,1369,479,15011,7,49,481,11551,7,49;QS=0.985263,0.0147368,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.972757;BQB=1;MQ0F=0\tPL\t0,53,240,63,243,240\n",
+      "I\t795\t.\tA\t<*>\t0\t.\tDP=27;I16=21,2,0,0,853,32713,0,0,507,14641,0,0,457,10239,0,0;QS=1,0;MQSB=0.285714;MQ0F=0.037037\tPL\t0,69,194\n",
+      "I\t806\t.\tT\tA,<*>\t0\t.\tDP=24;I16=22,0,1,0,764,27322,41,1681,536,16786,7,49,421,9289,25,625;QS=0.986842,0.0131579,0;SGB=-0.379885;RPB=1;MQB=1;BQB=1;MQ0F=0.0833333\tPL\t0,56,171,66,174,171\n",
+      "I\t817\t.\tC\t<*>\t0\t.\tDP=36;I16=34,1,0,0,1319,50317,0,0,784,25088,0,0,638,13780,0,0;QS=1,0;MQSB=1;MQ0F=0.111111\tPL\t0,105,202\n",
+      "I\t828\t.\tT\t<*>\t0\t.\tDP=34;I16=31,2,0,0,1163,42749,0,0,760,25262,0,0,679,15807,0,0;QS=1,0;MQSB=0.919355;MQ0F=0.117647\tPL\t0,99,224\n",
+      "I\t839\t.\tA\t<*>\t0\t.\tDP=32;I16=29,2,0,0,1147,43069,0,0,728,24732,0,0,676,15866,0,0;QS=1,0;MQSB=0.913793;MQ0F=0.125\tPL\t0,93,219\n",
+      "I\t850\t.\tA\t<*>\t0\t.\tDP=29;I16=25,2,0,0,1032,39692,0,0,608,19932,0,0,613,14963,0,0;QS=1,0;MQSB=0.98;MQ0F=0.172414\tPL\t0,81,215\n",
+      "I\t861\t.\tT\t<*>\t0\t.\tDP=27;I16=22,2,0,0,923,35631,0,0,515,16563,0,0,510,11740,0,0;QS=1,0;MQSB=0.931818;MQ0F=0.185185\tPL\t0,72,208\n",
+      "I\t872\t.\tA\t<*>\t0\t.\tDP=28;I16=22,2,0,0,888,33124,0,0,506,15908,0,0,398,8838,0,0;QS=1,0;MQSB=0.886364;MQ0F=0.178571\tPL\t0,72,200\n",
+      "I\t883\t.\tG\t<*>\t0\t.\tDP=29;I16=22,4,0,0,955,35241,0,0,615,20965,0,0,373,6871,0,0;QS=1,0;MQSB=0.588055;MQ0F=0.137931\tPL\t0,78,228\n",
+      "I\t894\t.\tA\t<*>\t0\t.\tDP=27;I16=20,4,0,0,879,32647,0,0,610,21542,0,0,366,6828,0,0;QS=1,0;MQSB=0.378326;MQ0F=0.111111\tPL\t0,72,236\n",
+      "I\t905\t.\tC\t<*>\t0\t.\tDP=43;I16=28,11,0,0,1391,52399,0,0,1237,50343,0,0,619,12283,0,0;QS=1,0;MQSB=0.814918;MQ0F=0.0465116\tPL\t0,117,255\n",
+      "I\t916\t.\tA\t<*>\t0\t.\tDP=51;I16=31,15,0,0,1699,66303,0,0,1370,52870,0,0,821,18063,0,0;QS=1,0;MQSB=0.994456;MQ0F=0.0392157\tPL\t0,138,255\n",
+      "I\t927\t.\tA\t<*>\t0\t.\tDP=52;I16=32,15,0,0,1691,64049,0,0,1379,54205,0,0,995,22987,0,0;QS=1,0;MQSB=0.720226;MQ0F=0.0384615\tPL\t0,141,255\n",
+      "I\t938\t.\tG\t<*>\t0\t.\tDP=65;I16=39,19,0,0,2255,94505,0,0,1762,70210,0,0,1241,29527,0,0;QS=1,0;MQSB=0.872689;MQ0F=0.0307692\tPL\t0,175,255\n",
+      "I\t949\t.\tT\tC,G,<*>\t0\t.\tDP=80;I16=31,24,15,2,2213,97897,644,24874,1676,69022,523,20167,1042,23782,388,9250;QS=0.739107,0.258767,0.0021254,0;VDB=0.0244647;SGB=-0.690438;RPB=0.545757;MQB=0.996293;MQSB=0.941948;BQB=0.452328;MQ0F=0.025\tPL\t100,0,255,251,255,255,255,255,255,255\n",
+      "I\t960\t.\tC\t<*>\t0\t.\tDP=95;I16=50,35,0,0,3359,144699,0,0,2548,101534,0,0,1629,35797,0,0;QS=1,0;MQSB=0.953656;MQ0F=0.0315789\tPL\t0,255,255\n",
+      "I\t971\t.\tT\tC,<*>\t0\t.\tDP=92;I16=29,31,18,5,2344,102354,827,30229,1808,74036,671,25297,1204,27158,476,10370;QS=0.712967,0.287033,0;VDB=0.558229;SGB=-0.692717;RPB=0.767506;MQB=0.976358;MQSB=0.737118;BQB=0.961613;MQ0F=0.0434783\tPL\t133,0,255,255,255,255\n",
+      "I\t982\t.\tA\t<*>\t0\t.\tDP=84;I16=39,37,0,0,2829,113237,0,0,2195,86859,0,0,1626,37878,0,0;QS=1,0;MQSB=0.999663;MQ0F=0.047619\tPL\t0,229,255\n",
+      "I\t993\t.\tT\tG,<*>\t0\t.\tDP=77;I16=29,31,4,4,2178,82900,253,8617,1672,65046,132,4742,1287,30133,114,2034;QS=0.933289,0.0667111,0;VDB=0.457239;SGB=-0.651104;RPB=0.181858;MQB=0.274303;MQSB=0.944655;BQB=0.470637;MQ0F=0.0649351\tPL\t0,80,255,181,255,255\n",
+      "I\t1004\t.\tA\t<*>\t0\t.\tDP=62;I16=29,31,0,0,2211,82431,0,0,1543,59039,0,0,1134,25912,0,0;QS=1,0;MQSB=0.985635;MQ0F=0.0645161\tPL\t0,181,255\n",
+      "I\t1015\t.\tA\t<*>\t0\t.\tDP=54;I16=28,22,0,0,1796,66318,0,0,1308,50170,0,0,999,23341,0,0;QS=1,0;MQSB=0.929952;MQ0F=0.0555556\tPL\t0,151,255\n",
+      "I\t1026\t.\tC\tT,<*>\t0\t.\tDP=57;I16=25,7,8,15,1186,44208,895,36235,829,32887,723,30045,533,11309,412,8470;QS=0.5462,0.4538,0;VDB=2.5368e-05;SGB=-0.692717;RPB=0.371273;MQB=0.576604;MQSB=0.847367;BQB=0.778244;MQ0F=0.0526316\tPL\t233,0,213,255,255,255\n",
+      "I\t1037\t.\tC\tT,<*>\t0\t.\tDP=61;I16=21,18,15,0,1482,60854,475,16669,1064,40236,514,23598,445,7313,263,5613;QS=0.703113,0.296887,0;VDB=0.0434006;SGB=-0.688148;RPB=0.268259;MQB=0.345424;MQSB=0.976049;BQB=0.656557;MQ0F=0.0983607\tPL\t100,0,255,218,255,255\n",
+      "I\t1048\t.\tA\tG,<*>\t0\t.\tDP=69;I16=34,17,0,2,2097,92821,27,365,1389,53769,110,6100,753,14861,2,2;QS=0.979638,0.020362,0;VDB=0.02;SGB=-0.453602;RPB=0;MQB=0.0980392;MQSB=0.97751;BQB=0;MQ0F=0.115942\tPL\t0,127,255,154,255,255\n",
+      "I\t1059\t.\tT\tG,<*>\t0\t.\tDP=128;I16=85,30,1,0,4582,196904,26,676,3715,173191,60,3600,2296,52212,23,529;QS=0.991473,0.00852739,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.996899;BQB=1;MQ0F=0.132813\tPL\t0,255,255,255,255,255\n",
+      "I\t1070\t.\tT\t<*>\t0\t.\tDP=134;I16=93,31,0,0,5090,224346,0,0,4158,196736,0,0,2725,64587,0,0;QS=1,0;MQSB=0.753111;MQ0F=0.126866\tPL\t0,255,255\n",
+      "I\t1081\t.\tG\t<*>\t0\t.\tDP=142;I16=97,32,0,0,5169,222969,0,0,4500,217414,0,0,2859,68179,0,0;QS=1,0;MQSB=0.364575;MQ0F=0.119718\tPL\t0,255,255\n",
+      "I\t1092\t.\tC\t<*>\t0\t.\tDP=147;I16=96,36,0,0,5355,235661,0,0,4885,241845,0,0,2840,66552,0,0;QS=1,0;MQSB=0.566962;MQ0F=0.108844\tPL\t0,255,255\n",
+      "I\t1103\t.\tA\tC,<*>\t0\t.\tDP=144;I16=77,30,16,7,4031,159767,1026,51002,4428,228432,496,17286,2156,49244,489,11001;QS=0.869415,0.130585,0;VDB=6.18473e-08;SGB=-0.692717;RPB=0.183161;MQB=0.000127972;MQSB=0.585619;BQB=0.110544;MQ0F=0.104167\tPL\t34,0,255,255,255,255\n",
+      "I\t1114\t.\tT\t<*>\t0\t.\tDP=112;I16=68,34,0,0,3959,166331,0,0,4570,238960,0,0,1940,43098,0,0;QS=1,0;MQSB=0.623194;MQ0F=0.0535714\tPL\t0,255,255\n",
+      "I\t1125\t.\tC\t<*>\t0\t.\tDP=101;I16=59,36,0,0,3536,139038,0,0,4136,216052,0,0,1559,32099,0,0;QS=1,0;MQSB=0.647661;MQ0F=0.0594059\tPL\t0,255,255\n",
+      "I\t1136\t.\tA\t<*>\t0\t.\tDP=74;I16=43,28,0,0,2443,85651,0,0,3134,163632,0,0,1214,25806,0,0;QS=1,0;MQSB=0.25505;MQ0F=0.027027\tPL\t0,214,255\n",
+      "I\t1147\t.\tT\t<*>\t0\t.\tDP=56;I16=31,25,0,0,2044,76152,0,0,2674,140688,0,0,1030,23186,0,0;QS=1,0;MQSB=0.379154;MQ0F=0\tPL\t0,169,255\n",
+      "I\t1158\t.\tA\t<*>\t0\t.\tDP=45;I16=26,19,0,0,1667,62489,0,0,2045,104537,0,0,872,19634,0,0;QS=1,0;MQSB=0.305665;MQ0F=0\tPL\t0,135,255\n",
+      "I\t1169\t.\tA\t<*>\t0\t.\tDP=55;I16=34,20,0,0,2057,80837,0,0,2024,95814,0,0,1093,25077,0,0;QS=1,0;MQSB=0.830727;MQ0F=0\tPL\t0,163,255\n",
+      "I\t1180\t.\tG\tT,<*>\t0\t.\tDP=39;I16=15,5,12,6,768,31594,692,26932,526,19198,541,20159,421,9773,450,11250;QS=0.48407,0.51593,0;VDB=1.81546e-06;SGB=-0.691153;RPB=4.3279e-06;MQB=0.654399;MQSB=0.549466;BQB=0.698094;MQ0F=0\tPL\t231,0,176,255,230,255\n",
+      "I\t1191\t.\tT\t<*>\t0\t.\tDP=83;I16=51,26,0,0,2937,117081,0,0,1868,63432,0,0,1339,29003,0,0;QS=1,0;MQSB=0.944064;MQ0F=0.0361446\tPL\t0,232,255\n",
+      "I\t1202\t.\tG\t<*>\t0\t.\tDP=93;I16=51,35,0,0,3237,128405,0,0,2158,74166,0,0,1556,32758,0,0;QS=1,0;MQSB=0.857832;MQ0F=0.0430108\tPL\t0,255,255\n",
+      "I\t1213\t.\tC\t<*>\t0\t.\tDP=100;I16=56,35,0,0,3391,132019,0,0,2216,73738,0,0,1640,36304,0,0;QS=1,0;MQSB=0.663669;MQ0F=0.06\tPL\t0,255,255\n",
+      "I\t1224\t.\tA\tG,<*>\t0\t.\tDP=97;I16=25,20,23,24,1639,61945,1728,64998,984,30136,1192,40410,846,18774,999,23087;QS=0.446859,0.553141,0;VDB=4.07915e-06;SGB=-0.693147;RPB=0.718973;MQB=0.491934;MQSB=0.507538;BQB=0.268907;MQ0F=0.0824742\tPL\t255,0,246,255,255,255\n",
+      "I\t1235\t.\tC\t<*>\t0\t.\tDP=122;I16=61,54,0,0,4217,159393,0,0,2874,97006,0,0,2068,46676,0,0;QS=1,0;MQSB=0.991728;MQ0F=0.0737705\tPL\t0,255,255\n",
+      "I\t1246\t.\tC\t<*>\t0\t.\tDP=145;I16=73,62,0,0,4607,163881,0,0,3688,134426,0,0,2441,53449,0,0;QS=1,0;MQSB=0.959653;MQ0F=0.062069\tPL\t0,255,255\n",
+      "I\t1257\t.\tT\t<*>\t0\t.\tDP=174;I16=85,76,0,0,6067,241987,0,0,4477,168901,0,0,2989,65103,0,0;QS=1,0;MQSB=0.872868;MQ0F=0.0517241\tPL\t0,255,255\n",
+      "I\t1268\t.\tA\t<*>\t0\t.\tDP=192;I16=92,85,0,0,6760,270704,0,0,5248,206156,0,0,3386,74644,0,0;QS=1,0;MQSB=0.641366;MQ0F=0.046875\tPL\t0,255,255\n",
+      "I\t1279\t.\tC\tT,<*>\t0\t.\tDP=199;I16=67,48,24,39,4514,191276,2251,82615,3793,159065,1625,57149,2166,48974,1328,30896;QS=0.686138,0.313862,0;VDB=0.00919843;SGB=-0.693147;RPB=1.77914e-05;MQB=0.0807478;MQSB=0.507926;BQB=0.112635;MQ0F=0.0452261\tPL\t241,0,255,255,255,255\n",
+      "I\t1290\t.\tA\t<*>\t0\t.\tDP=195;I16=95,85,0,0,6957,285323,0,0,5667,231459,0,0,3687,85135,0,0;QS=1,0;MQSB=0.15406;MQ0F=0.0358974\tPL\t0,255,255\n",
+      "I\t1301\t.\tC\t<*>\t0\t.\tDP=196;I16=100,79,0,0,7033,294019,0,0,5685,233999,0,0,3739,87209,0,0;QS=1,0;MQSB=0.0596144;MQ0F=0.0306122\tPL\t0,255,255\n",
+      "I\t1312\t.\tA\t<*>\t0\t.\tDP=191;I16=97,79,0,0,6967,291249,0,0,5729,235941,0,0,3676,85400,0,0;QS=1,0;MQSB=0.0218864;MQ0F=0.0209424\tPL\t0,255,255\n",
+      "I\t1323\t.\tA\t<*>\t0\t.\tDP=192;I16=98,79,0,0,6705,269825,0,0,5630,231978,0,0,3354,74406,0,0;QS=1,0;MQSB=0.00390796;MQ0F=0.0208333\tPL\t0,255,255\n",
+      "I\t1334\t.\tC\t<*>\t0\t.\tDP=168;I16=91,61,0,0,5847,242935,0,0,5033,212585,0,0,2726,59372,0,0;QS=1,0;MQSB=0.0837367;MQ0F=0.00595238\tPL\t0,255,255\n",
+      "I\t1345\t.\tA\tT,<*>\t0\t.\tDP=148;I16=54,26,20,34,3169,134339,1977,74901,3162,140576,1275,45855,1486,32770,915,18631;QS=0.695562,0.304438,0;VDB=0.964633;SGB=-0.693147;RPB=0.232618;MQB=2.00066e-05;MQSB=0.457497;BQB=0.222846;MQ0F=0.0135135\tPL\t255,0,255,255,255,255\n",
+      "I\t1356\t.\tA\t<*>\t0\t.\tDP=144;I16=69,65,0,0,5017,198307,0,0,4315,178677,0,0,2257,48283,0,0;QS=1,0;MQSB=0.93929;MQ0F=0.0277778\tPL\t0,255,255\n",
+      "I\t1367\t.\tC\t<*>\t0\t.\tDP=135;I16=66,61,0,0,4587,171357,0,0,3645,142067,0,0,2267,48663,0,0;QS=1,0;MQSB=0.944546;MQ0F=0.0740741\tPL\t0,255,255\n",
+      "I\t1378\t.\tT\t<*>\t0\t.\tDP=137;I16=65,62,0,0,4479,166607,0,0,3508,131712,0,0,2279,49439,0,0;QS=1,0;MQSB=0.867601;MQ0F=0.080292\tPL\t0,255,255\n",
+      "I\t1389\t.\tG\t<*>\t0\t.\tDP=133;I16=56,69,0,0,4547,170347,0,0,3206,115986,0,0,2418,53908,0,0;QS=1,0;MQSB=0.848401;MQ0F=0.0902256\tPL\t0,255,255\n",
+      "I\t1400\t.\tC\t<*>\t0\t.\tDP=127;I16=46,74,0,0,4334,161510,0,0,2909,101865,0,0,2481,57585,0,0;QS=1,0;MQSB=0.290019;MQ0F=0.110236\tPL\t0,255,255\n",
+      "I\t1411\t.\tG\t<*>\t0\t.\tDP=133;I16=49,76,0,0,4577,173159,0,0,2934,101652,0,0,2399,55067,0,0;QS=1,0;MQSB=0.258001;MQ0F=0.12782\tPL\t0,255,255\n",
+      "I\t1422\t.\tT\tA,<*>\t0\t.\tDP=125;I16=43,75,1,0,4362,166528,41,1681,2679,91887,36,1296,2306,52646,23,529;QS=0.9861,0.0138996,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.124249;BQB=1;MQ0F=0.144\tPL\t0,255,255,255,255,255\n",
+      "I\t1433\t.\tA\tG,<*>\t0\t.\tDP=113;I16=17,13,18,54,1107,41127,2683,104337,569,18197,1832,66116,655,15817,1434,32188;QS=0.248472,0.751528,0;VDB=0.000686842;SGB=-0.693147;RPB=0.144136;MQB=0.0854644;MQSB=0.0817459;BQB=0.997307;MQ0F=0.159292\tPL\t255,0,129,255,255,255\n",
+      "I\t1444\t.\tT\t<*>\t0\t.\tDP=108;I16=37,62,0,0,3656,140616,0,0,2409,86845,0,0,1841,41257,0,0;QS=1,0;MQSB=0.312093;MQ0F=0.166667\tPL\t0,255,255\n",
+      "I\t1455\t.\tC\t<*>\t0\t.\tDP=97;I16=34,52,0,0,3108,118950,0,0,2112,79664,0,0,1459,30663,0,0;QS=1,0;MQSB=0.265052;MQ0F=0.175258\tPL\t0,255,255\n",
+      "I\t1466\t.\tC\t<*>\t0\t.\tDP=98;I16=34,56,0,0,3126,113494,0,0,2659,111563,0,0,1310,26496,0,0;QS=1,0;MQSB=0.729185;MQ0F=0.102041\tPL\t0,255,255\n",
+      "I\t1477\t.\tG\t<*>\t0\t.\tDP=95;I16=37,53,0,0,3293,125587,0,0,2834,125108,0,0,1405,29587,0,0;QS=1,0;MQSB=0.469301;MQ0F=0.105263\tPL\t0,255,255\n",
+      "I\t1488\t.\tC\t<*>\t0\t.\tDP=99;I16=43,48,0,0,3371,131683,0,0,3187,147005,0,0,1558,32916,0,0;QS=1,0;MQSB=0.355167;MQ0F=0.0909091\tPL\t0,255,255\n",
+      "I\t1499\t.\tT\t<*>\t0\t.\tDP=105;I16=52,46,0,0,3647,142829,0,0,3734,180550,0,0,1764,38758,0,0;QS=1,0;MQSB=0.118737;MQ0F=0.0666667\tPL\t0,255,255\n",
+      "I\t1510\t.\tG\t<*>\t0\t.\tDP=98;I16=48,43,0,0,3407,134787,0,0,3700,181266,0,0,1933,45235,0,0;QS=1,0;MQSB=0.0544472;MQ0F=0.0408163\tPL\t0,255,255\n",
+      "I\t1521\t.\tC\t<*>\t0\t.\tDP=119;I16=53,56,0,0,4070,160832,0,0,4337,205141,0,0,2342,54096,0,0;QS=1,0;MQSB=0.134335;MQ0F=0.0336134\tPL\t0,255,255\n",
+      "I\t1532\t.\tA\t<*>\t0\t.\tDP=118;I16=55,55,0,0,4171,166519,0,0,4303,204711,0,0,2434,57894,0,0;QS=1,0;MQSB=0.422765;MQ0F=0.0338983\tPL\t0,255,255\n",
+      "I\t1543\t.\tC\t<*>\t0\t.\tDP=114;I16=55,56,0,0,4215,166543,0,0,4389,209153,0,0,2371,55373,0,0;QS=1,0;MQSB=0.929148;MQ0F=0.0350877\tPL\t0,255,255\n",
+      "I\t1554\t.\tA\t<*>\t0\t.\tDP=112;I16=56,53,0,0,4081,159457,0,0,4198,199818,0,0,2063,46789,0,0;QS=1,0;MQSB=0.836686;MQ0F=0.0446429\tPL\t0,255,255\n",
+      "I\t1565\t.\tA\tT,<*>\t0\t.\tDP=94;I16=6,0,40,44,232,9022,3002,112110,178,6724,3013,140605,102,2160,1599,35265;QS=0.0683897,0.93161,0;VDB=3.59823e-05;SGB=-0.693147;RPB=0.00114674;MQB=0.749024;MQSB=0.74988;BQB=0.263287;MQ0F=0.0638298\tPL\t255,113,0,255,253,255\n",
+      "I\t1576\t.\tT\t<*>\t0\t.\tDP=93;I16=44,44,0,0,3207,121565,0,0,2798,125854,0,0,1502,32376,0,0;QS=1,0;MQSB=0.123662;MQ0F=0.0752688\tPL\t0,255,255\n",
+      "I\t1587\t.\tA\t<*>\t0\t.\tDP=85;I16=35,46,0,0,2782,99144,0,0,2341,99381,0,0,1251,25173,0,0;QS=1,0;MQSB=0.15654;MQ0F=0.0705882\tPL\t0,244,255\n",
+      "I\t1598\t.\tA\t<*>\t0\t.\tDP=89;I16=36,50,0,0,2985,106493,0,0,2037,74473,0,0,1180,23406,0,0;QS=1,0;MQSB=0.533797;MQ0F=0.11236\tPL\t0,255,255\n",
+      "I\t1609\t.\tG\tA,<*>\t0\t.\tDP=83;I16=0,0,35,42,0,0,2866,108028,0,0,1602,53756,0,0,1342,28502;QS=0,1,0;VDB=0.184519;SGB=-0.693147;MQSB=0.261947;MQ0F=0.144578\tPL\t255,232,0,255,232,255\n",
+      "I\t1620\t.\tC\t<*>\t0\t.\tDP=102;I16=53,45,0,0,3612,135228,0,0,2124,70144,0,0,1742,37988,0,0;QS=1,0;MQSB=0.0970052;MQ0F=0.147059\tPL\t0,255,255\n",
+      "I\t1631\t.\tC\t<*>\t0\t.\tDP=128;I16=76,51,0,0,4769,180699,0,0,2820,94360,0,0,2315,50387,0,0;QS=1,0;MQSB=0.027;MQ0F=0.15625\tPL\t0,255,255\n",
+      "I\t1642\t.\tA\t<*>\t0\t.\tDP=140;I16=86,54,0,0,5317,204113,0,0,3060,101994,0,0,2790,62800,0,0;QS=1,0;MQSB=0.0777302;MQ0F=0.157143\tPL\t0,255,255\n",
+      "I\t1653\t.\tA\tC,<*>\t0\t.\tDP=162;I16=98,55,0,1,5866,233070,22,484,3566,124014,1,1,3066,70946,20,400;QS=0.998831,0.00116891,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.105225;BQB=1;MQ0F=0.135802\tPL\t0,255,255,255,255,255\n",
+      "I\t1664\t.\tT\t<*>\t0\t.\tDP=184;I16=114,60,0,0,6753,271271,0,0,4510,171222,0,0,3403,76207,0,0;QS=1,0;MQSB=0.0102433;MQ0F=0.11413\tPL\t0,255,255\n",
+      "I\t1675\t.\tG\t<*>\t0\t.\tDP=217;I16=139,64,0,0,7659,303109,0,0,5982,248486,0,0,3776,84406,0,0;QS=1,0;MQSB=0.0219904;MQ0F=0.0967742\tPL\t0,255,255\n",
+      "I\t1686\t.\tT\tG,<*>\t0\t.\tDP=243;I16=167,60,1,0,8931,368871,30,900,7258,316834,40,1600,4184,92456,18,324;QS=0.995196,0.00480384,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.0241302;BQB=1;MQ0F=0.0864198\tPL\t0,255,255,255,255,255\n",
+      "I\t1697\t.\tT\t<*>\t0\t.\tDP=267;I16=192,63,0,0,9850,396456,0,0,8647,387915,0,0,4670,102694,0,0;QS=1,0;MQSB=0.0752396;MQ0F=0.0749064\tPL\t0,255,255\n",
+      "I\t1708\t.\tC\t<*>\t0\t.\tDP=301;I16=228,58,0,0,10660,412804,0,0,10123,462775,0,0,5012,108938,0,0;QS=1,0;MQSB=0.0739517;MQ0F=0.0531561\tPL\t0,255,255\n",
+      "I\t1719\t.\tT\t<*>\t0\t.\tDP=332;I16=256,57,0,0,11989,479449,0,0,11679,548217,0,0,5690,124692,0,0;QS=1,0;MQSB=0.262594;MQ0F=0.0451807\tPL\t0,255,255\n",
+      "I\t1730\t.\tA\t<*>\t0\t.\tDP=390;I16=207,53,0,0,9560,378364,0,0,11915,614217,0,0,4551,100755,0,0;QS=1,0;MQSB=0.636909;MQ0F=0.0230769\tPL\t0,255,255\n",
+      "I\t1741\t.\tT\t<*>\t0\t.\tDP=412;I16=308,78,0,0,14853,601703,0,0,16064,789750,0,0,7479,166233,0,0;QS=1,0;MQSB=0.480299;MQ0F=0.0145631\tPL\t0,255,255\n"
+     ]
+    }
+   ],
+   "source": [
+    "head -200 $ALIGN_RAW/final.vcf"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

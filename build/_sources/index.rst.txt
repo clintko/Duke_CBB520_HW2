@@ -29,7 +29,15 @@ source material can be cloned from:
    :caption: Section 03: Download and Indexing Genome
    
    21_genome_download.ipynb
-
+   22_genome_indexing.ipynb
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Section 04: Alignment and calls of SNPs
+   
+   31_alignment.ipynb
+   32_genome_sort_index.ipynb  
+   
 Indices and tables
 ==================
 
