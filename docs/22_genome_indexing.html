@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  <title>Index Genome using Burrows-Wheeler Aligner (BWA) &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -25,6 +25,8 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -34,7 +36,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Align Reads (YJF153) to the Reference (S288c)" href="31_alignment.html" />
+    <link rel="prev" title="Download Yeast Genome (Strain S288c)" href="21_genome_download.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,6 +89,26 @@
 <li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_fastq_generator.html">Generator/Stream of FASTQ reads</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Section 02: Data Preprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="10_intro2quality_score.html">Quality Score in High-throughput Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_adapter.html">Find the adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 03: Download and Indexing Genome</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 04: Alignment and calls of SNPs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a></li>
+</ul>
 
             
           
@@ -129,7 +153,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Index Genome using Burrows-Wheeler Aligner (BWA)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -370,6 +394,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<div class="section" id="Index-Genome-using-Burrows-Wheeler-Aligner-(BWA)">
+<h1>Index Genome using Burrows-Wheeler Aligner (BWA)<a class="headerlink" href="#Index-Genome-using-Burrows-Wheeler-Aligner-(BWA)" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -379,6 +405,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<p>check the files</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -386,6 +413,8 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>
 <span class="nb">echo</span> <span class="nv">$FA</span>
+<span class="nb">echo</span> <span class="s2">&quot;==========================&quot;</span>
+ls <span class="nv">$GENOME</span>
 </pre></div>
 </div>
 </div>
@@ -396,27 +425,14 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
 /home/jovyan/work/Data/SRR4841864/genome
 Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>ls <span class="nv">$GENOME</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
+==========================
+Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 <span class="ansi-red-intense-fg ansi-bold">Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz</span>
 </pre></div></div>
 </div>
+<p><strong>Index the genome using `BWA &lt;http://bio-bwa.sourceforge.net/&gt;`__</strong></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -429,19 +445,20 @@ Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[bwa_index] Pack FASTA... 0.15 sec
+[bwa_index] Pack FASTA... 0.16 sec
 [bwa_index] Construct BWT for the packed sequence...
 [BWTIncCreate] textLength=24314210, availableWord=13710632
 [BWTIncConstructFromPacked] 10 iterations done. 22615426 characters processed.
 [bwt_gen] Finished constructing BWT in 11 iterations.
-[bwa_index] 3.45 seconds elapse.
-[bwa_index] Update BWT... 0.10 sec
+[bwa_index] 3.32 seconds elapse.
+[bwa_index] Update BWT... 0.11 sec
 [bwa_index] Pack forward-only FASTA... 0.09 sec
-[bwa_index] Construct SA from BWT and Occ... 1.52 sec
+[bwa_index] Construct SA from BWT and Occ... 1.41 sec
 [main] Version: 0.7.17-r1198-dirty
 [main] CMD: bwa index -a bwtsw -p /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
-[main] Real time: 5.384 sec; CPU: 5.313 sec
+[main] Real time: 5.163 sec; CPU: 5.094 sec
 </pre></div></div>
+</div>
 </div>
 
 
@@ -449,6 +466,15 @@ Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="31_alignment.html" class="btn btn-neutral float-right" title="Align Reads (YJF153) to the Reference (S288c)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="21_genome_download.html" class="btn btn-neutral float-left" title="Download Yeast Genome (Strain S288c)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
