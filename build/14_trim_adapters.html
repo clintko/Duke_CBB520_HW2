@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FASTQC Report of Trimmed/Filtered (Preprocessed) Reads &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  <title>Trimming Adapters of the reads &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -37,7 +37,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Filter Reads: Select reads with high quality" href="15_filter_reads.html" /> 
+    <link rel="next" title="Filter Reads: Select reads with high quality" href="15_filter_reads.html" />
+    <link rel="prev" title="Find the adapter" href="13_adapter.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -94,13 +95,16 @@
 <li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
 <li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a></li>
 <li class="toctree-l1"><a class="reference internal" href="13_adapter.html">Find the adapter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a></li>
-<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Generate-QC-report-of-read-1-and-read-2-(Trimmed)">Generate QC report of read 1 and read 2 (Trimmed)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Generate-QC-report-of-read-1-and-read-2-(Filtered)">Generate QC report of read 1 and read 2 (Filtered)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Trimming Adapters of the reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Trim-the-adapters-in-pair-end-reads-using-Fastq-mcf">Trim the adapters in pair-end reads using Fastq-mcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Check-the-output">Check the output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-read1-and-read2-should-still-contain-the-same-number-of-lines">the read1 and read2 should still contain the same number of lines</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
 </ul>
 
             
@@ -146,13 +150,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</li>
+      <li>Trimming Adapters of the reads</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/16_fastqc_prep.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/14_trim_adapters.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -387,8 +391,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="FASTQC-Report-of-Trimmed/Filtered-(Preprocessed)-Reads">
-<h1>FASTQC Report of Trimmed/Filtered (Preprocessed) Reads<a class="headerlink" href="#FASTQC-Report-of-Trimmed/Filtered-(Preprocessed)-Reads" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Trimming-Adapters-of-the-reads">
+<h1>Trimming Adapters of the reads<a class="headerlink" href="#Trimming-Adapters-of-the-reads" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -403,8 +407,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>ls <span class="nv">$TRIMMED</span>
-ls <span class="nv">$FILTER</span>
+<span></span>ls <span class="nv">$MYINFO</span>
 </pre></div>
 </div>
 </div>
@@ -413,8 +416,7 @@ ls <span class="nv">$FILTER</span>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SRR4841864_1.trim.fastq  SRR4841864_2.trim.fastq
-SRR4841864_1.filter.fastq  SRR4841864_2.filter.fastq
+TruSeq_adapter.fasta
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -422,10 +424,7 @@ SRR4841864_1.filter.fastq  SRR4841864_2.filter.fastq
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">echo</span> <span class="nv">$QC_TRIM</span>
-<span class="nb">echo</span> <span class="nv">$QC_FILTER</span>
-<span class="nb">echo</span> <span class="s2">&quot;======================&quot;</span>
-ls -d <span class="nv">$CUROUT</span>/qc_*
+<span></span>ls <span class="nv">$RAW_FASTQS</span>
 </pre></div>
 </div>
 </div>
@@ -434,22 +433,22 @@ ls -d <span class="nv">$CUROUT</span>/qc_*
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-/home/jovyan/work/GitRepo/Duke_CBB520_HW2/qc_output_trim
-/home/jovyan/work/GitRepo/Duke_CBB520_HW2/qc_output_filter
-======================
-<span class="ansi-blue-intense-fg ansi-bold">/home/jovyan/work/GitRepo/Duke_CBB520_HW2/qc_output_filter</span>
-<span class="ansi-blue-intense-fg ansi-bold">/home/jovyan/work/GitRepo/Duke_CBB520_HW2/qc_output_raw</span>
-<span class="ansi-blue-intense-fg ansi-bold">/home/jovyan/work/GitRepo/Duke_CBB520_HW2/qc_output_trim</span>
+SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra
 </pre></div></div>
 </div>
-<div class="section" id="Generate-QC-report-of-read-1-and-read-2-(Trimmed)">
-<h2>Generate QC report of read 1 and read 2 (Trimmed)<a class="headerlink" href="#Generate-QC-report-of-read-1-and-read-2-(Trimmed)" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Trim-the-adapters-in-pair-end-reads-using-Fastq-mcf">
+<h2>Trim the adapters in pair-end reads using Fastq-mcf<a class="headerlink" href="#Trim-the-adapters-in-pair-end-reads-using-Fastq-mcf" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>fastqc --threads <span class="m">8</span> --extract <span class="nv">$TRIMMED</span>/SRR4841864_1.trim.fastq -o <span class="nv">$QC_TRIM</span>
+<span></span>fastq-mcf <span class="nv">$MYINFO</span>/TruSeq_adapter.fasta <span class="se">\</span>
+    <span class="nv">$RAW_FASTQS</span>/SRR4841864_1.fastq <span class="se">\</span>
+    <span class="nv">$RAW_FASTQS</span>/SRR4841864_2.fastq <span class="se">\</span>
+    -q <span class="m">20</span> -x <span class="m">0</span>.5 <span class="se">\</span>
+    -o <span class="nv">$TRIMMED</span>/SRR4841864_1.trim.fastq <span class="se">\</span>
+    -o <span class="nv">$TRIMMED</span>/SRR4841864_2.trim.fastq
 </pre></div>
 </div>
 </div>
@@ -458,35 +457,29 @@ ls -d <span class="nv">$CUROUT</span>/qc_*
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Started analysis of SRR4841864_1.trim.fastq
-Approx 5% complete for SRR4841864_1.trim.fastq
-Approx 10% complete for SRR4841864_1.trim.fastq
-Approx 15% complete for SRR4841864_1.trim.fastq
-Approx 20% complete for SRR4841864_1.trim.fastq
-Approx 25% complete for SRR4841864_1.trim.fastq
-Approx 30% complete for SRR4841864_1.trim.fastq
-Approx 35% complete for SRR4841864_1.trim.fastq
-Approx 40% complete for SRR4841864_1.trim.fastq
-Approx 45% complete for SRR4841864_1.trim.fastq
-Approx 50% complete for SRR4841864_1.trim.fastq
-Approx 55% complete for SRR4841864_1.trim.fastq
-Approx 60% complete for SRR4841864_1.trim.fastq
-Approx 65% complete for SRR4841864_1.trim.fastq
-Approx 70% complete for SRR4841864_1.trim.fastq
-Approx 75% complete for SRR4841864_1.trim.fastq
-Approx 80% complete for SRR4841864_1.trim.fastq
-Approx 85% complete for SRR4841864_1.trim.fastq
-Approx 90% complete for SRR4841864_1.trim.fastq
-Approx 95% complete for SRR4841864_1.trim.fastq
-Analysis complete for SRR4841864_1.trim.fastq
+Command Line: /home/jovyan/work/GitRepo/Duke_CBB520_HW2/myinfo/TruSeq_adapter.fasta /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq -q 20 -x 0.5 -o /home/jovyan/work/Data/SRR4841864/fastqs_trimmed/SRR4841864_1.trim.fastq -o /home/jovyan/work/Data/SRR4841864/fastqs_trimmed/SRR4841864_2.trim.fastq
+Scale used: 2.2
+Phred: 33
+Threshold used: 751 out of 300000
+Files: 2
+Total reads: 5391722
+Too short after clip: 159958
+Trimmed 479378 reads (/home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq) by an average of 11.76 bases on quality &lt; 20
+Trimmed 910139 reads (/home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq) by an average of 32.52 bases on quality &lt; 20
 </pre></div></div>
 </div>
+</div>
+<div class="section" id="Check-the-output">
+<h2>Check the output<a class="headerlink" href="#Check-the-output" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-read1-and-read2-should-still-contain-the-same-number-of-lines">
+<h3>the read1 and read2 should still contain the same number of lines<a class="headerlink" href="#the-read1-and-read2-should-still-contain-the-same-number-of-lines" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>fastqc --threads <span class="m">8</span> --extract <span class="nv">$TRIMMED</span>/SRR4841864_2.trim.fastq -o <span class="nv">$QC_TRIM</span>
+<span></span>ls <span class="nv">$RAW_FASTQS</span>
+ls <span class="nv">$TRIMMED</span>
 </pre></div>
 </div>
 </div>
@@ -495,38 +488,16 @@ Analysis complete for SRR4841864_1.trim.fastq
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Started analysis of SRR4841864_2.trim.fastq
-Approx 5% complete for SRR4841864_2.trim.fastq
-Approx 10% complete for SRR4841864_2.trim.fastq
-Approx 15% complete for SRR4841864_2.trim.fastq
-Approx 20% complete for SRR4841864_2.trim.fastq
-Approx 25% complete for SRR4841864_2.trim.fastq
-Approx 30% complete for SRR4841864_2.trim.fastq
-Approx 35% complete for SRR4841864_2.trim.fastq
-Approx 40% complete for SRR4841864_2.trim.fastq
-Approx 45% complete for SRR4841864_2.trim.fastq
-Approx 50% complete for SRR4841864_2.trim.fastq
-Approx 55% complete for SRR4841864_2.trim.fastq
-Approx 60% complete for SRR4841864_2.trim.fastq
-Approx 65% complete for SRR4841864_2.trim.fastq
-Approx 70% complete for SRR4841864_2.trim.fastq
-Approx 75% complete for SRR4841864_2.trim.fastq
-Approx 80% complete for SRR4841864_2.trim.fastq
-Approx 85% complete for SRR4841864_2.trim.fastq
-Approx 90% complete for SRR4841864_2.trim.fastq
-Approx 95% complete for SRR4841864_2.trim.fastq
-Analysis complete for SRR4841864_2.trim.fastq
+SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra
+SRR4841864_1.trim.fastq  SRR4841864_2.trim.fastq
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Generate-QC-report-of-read-1-and-read-2-(Filtered)">
-<h2>Generate QC report of read 1 and read 2 (Filtered)<a class="headerlink" href="#Generate-QC-report-of-read-1-and-read-2-(Filtered)" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>fastqc --threads <span class="m">8</span> --extract <span class="nv">$FILTER</span>/SRR4841864_1.filter.fastq -o <span class="nv">$QC_FILTER</span>
+<span></span>wc -l <span class="nv">$RAW_FASTQS</span>/*.fastq
 </pre></div>
 </div>
 </div>
@@ -535,27 +506,9 @@ Analysis complete for SRR4841864_2.trim.fastq
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Started analysis of SRR4841864_1.filter.fastq
-Approx 5% complete for SRR4841864_1.filter.fastq
-Approx 10% complete for SRR4841864_1.filter.fastq
-Approx 15% complete for SRR4841864_1.filter.fastq
-Approx 20% complete for SRR4841864_1.filter.fastq
-Approx 25% complete for SRR4841864_1.filter.fastq
-Approx 30% complete for SRR4841864_1.filter.fastq
-Approx 35% complete for SRR4841864_1.filter.fastq
-Approx 40% complete for SRR4841864_1.filter.fastq
-Approx 45% complete for SRR4841864_1.filter.fastq
-Approx 50% complete for SRR4841864_1.filter.fastq
-Approx 55% complete for SRR4841864_1.filter.fastq
-Approx 60% complete for SRR4841864_1.filter.fastq
-Approx 65% complete for SRR4841864_1.filter.fastq
-Approx 70% complete for SRR4841864_1.filter.fastq
-Approx 75% complete for SRR4841864_1.filter.fastq
-Approx 80% complete for SRR4841864_1.filter.fastq
-Approx 85% complete for SRR4841864_1.filter.fastq
-Approx 90% complete for SRR4841864_1.filter.fastq
-Approx 95% complete for SRR4841864_1.filter.fastq
-Analysis complete for SRR4841864_1.filter.fastq
+  21566888 /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_1.fastq
+  21566888 /home/jovyan/work/Data/SRR4841864/rawdata/SRR4841864_2.fastq
+  43133776 total
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -563,7 +516,7 @@ Analysis complete for SRR4841864_1.filter.fastq
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>fastqc --threads <span class="m">8</span> --extract <span class="nv">$FILTER</span>/SRR4841864_2.filter.fastq -o <span class="nv">$QC_FILTER</span>
+<span></span>wc -l <span class="nv">$TRIMMED</span>/*.fastq
 </pre></div>
 </div>
 </div>
@@ -572,28 +525,11 @@ Analysis complete for SRR4841864_1.filter.fastq
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Started analysis of SRR4841864_2.filter.fastq
-Approx 5% complete for SRR4841864_2.filter.fastq
-Approx 10% complete for SRR4841864_2.filter.fastq
-Approx 15% complete for SRR4841864_2.filter.fastq
-Approx 20% complete for SRR4841864_2.filter.fastq
-Approx 25% complete for SRR4841864_2.filter.fastq
-Approx 30% complete for SRR4841864_2.filter.fastq
-Approx 35% complete for SRR4841864_2.filter.fastq
-Approx 40% complete for SRR4841864_2.filter.fastq
-Approx 45% complete for SRR4841864_2.filter.fastq
-Approx 50% complete for SRR4841864_2.filter.fastq
-Approx 55% complete for SRR4841864_2.filter.fastq
-Approx 60% complete for SRR4841864_2.filter.fastq
-Approx 65% complete for SRR4841864_2.filter.fastq
-Approx 70% complete for SRR4841864_2.filter.fastq
-Approx 75% complete for SRR4841864_2.filter.fastq
-Approx 80% complete for SRR4841864_2.filter.fastq
-Approx 85% complete for SRR4841864_2.filter.fastq
-Approx 90% complete for SRR4841864_2.filter.fastq
-Approx 95% complete for SRR4841864_2.filter.fastq
-Analysis complete for SRR4841864_2.filter.fastq
+  20927056 /home/jovyan/work/Data/SRR4841864/fastqs_trimmed/SRR4841864_1.trim.fastq
+  20927056 /home/jovyan/work/Data/SRR4841864/fastqs_trimmed/SRR4841864_2.trim.fastq
+  41854112 total
 </pre></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -606,8 +542,10 @@ Analysis complete for SRR4841864_2.filter.fastq
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="15_filter_reads.html" class="btn btn-neutral float-right" title="Filter Reads: Select reads with high quality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="15_filter_reads.html" class="btn btn-neutral float-left" title="Filter Reads: Select reads with high quality" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="13_adapter.html" class="btn btn-neutral float-left" title="Find the adapter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

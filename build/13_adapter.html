@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Trimming Adapters of the reads" href="14_trim_adapters.html" />
     <link rel="prev" title="FASTQC Report of Raw Reads" href="12_fastqc_raw.html" /> 
 </head>
 
@@ -94,6 +95,9 @@
 <li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
 <li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Find the adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
 </ul>
 
             
@@ -382,7 +386,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Find-the-adapter">
 <h1>Find the adapter<a class="headerlink" href="#Find-the-adapter" title="Permalink to this headline">¶</a></h1>
-<p>From the FASTQC reports, there were sequences that were unnormally overpresented. After checking those sequence, we knew that they were the <a class="reference external" href="https://support.illumina.com/bulletins/2016/12/what-sequences-do-i-use-for-adapter-trimming.html">adapters of during the library preparation</a>.</p>
+<p>From the FASTQC reports, there were sequences that were unnormally overpresented. After checking those sequences, we knew that they were the <a class="reference external" href="https://support.illumina.com/bulletins/2016/12/what-sequences-do-i-use-for-adapter-trimming.html">adapters of during the library preparation</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -485,6 +489,8 @@ cat &gt; <span class="nv">$MYINFO</span>/TruSeq_adapter.fasta <span class="s">&l
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="14_trim_adapters.html" class="btn btn-neutral float-right" title="Trimming Adapters of the reads" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="12_fastqc_raw.html" class="btn btn-neutral float-left" title="FASTQC Report of Raw Reads" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
