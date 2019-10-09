@@ -21,6 +21,8 @@ source material can be cloned from:
    12_fastqc_raw.ipynb
    13_adapter.ipynb
    14_trim_adapters.ipynb
+   15_filter_reads.ipynb
+   16_fastqc_prep.ipynb
    
 Indices and tables
 ==================

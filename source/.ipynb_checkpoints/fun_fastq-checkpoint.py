@@ -1,3 +1,4 @@
+import numpy as np
 KEYS = ["label", "seq", "label2", "qscore"]
 
 def stream_fastq(fpath):
@@ -26,3 +27,12 @@ def write_fastq(fpath, read):
         for key in KEYS:
             line = str(read[key]) + "\n"
             fp.write(line)
+            
+def is_high_quality(phred, threshold_score = 25, threshold_length = 50):
+    """check if the given read is considered as high quality: 
+    at least 50 consecutive bases of quality score 25+"""
+    x = np.array(phred)
+    x = (x >= threshold_score).astype("int").astype("str")
+    x = "".join(x).split("0")
+    x = list(map(len, x))
+    return np.max(x) >= threshold_length
