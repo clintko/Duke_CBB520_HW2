@@ -27,6 +27,7 @@ source material can be cloned from:
 .. toctree::
    :maxdepth: 2
    :caption: Section 03: Download and Indexing Genome
+   
    21_genome_download.ipynb
 
 Indices and tables
