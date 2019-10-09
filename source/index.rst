@@ -23,7 +23,12 @@ source material can be cloned from:
    14_trim_adapters.ipynb
    15_filter_reads.ipynb
    16_fastqc_prep.ipynb
-   
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Section 03: Data Preprocessing
+   21_genome_download.ipynb
+
 Indices and tables
 ==================
 
