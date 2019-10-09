@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  <title>FASTQC Report of Raw Reads &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -25,6 +25,8 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -34,7 +36,8 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quality score of raw reads" href="11_quality_score_raw.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,6 +88,20 @@
 <li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_fastq_generator.html">Generator/Stream of FASTQ reads</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Section 02: Data Preprocessing</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="10_intro2quality_score.html">Quality Score in High-throughput Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FASTQC Report of Raw Reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Generate-QC-report-of-read-1-and-read-2">Generate QC report of read 1 and read 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#The-Quality-per-Base-from-QC-reports">The Quality per Base from QC reports</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Image:-Quality-scores-across-all-bases-in-Read-1">Image: Quality scores across all bases in Read 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Quality-scores-across-all-bases-in-Read-2">Quality scores across all bases in Read 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
             
           
@@ -129,7 +146,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>FASTQC Report of Raw Reads</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -370,97 +387,25 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<div class="section" id="FASTQC-Report-of-Raw-Reads">
+<h1>FASTQC Report of Raw Reads<a class="headerlink" href="#FASTQC-Report-of-Raw-Reads" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nv">DIR_DAT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/work/Data/SRR4841864&quot;</span>
+<span></span><span class="nb">source</span> config.sh
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="section" id="Generate-QC-report-of-read-1-and-read-2">
+<h2>Generate QC report of read 1 and read 2<a class="headerlink" href="#Generate-QC-report-of-read-1-and-read-2" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nv">RAW_FASTQS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/work/Data/SRR4841864&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># We used these in the last notebook</span>
-<span class="nv">DATA_BASE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/work/Data/SRR4841864&quot;</span>
-<span class="nv">RAW_FASTQS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$DATA_BASE</span><span class="s2">/rawdata&quot;</span>
-<span class="nv">TRIMMED</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$DATA_BASE</span><span class="s2">/trimmed_fastqs&quot;</span>
-
-<span class="c1"># The following are new for this notebook</span>
-<span class="nv">CUROUT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/work/GitRepo/Duke_CBB520_HW2&quot;</span>
-
-<span class="nv">QC_RAW</span><span class="o">=</span><span class="nv">$CUROUT</span>/qc_output_raw
-<span class="nv">QC_TRIM</span><span class="o">=</span><span class="nv">$CUROUT</span>/qc_output_trim
-
-<span class="nv">MYINFO</span><span class="o">=</span><span class="nv">$CUROUT</span>/myinfo
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>mkdir -p <span class="nv">$QC_RAW</span>
-mkdir -p <span class="nv">$QC_TRIM</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>ls <span class="nv">$CUROUT</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-data_download.ipynb     <span class="ansi-blue-intense-fg ansi-bold">qc_output</span>            Test_environment.ipynb
-data_exploration.ipynb  quality_score.ipynb
-fastqc.ipynb            README.md
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>ls <span class="nv">$RAW_FASTQS</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC</span>
-fastqc --extract <span class="nv">$RAW_FASTQS</span>/SRR4841864_1.fastq -o <span class="nv">$QC_RAW</span>
+<span></span>fastqc --threads <span class="m">4</span> --extract <span class="nv">$RAW_FASTQS</span>/SRR4841864_1.fastq -o <span class="nv">$QC_RAW</span>
 </pre></div>
 </div>
 </div>
@@ -493,12 +438,11 @@ Analysis complete for SRR4841864_1.fastq
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC</span>
-fastqc --extract <span class="nv">$RAW_FASTQS</span>/SRR4841864_2.fastq -o <span class="nv">$QC_RAW</span>
+<span></span>fastqc --threads <span class="m">4</span> --extract <span class="nv">$RAW_FASTQS</span>/SRR4841864_2.fastq -o <span class="nv">$QC_RAW</span>
 </pre></div>
 </div>
 </div>
@@ -530,12 +474,37 @@ Approx 95% complete for SRR4841864_2.fastq
 Analysis complete for SRR4841864_2.fastq
 </pre></div></div>
 </div>
+</div>
+<div class="section" id="The-Quality-per-Base-from-QC-reports">
+<h2>The Quality per Base from QC reports<a class="headerlink" href="#The-Quality-per-Base-from-QC-reports" title="Permalink to this headline">¶</a></h2>
+<p>Note that the images can be found in the output directory of commands above. The images below might not display correctly below.</p>
+<div class="section" id="Image:-Quality-scores-across-all-bases-in-Read-1">
+<h3>Image: Quality scores across all bases in Read 1<a class="headerlink" href="#Image:-Quality-scores-across-all-bases-in-Read-1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="../qc_output_raw/SRR4841864_1_fastqc.html">QC reports of Read 1 (Raw)</a></p></li>
+</ul>
+</div>
+<div class="section" id="Quality-scores-across-all-bases-in-Read-2">
+<h3>Quality scores across all bases in Read 2<a class="headerlink" href="#Quality-scores-across-all-bases-in-Read-2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="../qc_output_raw/SRR4841864_2_fastqc.html">QC reports of Read 2 (Raw)</a></p></li>
+</ul>
+</div>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="11_quality_score_raw.html" class="btn btn-neutral float-left" title="Quality score of raw reads" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

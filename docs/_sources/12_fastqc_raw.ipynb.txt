@@ -1,92 +1,31 @@
 {
  "cells": [
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# FASTQC Report of Raw Reads"
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
-    "DIR_DAT=\"$HOME/work/Data/SRR4841864\""
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Generate QC report of read 1 and read 2"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 2,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "RAW_FASTQS=\"$HOME/work/Data/SRR4841864\""
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 7,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# We used these in the last notebook\n",
-    "DATA_BASE=\"$HOME/work/Data/SRR4841864\"\n",
-    "RAW_FASTQS=\"$DATA_BASE/rawdata\"\n",
-    "TRIMMED=\"$DATA_BASE/trimmed_fastqs\"\n",
-    "\n",
-    "# The following are new for this notebook\n",
-    "CUROUT=\"$HOME/work/GitRepo/Duke_CBB520_HW2\"\n",
-    "\n",
-    "QC_RAW=$CUROUT/qc_output_raw\n",
-    "QC_TRIM=$CUROUT/qc_output_trim\n",
-    "\n",
-    "MYINFO=$CUROUT/myinfo"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 3,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "mkdir -p $QC_RAW\n",
-    "mkdir -p $QC_TRIM"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 7,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "data_download.ipynb     \u001b[0m\u001b[01;34mqc_output\u001b[0m            Test_environment.ipynb\n",
-      "data_exploration.ipynb  quality_score.ipynb\n",
-      "fastqc.ipynb            README.md\n"
-     ]
-    }
-   ],
-   "source": [
-    "ls $CUROUT"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 4,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "SRR4841864_1.fastq  SRR4841864_2.fastq  SRR4841864.sra\n"
-     ]
-    }
-   ],
-   "source": [
-    "ls $RAW_FASTQS"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
    "metadata": {},
    "outputs": [
     {
@@ -118,13 +57,12 @@
     }
    ],
    "source": [
-    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
-    "fastqc --extract $RAW_FASTQS/SRR4841864_1.fastq -o $QC_RAW"
+    "fastqc --threads 4 --extract $RAW_FASTQS/SRR4841864_1.fastq -o $QC_RAW"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -156,8 +94,53 @@
     }
    ],
    "source": [
-    "# fastqc --threads 2 --quiet $DEMUX/r1.8A_pilot.fq.gz -o $QC\n",
-    "fastqc --extract $RAW_FASTQS/SRR4841864_2.fastq -o $QC_RAW"
+    "fastqc --threads 4 --extract $RAW_FASTQS/SRR4841864_2.fastq -o $QC_RAW"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## The Quality per Base from QC reports"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Note that the images can be found in the output directory of commands above. The images below might not display correctly below."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Image: Quality scores across all bases in Read 1\n",
+    "\n",
+    "- [QC reports of Read 1 (Raw)](../qc_output_raw/SRR4841864_1_fastqc.html)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"../qc_output_raw/SRR4841864_1_fastqc/Images/per_base_quality.png\" />"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Quality scores across all bases in Read 2\n",
+    "\n",
+    "- [QC reports of Read 2 (Raw)](../qc_output_raw/SRR4841864_2_fastqc.html)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"../qc_output_raw/SRR4841864_2_fastqc/Images/per_base_quality.png\" />"
    ]
   }
  ],

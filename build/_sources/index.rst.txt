@@ -11,6 +11,14 @@ source material can be cloned from:
    01_fastq_download.ipynb
    02_fastq_exploration.ipynb
    03_fastq_generator.ipynb
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Section 02: Data Preprocessing
+   
+   10_intro2quality_score.ipynb
+   11_quality_score_raw.ipynb
+   12_fastqc_raw.ipynb
    
 Indices and tables
 ==================
