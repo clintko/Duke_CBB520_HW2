@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Project: Calling SNPs for Yeast strain YJF153 1.0 documentation</title>
+  <title>Generator/Stream of FASTQ reads &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Explore the data" href="02_fastq_exploration.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Project: Calling SNPs for Yeast strain YJF153
+            <a href="index.html" class="icon icon-home"> Project: Calling SNPs in Yeast strain YJF153
           
 
           
@@ -78,9 +79,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Unix Shell</span></p>
-<ul>
+              <p class="caption"><span class="caption-text">Section 01: Data Download</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="00_check_environment.html">Check if the environment is correctly setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_fastq_download.html">Download SRA Data: SRR4841864</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generator/Stream of FASTQ reads</a></li>
 </ul>
 
             
@@ -95,7 +99,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Project: Calling SNPs for Yeast strain YJF153</a>
+          <a href="index.html">Project: Calling SNPs in Yeast strain YJF153</a>
         
       </nav>
 
@@ -126,7 +130,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Generator/Stream of FASTQ reads</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -367,6 +371,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<div class="section" id="Generator/Stream-of-FASTQ-reads">
+<h1>Generator/Stream of FASTQ reads<a class="headerlink" href="#Generator/Stream-of-FASTQ-reads" title="Permalink to this headline">¶</a></h1>
+<p><strong>In this notebook, I am creating and test my scripts to stream the FASTQ reads</strong></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -382,13 +389,14 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<p><strong>Define my test function to stream the data</strong></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">stream_fastq</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;stream over the given fastq file&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;stream over the given fastq file; yield results by every four lines&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
         <span class="c1">### initialization</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;seq&quot;</span><span class="p">,</span> <span class="s2">&quot;label2&quot;</span><span class="p">,</span> <span class="s2">&quot;qscore&quot;</span><span class="p">]</span>
@@ -409,6 +417,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<p><strong>read line by line of FASTQ file</strong></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -450,6 +459,7 @@ Line 10 : +SRR4841864.3 3 length=101
 Line 11 : #1=?DDD?F?D8&lt;FEGBABHBA&lt;FHE93AAAHD&lt;AFEG4?:ED&lt;?DD&lt;B4B918B@?FH8BDG?)BDFDHID@6;3=:59=&lt;ACCCA@&gt;CBB8?B253&lt;:3
 </pre></div></div>
 </div>
+<p><strong>read the fastq file using my function and double check with the results above</strong></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -463,7 +473,9 @@ Line 11 : #1=?DDD?F?D8&lt;FEGBABHBA&lt;FHE93AAAHD&lt;AFEG4?:ED&lt;?DD&lt;B4B918B
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;seq&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;qscore&quot;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;======================&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">======================</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
 <span class="n">res</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;seq&quot;</span><span class="p">])</span>
@@ -479,19 +491,13 @@ Line 11 : #1=?DDD?F?D8&lt;FEGBABHBA&lt;FHE93AAAHD&lt;AFEG4?:ED&lt;?DD&lt;B4B918B
 @SRR4841864.1 1 length=101
 NGGCATACCAATGGGAAGAGCATGCGTGGGAATGGTATTCAAAAATCGAGAAAGAAGGATGCTGCTGCTGCTGCCGCTGTTGGGAAAGCTATAAAGGATGA
 #1:BDFFFDHFHDGGBBGGHGIGGHEHGIFIHGFDB?FHGHIIIDDGFHGCHIIIIIIIIIHGCCCBBDFDFCCECCCCBCCCBBABBCCCCCCECCCCCC
+
 ======================
+
 @SRR4841864.2 2 length=101
 NAGCTTCGTTAAGACTTTGACTGGTAAGACCATCACTTTGGAAGTTGAATCTTCTGACACCATTGACAATGTCAAGTCCAAGATCCAAGACAAGGAAGGTA
 #1=BDDDD?CFFFIIEFIFFHFIEFHIBHFFEFEFFIFEFIIFE&lt;&lt;?D?DGFIFIIGFEDFFIEGFFGGCC7@EFE7=AEEEDDDDDC@CCCBBBBBBBA&gt;
 </pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
 </div>
 </div>
 
@@ -500,6 +506,13 @@ NAGCTTCGTTAAGACTTTGACTGGTAAGACCATCACTTTGGAAGTTGAATCTTCTGACACCATTGACAATGTCAAGTCCA
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="02_fastq_exploration.html" class="btn btn-neutral float-left" title="Explore the data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
