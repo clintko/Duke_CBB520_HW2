@@ -19,6 +19,7 @@ source material can be cloned from:
    10_intro2quality_score.ipynb
    11_quality_score_raw.ipynb
    12_fastqc_raw.ipynb
+   13_adapter.ipynb
    
 Indices and tables
 ==================

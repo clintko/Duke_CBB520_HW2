@@ -1,12 +1,33 @@
 {
  "cells": [
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Find the adapter"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "From the FASTQC reports, there were sequences that were unnormally overpresented. After checking those sequence, we knew that they were the [adapters of during the library preparation](https://support.illumina.com/bulletins/2016/12/what-sequences-do-i-use-for-adapter-trimming.html). "
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
     "from Bio.Seq import Seq"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**specify the adapter**"
    ]
   },
   {
@@ -35,28 +56,15 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 3,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "Seq('TCTAGCCTTCTCGTGTGCAGACTTGAGGTCAGT')"
-      ]
-     },
-     "execution_count": 3,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
    "source": [
-    "seq1.complement()"
+    "**find the reverse complement**"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -65,7 +73,7 @@
        "Seq('TGACTGGAGTTCAGACGTGTGCTCTTCCGATCT')"
       ]
      },
-     "execution_count": 4,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -76,7 +84,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -85,7 +93,7 @@
        "Seq('ACACTCTTTCCCTACACGACGCTCTTCCGATCT')"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 4,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -95,8 +103,15 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Store the sequences into a file for later usage (trimming step)**"
+   ]
+  },
+  {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -112,15 +127,6 @@
     "> TruSeq read2 rc\n",
     "ACACTCTTTCCCTACACGACGCTCTTCCGATCT\n",
     "EOF"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "\n"
    ]
   }
  ],
