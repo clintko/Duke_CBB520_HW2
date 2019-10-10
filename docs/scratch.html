@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  <title>filter SNP &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
   
 
   
@@ -25,6 +25,9 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -85,6 +88,28 @@
 <li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_fastq_generator.html">Generator/Stream of FASTQ reads</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Section 02: Data Preprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="10_intro2quality_score.html">Quality Score in High-throughput Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_adapter.html">Find the adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 03: Download and Indexing Genome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_genome_indexing.html">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 04: Alignment and Calls of SNPs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="33_sort_index.html">Sort and Index the alignment results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="34_call_snp.html">Call SNP using bcftools</a></li>
+</ul>
 
             
           
@@ -129,13 +154,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>filter SNP</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/Untitled.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/scratch.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -594,6 +619,193 @@ Notes: Commands with description endting with (*) may need bcftools
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>samtools mpileup -g -f <span class="nv">$GENOME</span>/<span class="nv">$FA</span> <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam &gt; <span class="nv">$ALIGN_RAW</span>/raw.bcf
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>bcftools mpileup -f <span class="nv">$GENOME</span>/<span class="nv">$FA</span> <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam &gt; <span class="nv">$ALIGN_RAW</span>/raw.bcf
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>bcftools view <span class="nv">$ALIGN_RAW</span>/raw.bcf &gt; <span class="nv">$ALIGN_RAW</span>/var.bcf
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter-SNP">
+<h1>filter SNP<a class="headerlink" href="#filter-SNP" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>bcftools view <span class="nv">$ALIGN_RAW</span>/var.bcf <span class="p">|</span> head
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>bcftools view <span class="nv">$ALIGN_RAW</span>/var.bcf <span class="p">|</span> vcfutils varFilter &gt; <span class="nv">$ALIGN_RAW</span>/final.vcf
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>samtools index <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># remove header lines and look at top 4 entires</span>
+<span class="c1">#zcat variants/evolved-6.mpileup.vcf.gz | egrep -v &#39;##&#39; | head -4</span>
+cat <span class="nv">$ALIGN_RAW</span>/final.vcf <span class="p">|</span> egrep -v <span class="s1">&#39;##&#39;</span> <span class="p">|</span> head -4
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>bgzip -c <span class="nv">$ALIGN_RAW</span>/final.vcf &gt; <span class="nv">$ALIGN_RAW</span>/final.vcf.gz
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>tabix -p vcf <span class="nv">$ALIGN_RAW</span>/final.vcf.gz
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#bcftools stats -F assembly/spades_final/scaffolds.fasta -s - variants/evolved-6.mpileup.vcf.gz &gt; variants/evolved-6.mpileup.vcf.gz.stats</span>
+bcftools stats -F <span class="nv">$GENOME</span>/<span class="nv">$FA</span> -s - <span class="nv">$ALIGN_RAW</span>/final.vcf.gz &gt; <span class="nv">$ALIGN_RAW</span>/final.vcf.gz.stats
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#plot-vcfstats -p variants/plots/ variants/evolved-6.mpileup.vcf.gz.stats</span>
+plot-vcfstats -p <span class="nv">$ALIGN_RAW</span> <span class="nv">$ALIGN_RAW</span>/final.vcf.gz.stats
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>head -200 <span class="nv">$ALIGN_RAW</span>/final.vcf
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
 </div>
 </div>
 

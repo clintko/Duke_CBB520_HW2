@@ -25,6 +25,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
@@ -36,7 +37,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Call SNP using bcftools" href="34_call_snp.html" />
+    <link rel="prev" title="Index Genome using Samtools" href="32_genome_sort_index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -102,10 +105,16 @@
 <li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="22_genome_indexing.html">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Section 04: Alignment and calls of SNPs</span></p>
-<ul>
+<p class="caption"><span class="caption-text">Section 04: Alignment and Calls of SNPs</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sort and Index the alignment results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Converting-SAM-to-BAM-with-samtools">Converting SAM to BAM with samtools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Observe-the-bam-files">Observe the bam files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="34_call_snp.html">Call SNP using bcftools</a></li>
 </ul>
 
             
@@ -431,35 +440,6 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nv">DIR</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$RAW_FASTQS</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TRIMMED</span><span class="s2">&quot;</span>    <span class="s2">&quot;</span><span class="nv">$FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
-<span class="nv">OUT</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_RAW</span><span class="s2">&quot;</span>  <span class="s2">&quot;</span><span class="nv">$ALIGN_TRIM</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
-<span class="nv">REFFA</span><span class="o">=</span><span class="nv">$GENOME</span>/<span class="nv">$FA</span>
-
-<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span><span class="m">0</span><span class="p">;</span> i&lt;<span class="si">${#</span><span class="nv">OUT</span><span class="p">[@]</span><span class="si">}</span><span class="p">;</span> ++i<span class="o">))</span><span class="p">;</span> <span class="k">do</span>
-    <span class="nb">echo</span> <span class="s2">&quot;================================================&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">done</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-================================================
-/home/jovyan/work/Data/SRR4841864/align_raw
-================================================
-/home/jovyan/work/Data/SRR4841864/align_trim
-================================================
-/home/jovyan/work/Data/SRR4841864/align_filter
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
@@ -502,24 +482,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">echo</span> <span class="nv">$FA</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -532,33 +495,15 @@ Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-aln_pe.sam
+aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools view -S -b <span class="nv">$ALIGN_RAW</span>/aln_pe.sam &gt; <span class="nv">$ALIGN_RAW</span>/aln_pe.bam
-</pre></div>
-</div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools sort <span class="nv">$ALIGN_RAW</span>/aln_pe.bam -o <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam
+<span></span>ls <span class="nv">$ALIGN_TRIM</span>
 </pre></div>
 </div>
 </div>
@@ -567,7 +512,7 @@ aln_pe.sam
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[bam_sort_core] merging from 3 files and 1 in-memory blocks...
+aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -575,7 +520,7 @@ aln_pe.sam
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools view <span class="nv">$ALIGN_RAW</span>/aln_pe.bam <span class="p">|</span> head
+<span></span>ls <span class="nv">$ALIGN_FILTER</span>
 </pre></div>
 </div>
 </div>
@@ -584,16 +529,29 @@ aln_pe.sam
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SRR4841864.1    83      VII     224972  60      101M    =       224852  -221    TCATCCTTTATAGCTTTCCCAACAGCGGCAGCAGCAGCAGCATCCTTCTTTCTCGATTTTTGAATACCATTCCCACGCATGCTCTTCCCATTGGTATGCCN   CCCCCCECCCCCCBBABBCCCBCCCCECCFDFDBBCCCGHIIIIIIIIIHCGHFGDDIIIHGHF?BDFGHIFIGHEHGGIGHGGBBGGDHFHDFFFDB:1#   NM:i:3  MD:Z:11G10T77T0 MC:Z:41S50M10S  AS:i:90 XS:i:19
-SRR4841864.1    163     VII     224852  60      41S50M10S       =       224972  221     TGTCATTTTCATTTTCGTTGTCGTTGTCGTTGTCATTGTCATTGTCGTTGTCGTTGTCGTTGTTGTTTTCATTGTCGTTGTCGTTGTCTTCATCGTTATTG   ==1A:BDDHFHHFIIIGIGHIAFGGCEHI?:?:CFD*:BDFHEH*?DHIBBF6&lt;FAHBBCACEHFFH&gt;CCBED;6@BC@=?AB@BCBCCCCDA@??BBBCC     NM:i:0  MD:Z:50 MC:Z:101M       AS:i:50 XS:i:0  SA:Z:VII,224835,+,38M6D20M43S,51,7;
-SRR4841864.1    2211    VII     224835  51      38M6D20M43H     =       224972  238     TGTCATTTTCATTTTCGTTGTCGTTGTCGTTGTCATTGTCATTGTCGTTGTCGTTGTC      ==1A:BDDHFHHFIIIGIGHIAFGGCEHI?:?:CFD*:BDFHEH*?DHIBBF6&lt;FAHB   NM:i:7  MD:Z:34G3^TTGTTT20      MC:Z:101M       AS:i:41 XS:i:0  SA:Z:VII,224852,+,41S50M10S,60,0;
-SRR4841864.2    83      XI      618277  60      101M    =       618040  -338    TACCTTCCTTGTCTTGGATCTTGGACTTGACATTGTCAATGGTGTCAGAAGATTCAACTTCCAAAGTGATGGTCTTACCAGTCAAAGTCTTAACGAAGCTN   &gt;ABBBBBBBCCC@CDDDDDEEEA=7EFE@7CCGGFFGEIFFDEFGIIFIFGD?D?&lt;&lt;EFIIFEFIFFEFEFFHBIHFEIFHFFIFEIIFFFC?DDDDB=1#  NM:i:1  MD:Z:100G0      MC:Z:101M       AS:i:100        XS:i:76
-SRR4841864.2    163     XI      618040  60      101M    =       618277  338     ACTTTCTCTTTCTACAGTTGGTAGCTCTTGGTGGCAATCTGGCGTAACATTTACGTCAAACAGAATTGTCACAGTTGTATTTGGAAGCCAAGGCTTTCAAA   ;1=BADD4:D2&lt;4C&lt;EA2C&lt;B+AC&lt;A:AB&gt;&gt;F=?)??*19:9*:00?D@ADD*?1(8--)==AA)77?=A############################### NM:i:3  MD:Z:34T20A8T36 MC:Z:101M       AS:i:86 XS:i:66
-SRR4841864.3    99      III     4761    0       101M    =       5106    446     NTTATATCTATGAATGAATATGCATTGCTCTTCTGATACTATGGTATGAGAGGCCTTGGTAAAGGGCATCGATAACCGAAAGAATCATCCGCAGAGAAGTA   #1=?DDD?F?D8&lt;FEGBABHBA&lt;FHE93AAAHD&lt;AFEG4?:ED&lt;?DD&lt;B4B918B@?FH8BDG?)BDFDHID@6;3=:59=&lt;ACCCA@&gt;CBB8?B253&lt;:3   NM:i:1  MD:Z:0A100      MC:Z:101M       AS:i:100        XS:i:100        XA:Z:XI,-664899,101M,1;
-SRR4841864.3    147     III     5106    0       101M    =       4761    -446    CTTTTTTTCCAAATCATTATCGAAGATTCTTTGCTTATGATATACTGGTGATCGAGGATGATGAGAGGACACAACTTTTTGAGGCTTATCGTTATCGTCTG   #########################################################AB?=A==&gt;BA=:1*AA:ABAAC?+=79?1;?;&lt;2+++A?2++=1     NM:i:1  MD:Z:50C50      MC:Z:101M       AS:i:96 XS:i:96 XA:Z:XI,+664554,101M,1;
-SRR4841864.4    83      XIII    226512  60      101M    =       226185  -428    GAAGAAAGAGAAAGAAAGGACCAATGCGTCCCAGAAGTCTCTGCTTTGGACTTGTCTCGTTCTAACGGTGTTTTGAACGTTGACAACCAAACTTCTGACTN   &gt;&gt;&gt;&gt;AA:&gt;A&gt;AAA&gt;AA&gt;A&gt;5AA=&lt;3&#39;;AA;A7;;??@A=CDDCC@@@CEEDDCDADDIEEDD?CDDDD&gt;EIEEEDCA@F4&lt;A&lt;AA2A&lt;:&lt;&lt;?D=BBDD:1#       NM:i:2  MD:Z:25A74T0    MC:Z:101M       AS:i:95 XS:i:85 XA:Z:IV,+1354914,101M,4;
-SRR4841864.4    163     XIII    226185  60      101M    =       226512  428     GAACTGCCTCTACACATTATAATGTGTTTTTGATATCAGTATACTAACAAGTAGAATTGCATTTACAAACTTTTTATTTTGTATTGCTTTTCGTCATTTTA   1=12AA=A72@&gt;&lt;+2+2,33&lt;A,,@,33+&lt;C)?B&gt;B77&lt;ABB?9A?B&gt;7?7A*000=BBB?&lt;*=)7)&gt;B2=A7AB=;&gt;;77AA9A################     NM:i:1  MD:Z:52T48      MC:Z:101M       AS:i:96 XS:i:0
-SRR4841864.5    99      XIII    495381  60      101M    =       495405  125     NAAGACTTGATGCGACCAATGTTATTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTG   #1=DDFFFHHGHHJIJJJJJJIJJJJJJIJJIJIJJJJJJJJIIEIGHICHI@DGIJIJHHHHHHFFCEFFDEEEEDDDDDDDDDDDDDDD:ACDDDDDDC   NM:i:1  MD:Z:0G100      MC:Z:101M       AS:i:100        XS:i:0
+aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Observe-the-bam-files">
+<h2>Observe the bam files<a class="headerlink" href="#Observe-the-bam-files" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>samtools view <span class="nv">$ALIGN_FILTER</span>/aln_pe.bam <span class="p">|</span> head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SRR4841864.5    99      XIII    495383  60      99M     =       495405  123     AGACTTGATGCGACCAATGTTATTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTG     =DDFFFHHGHHJIJJJJJJIJJJJJJIJJIJIJJJJJJJJIIEIGHICHI@DGIJIJHHHHHHFFCEFFDEEEEDDDDDDDDDDDDDDD:ACDDDDDDC     NM:i:0  MD:Z:99 MC:Z:101M       AS:i:99 XS:i:0
+SRR4841864.5    147     XIII    495405  60      101M    =       495383  -123    TTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTGTCTGAAATCTCTAAAGAGAAAGCA   DDDDDDDDDFEEEFFFFFFHHGHJJJJIIHHHCJJJJJIIJJJJJJJJJIIIJJJJJIIIIJJJIJIHDHGCJJJJJJJIJJJJJIIJHHHHHFFFFFCCC   NM:i:0  MD:Z:101        MC:Z:99M        AS:i:101        XS:i:0
+SRR4841864.6    99      XVI     288099  60      99M     =       288150  152     ACCGTCACGTTTCAACAAATTTTTATACGTTGCCTCCAGTGATTTTCCTCCCATATATTCCATGGCAATGTATATTGAAGAACTCTGTTCGTCGGTAAA     =DDFDAHHHCFIJIIGIIGHIJJJJIJJI?FGIEIJJJJFDGGIJIIIIIIJAFIJGIIGIJIGIIIIEE;7777=ABDEFDEEEEC@CCDBDDD=AB@     NM:i:1  MD:Z:4C94       MC:Z:101M       AS:i:94 XS:i:0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -601,7 +559,7 @@ SRR4841864.5    99      XIII    495381  60      101M    =       495405  125     
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools view <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam <span class="p">|</span> head
+<span></span>samtools view <span class="nv">$ALIGN_FILTER</span>/aln_pe_sorted.bam <span class="p">|</span> head -3
 </pre></div>
 </div>
 </div>
@@ -610,467 +568,10 @@ SRR4841864.5    99      XIII    495381  60      101M    =       495405  125     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-SRR4841864.1882824      163     I       1       12      16M3D8M1I10M1D13M53S    =       244     339     CCACACCACACCCACACCACACACACACACCACACCCACACCACACCCCCACCCCACCCCCACCCCACCCCCACCCCCTCCCAAACCACCCCCCCACCCCC   CCCFFFFFHGHHGJJIJJHIIB8EAEGHIII@BDHBHGB1CF(.6;@A&#39;95&gt;A################################################    NM:i:5  MD:Z:16^CAC18^A13       MC:Z:5S96M      AS:i:24 XS:i:37
-SRR4841864.3374304      99      I       1       0       1S31M7I26M36S   =       111     208     ACCACACCACACCCACACCCACACACACCACACCCACACCCACACACCACACCACACCCACACACCCACACACCACAACCACCCCCACCCCCCACACCCCC   @B@FFFFFHHHGHIIGIIGHIIJIJJJIIG=GGII?FHG(;5@CG15;6?;;;=ACB?@BBB?&lt;@8=B0&lt;??@############################     NM:i:9  MD:Z:17A1C37    MC:Z:29M2I37M1D31M2S    AS:i:34 XS:i:47
-SRR4841864.4256138      99      I       1       7       17S33M51S       =       111     207     ACACCCACACACCACACCCACACCACACCCACACACCCACACACCACACCCCAACCCCACACCACACCAACACCACACCCACACCACCCCCCACCCACCCA   @???BDDBHDFA?E:EFIEGIEHIGGGGIIE6BF1D;@6;;FE##########################################################   NM:i:0  MD:Z:33 MC:Z:29M2I23M2I45M      AS:i:33 XS:i:47
-SRR4841864.1997645      163     I       2       17      3S17M1D12M1I30M38S      =       140     208     ACACACACCACACCCACACACCACACACCACACCCACACACCACACCACACCCACACACACACCACACCCACACCCACCCCCCAACACCCACACACCACAA   @@@FFFFFDHHFHIJGJFCGGEEHHGGGG3?;BDA6D1C(@@==A########################################################   NM:i:2  MD:Z:17^C42     MC:Z:3S70M28S   AS:i:45 XS:i:45
-SRR4841864.2052399      99      I       2       0       14S32M55S       =       118     197     ACACCACACCCACACACACCACACCCACACACCCACACACCACACCCACACAACCCACACCCCCACCCACACACCCCACCCCCACACCCACACCCCCCCCC   ?@@DBDD?DA@FBF?FHGEGEIDHI&gt;HI?DFG?GDGAF;@D=F##########################################################        NM:i:0  MD:Z:32 MC:Z:20S81M     AS:i:32 XS:i:45
-SRR4841864.2611097      99      I       2       8       38M2I20M41S     =       296     347     CACACCACACCCACACACCCACACCACACACCACACACCACACACCACACCCACACACACCACACTAACCCTAACACAATCCTAACACTATCCTAATCCAA   ?;?DADDBDDHFH?=G?FH:;;EGCGCB?DAGHEBGBABHGEEG@EECE?EB?DCC=??BB9&lt;?@CCCC&lt;BBCCBCCB8&gt;CCACCBCC&lt;ACCCCAC:@CCC       NM:i:4  MD:Z:24A0C32    MC:Z:19S53M29S  AS:i:40 XS:i:42
-SRR4841864.490564       99      I       8       37      32M2I20M47S     =       267     310     ACACCCACACACCCACACCACACACCACACACCACACACCACACCCACACACACCACACTAACCCTAACACAATCCTAACACTATCCTAATCCAACCCTGA   @@@DFFFFDHHFDFGHHGJJGGHEIHIJJJJJFHGIJ@FHIEDGGIJHHHBFFDAAB?BCCCCBDBCCDCCB?ACDCCCBDDCC&gt;CCDDC&gt;ACCCABBDC9     NM:i:4  MD:Z:18A0C32    MC:Z:39S51M11S  AS:i:34 XS:i:35
-SRR4841864.4819083      163     I       12      22      9S9M1I13M1D4M1D17M1I27M20S      =       106     186     ACCCACACACCACACACCACACACACCACACCCACACACACCACACCCACACACCACACACCTTAACACTACCCTAACACAATCCTAACACTACCCTAATT   @@@AFDFFHFDDAGHIIEFGGGHGIIGIIIGGDGGIBHH;FFHI@DGEHGFFFDDDDB=BBBDDDCACDACC&lt;ACCCBDCBDDDDCDD@@CCCCDDCDDCE        NM:i:6  MD:Z:22^A4^C23T1C18     MC:Z:9S34M1I37M1D20M    AS:i:32 XS:i:44
-SRR4841864.435431       163     I       13      40      7S20M74S        =       92      177     ACAGCCACACACACCCACACACCACACGAACAAACAACACACCCCCACACCACGACCCCAGCACACCCCCCCACGCACGAACCCCACACAGCCAACCACAA   #####################################################################################################   NM:i:0  MD:Z:20 MC:Z:2S48M1I50M AS:i:20 XS:i:23 XA:Z:XIV,-784298,74S27M,1;XIII,-924361,74S27M,1;XIV,-784126,74S27M,1;XI,-666705,74S27M,1;XV,+59,27M74S,1;
-SRR4841864.4882163      99      I       13      7       8S21M1D16M56S   =       91      178     CACACCCACACACACCCACACACCACACCCACACCACACCACACCACACCCACCCACCCACACACCACCCCCACCCACCCCCACCCCACCCCCACACACCC   CCCFFFFFHGHHGJJJJIGGIIJJJJJJJJJIIJJ@C;CD(6(5@==;AEB##################################################   NM:i:1  MD:Z:21^A16     MC:Z:49M1I51M   AS:i:30 XS:i:44
+SRR4841864.604955       163     I       78      0       60M2I39M        =       488     512     AACACTACCCTAATCTAACCCTGATCAACCTGTCCCCCAACTTACCCTCCATTACCCTGCCTCTCCACTCGTTACCCTGTCCCATTTCACCTTACCACTCC   ?@?DDDDDHFHH3EGEG@&lt;FHFDFHGHII3?EF@FGCH&lt;GHGGEEGHHHHAGBDGGFHDHIIIIICAC;AEEE?BCCCC@@AAAACDDDCCCC@CCAC3&lt;?  NM:i:11 MD:Z:5A0G16G0C9T1T47C0A3A9      MC:Z:13M1D88M   AS:i:49 XS:i:48
+SRR4841864.4430617      65      I       78      0       60M2I39M        IX      439520  0       AACACTACCCTAATCTAACCCTGATCAACCTGTCCCCCAACTTACCCTCCATTACCCTGCCTCTCCACTCGTTACCCTGTCCCATTTCACCTTACCACTCC   CCCFFFFFGGHHHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJIJJJIJJJJJJIJJJJJJIJJIJHHHHHFFFDEEEEEDDDDDDEEEDDDDDDDDDDDD   NM:i:11 MD:Z:5A0G16G0C9T1T47C0A3A9      MC:Z:100M       AS:i:49 XS:i:48
+SRR4841864.1907733      99      I       85      39      28S55M2I15M     =       143     125     ACCCTATCTCAACCCTACTCTAACCCTACCCTACTCTAACCCTGACCATCCTGTCTCTCAGCTTACCCTCCATTACCCTGCCTCCCCACTCGTTACCCTG    CC@DFFFFHHHHHJJJIGIHIIEHGGGIJIJGBFIJIJGIJJJJHIHIGGHIFFGIIIGGIJJJJJIIJJHAEFFFFFFDBDCEDDDDDACDBBBDDDDC    NM:i:6  MD:Z:5A10G3A11A37       MC:Z:20M2I47M31S        AS:i:42 XS:i:51
 </pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools faidx <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools mpileup -g -f <span class="nv">$GENOME</span>/<span class="nv">$FA</span> <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam &gt; <span class="nv">$ALIGN_RAW</span>/raw.bcf
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[warning] samtools mpileup option `g` is functional, but deprecated. Please switch to using bcftools mpileup in future.
-[mpileup] 1 samples in 1 input files
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>bcftools mpileup -f <span class="nv">$GENOME</span>/<span class="nv">$FA</span> <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam &gt; <span class="nv">$ALIGN_RAW</span>/raw.bcf
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[mpileup] 1 samples in 1 input files
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>bcftools view <span class="nv">$ALIGN_RAW</span>/raw.bcf &gt; <span class="nv">$ALIGN_RAW</span>/var.bcf
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="filter-SNP">
-<h2>filter SNP<a class="headerlink" href="#filter-SNP" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>bcftools view <span class="nv">$ALIGN_RAW</span>/var.bcf <span class="p">|</span> head
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-##fileformat=VCFv4.2
-##FILTER=&lt;ID=PASS,Description=&#34;All filters passed&#34;&gt;
-##samtoolsVersion=1.9+htslib-1.9
-##samtoolsCommand=samtools mpileup -g -f /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam
-##reference=file:///home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-##contig=&lt;ID=I,length=230218&gt;
-##contig=&lt;ID=II,length=813184&gt;
-##contig=&lt;ID=III,length=316620&gt;
-##contig=&lt;ID=IV,length=1531933&gt;
-##contig=&lt;ID=V,length=576874&gt;
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>bcftools view <span class="nv">$ALIGN_RAW</span>/var.bcf <span class="p">|</span> vcfutils varFilter &gt; <span class="nv">$ALIGN_RAW</span>/final.vcf
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>ls <span class="nv">$ALIGN_RAW</span>/
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam  raw.bcf
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>samtools index <span class="nv">$ALIGN_RAW</span>/aln_pe_sorted.bam
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># remove header lines and look at top 4 entires</span>
-<span class="c1">#zcat variants/evolved-6.mpileup.vcf.gz | egrep -v &#39;##&#39; | head -4</span>
-cat <span class="nv">$ALIGN_RAW</span>/final.vcf <span class="p">|</span> egrep -v <span class="s1">&#39;##&#39;</span> <span class="p">|</span> head -4
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  /home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam
-I       1       .       C       &lt;*&gt;       0       .       DP=3;I16=1,0,0,0,33,1089,0,0,12,144,0,0,0,0,0,0;QS=1,0;MQ0F=0.333333    PL      0,3,12
-I       12      .       C       &lt;*&gt;       0       .       DP=8;I16=5,0,0,0,178,6444,0,0,96,2350,0,0,47,487,0,0;QS=1,0;MQ0F=0.25   PL      0,15,73
-I       23      .       C       &lt;*&gt;       0       .       DP=14;I16=8,0,0,0,271,9393,0,0,132,3516,0,0,119,2145,0,0;QS=1,0;MQ0F=0.214286   PL      0,24,89
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>bgzip -c <span class="nv">$ALIGN_RAW</span>/final.vcf &gt; <span class="nv">$ALIGN_RAW</span>/final.vcf.gz
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>tabix -p vcf <span class="nv">$ALIGN_RAW</span>/final.vcf.gz
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#bcftools stats -F assembly/spades_final/scaffolds.fasta -s - variants/evolved-6.mpileup.vcf.gz &gt; variants/evolved-6.mpileup.vcf.gz.stats</span>
-bcftools stats -F <span class="nv">$GENOME</span>/<span class="nv">$FA</span> -s - <span class="nv">$ALIGN_RAW</span>/final.vcf.gz &gt; <span class="nv">$ALIGN_RAW</span>/final.vcf.gz.stats
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#plot-vcfstats -p variants/plots/ variants/evolved-6.mpileup.vcf.gz.stats</span>
-plot-vcfstats -p <span class="nv">$ALIGN_RAW</span> <span class="nv">$ALIGN_RAW</span>/final.vcf.gz.stats
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Parsing bcftools stats output: /home/jovyan/work/Data/SRR4841864/align_raw/final.vcf.gz.stats
-Warning: Possible version mismatch, the definition line differs
-        expected: # PSC [2]id   [3]sample       [4]nRefHom      [5]nNonRefHom   [6]nHets        [7]nTransitions [8]nTransversions       [9]nIndels      [10]average depth       [11]nSingletons
-        found:    # PSC [2]id   [3]sample       [4]nRefHom      [5]nNonRefHom   [6]nHets        [7]nTransitions [8]nTransversions       [9]nIndels      [10]average depth       [11]nSingletons [12]nHapRef     [13]nHapAlt     [14]nMissing
-Plotting graphs: python plot.py
-Creating PDF: pdflatex summary.tex &gt;plot-vcfstats.log 2&gt;&amp;1
-Finished: /home/jovyan/work/Data/SRR4841864/align_raw/summary.pdf
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">echo</span> <span class="nv">$GENOME</span>/<span class="nv">$FA</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-/home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>head -200 <span class="nv">$ALIGN_RAW</span>/final.vcf
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-##fileformat=VCFv4.2
-##FILTER=&lt;ID=PASS,Description=&#34;All filters passed&#34;&gt;
-##samtoolsVersion=1.9+htslib-1.9
-##samtoolsCommand=samtools mpileup -g -f /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam
-##reference=file:///home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-##contig=&lt;ID=I,length=230218&gt;
-##contig=&lt;ID=II,length=813184&gt;
-##contig=&lt;ID=III,length=316620&gt;
-##contig=&lt;ID=IV,length=1531933&gt;
-##contig=&lt;ID=V,length=576874&gt;
-##contig=&lt;ID=VI,length=270161&gt;
-##contig=&lt;ID=VII,length=1090940&gt;
-##contig=&lt;ID=VIII,length=562643&gt;
-##contig=&lt;ID=IX,length=439888&gt;
-##contig=&lt;ID=X,length=745751&gt;
-##contig=&lt;ID=XI,length=666816&gt;
-##contig=&lt;ID=XII,length=1078177&gt;
-##contig=&lt;ID=XIII,length=924431&gt;
-##contig=&lt;ID=XIV,length=784333&gt;
-##contig=&lt;ID=XV,length=1091291&gt;
-##contig=&lt;ID=XVI,length=948066&gt;
-##contig=&lt;ID=Mito,length=85779&gt;
-##ALT=&lt;ID=*,Description=&#34;Represents allele(s) other than observed.&#34;&gt;
-##INFO=&lt;ID=INDEL,Number=0,Type=Flag,Description=&#34;Indicates that the variant is an INDEL.&#34;&gt;
-##INFO=&lt;ID=IDV,Number=1,Type=Integer,Description=&#34;Maximum number of reads supporting an indel&#34;&gt;
-##INFO=&lt;ID=IMF,Number=1,Type=Float,Description=&#34;Maximum fraction of reads supporting an indel&#34;&gt;
-##INFO=&lt;ID=DP,Number=1,Type=Integer,Description=&#34;Raw read depth&#34;&gt;
-##INFO=&lt;ID=VDB,Number=1,Type=Float,Description=&#34;Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)&#34;,Version=&#34;3&#34;&gt;
-##INFO=&lt;ID=RPB,Number=1,Type=Float,Description=&#34;Mann-Whitney U test of Read Position Bias (bigger is better)&#34;&gt;
-##INFO=&lt;ID=MQB,Number=1,Type=Float,Description=&#34;Mann-Whitney U test of Mapping Quality Bias (bigger is better)&#34;&gt;
-##INFO=&lt;ID=BQB,Number=1,Type=Float,Description=&#34;Mann-Whitney U test of Base Quality Bias (bigger is better)&#34;&gt;
-##INFO=&lt;ID=MQSB,Number=1,Type=Float,Description=&#34;Mann-Whitney U test of Mapping Quality vs Strand Bias (bigger is better)&#34;&gt;
-##INFO=&lt;ID=SGB,Number=1,Type=Float,Description=&#34;Segregation based metric.&#34;&gt;
-##INFO=&lt;ID=MQ0F,Number=1,Type=Float,Description=&#34;Fraction of MQ0 reads (smaller is better)&#34;&gt;
-##INFO=&lt;ID=I16,Number=16,Type=Float,Description=&#34;Auxiliary tag used for calling, see description of bcf_callret1_t in bam2bcf.h&#34;&gt;
-##INFO=&lt;ID=QS,Number=R,Type=Float,Description=&#34;Auxiliary tag used for calling&#34;&gt;
-##FORMAT=&lt;ID=PL,Number=G,Type=Integer,Description=&#34;List of Phred-scaled genotype likelihoods&#34;&gt;
-##bcftools_viewVersion=1.9+htslib-1.9
-##bcftools_viewCommand=view /home/jovyan/work/Data/SRR4841864/align_raw/raw.bcf; Date=Tue Oct  8 02:29:01 2019
-##bcftools_viewCommand=view /home/jovyan/work/Data/SRR4841864/align_raw/var.bcf; Date=Tue Oct  8 02:32:53 2019
-#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  /home/jovyan/work/Data/SRR4841864/align_raw/aln_pe_sorted.bam
-I       1       .       C       &lt;*&gt;       0       .       DP=3;I16=1,0,0,0,33,1089,0,0,12,144,0,0,0,0,0,0;QS=1,0;MQ0F=0.333333    PL      0,3,12
-I       12      .       C       &lt;*&gt;       0       .       DP=8;I16=5,0,0,0,178,6444,0,0,96,2350,0,0,47,487,0,0;QS=1,0;MQ0F=0.25   PL      0,15,73
-I       23      .       C       &lt;*&gt;       0       .       DP=14;I16=8,0,0,0,271,9393,0,0,132,3516,0,0,119,2145,0,0;QS=1,0;MQ0F=0.214286   PL      0,24,89
-I       34      .       A       &lt;*&gt;       0       .       DP=9;I16=6,0,0,0,188,6464,0,0,81,1915,0,0,130,3022,0,0;QS=1,0;MQ0F=0.222222     PL      0,18,62
-I       45      .       C       &lt;*&gt;       0       .       DP=12;I16=7,0,0,0,216,7148,0,0,136,3560,0,0,153,3549,0,0;QS=1,0;MQ0F=0.166667   PL      0,21,85
-I       56      .       A       &lt;*&gt;       0       .       DP=9;I16=6,0,0,0,207,7253,0,0,124,3416,0,0,145,3525,0,0;QS=1,0;MQ0F=0.222222    PL      0,18,84
-I       67      .       A       &lt;*&gt;       0       .       DP=4;I16=4,0,0,0,134,4750,0,0,72,1934,0,0,100,2500,0,0;QS=1,0;MQ0F=0.25 PL      0,12,62
-I       78      .       A       &lt;*&gt;       0       .       DP=5;I16=5,0,0,0,175,6177,0,0,118,3570,0,0,80,1900,0,0;QS=1,0;MQ0F=0    PL      0,15,86
-I       89      .       A       &lt;*&gt;       0       .       DP=12;I16=10,1,0,0,407,15189,0,0,217,6977,0,0,201,4249,0,0;QS=1,0;MQSB=1;MQ0F=0 PL      0,33,130
-I       100     .       G       &lt;*&gt;       0       .       DP=17;I16=13,3,0,0,591,23345,0,0,328,10064,0,0,302,6562,0,0;QS=1,0;MQSB=1;MQ0F=0        PL      0,48,168
-I       111     .       C       T,&lt;*&gt;     0       .       DP=33;I16=19,6,3,0,939,37443,91,2805,469,13345,40,1522,516,11872,75,1875;QS=0.92,0.08,0;VDB=0.0279572;SGB=-0.511536;RPB=0.217959;MQB=0.627377;MQSB=0.751519;BQB=0.247449;MQ0F=0.0909091 PL      0,32,190,75,199,208
-I       122     .       C       &lt;*&gt;       0       .       DP=41;I16=29,8,0,0,1433,58193,0,0,615,18185,0,0,764,17592,0,0;QS=1,0;MQSB=0.89135;MQ0F=0.170732 PL      0,111,231
-I       133     .       C       &lt;*&gt;       0       .       DP=42;I16=30,8,0,0,1452,59060,0,0,662,19666,0,0,863,20547,0,0;QS=1,0;MQSB=0.969078;MQ0F=0.166667        PL      0,114,218
-I       144     .       T       &lt;*&gt;       0       .       DP=53;I16=31,12,0,0,1675,72945,0,0,739,21237,0,0,895,20651,0,0;QS=1,0;MQSB=0.935376;MQ0F=0.169811       PL      0,129,246
-I       155     .       T       A,&lt;*&gt;     0       .       DP=55;I16=27,11,5,1,1531,68771,211,7793,650,18364,126,4142,703,15165,143,3449;QS=0.832908,0.167092,0;VDB=0.0959456;SGB=-0.616816;RPB=0.383195;MQB=0.743748;MQSB=0.893597;BQB=0.852817;MQ0F=0.163636     PL      0,4,168,114,186,228
-I       166     .       C       T,&lt;*&gt;     0       .       DP=52;I16=24,15,4,0,1537,65471,163,6643,620,16534,123,4137,690,15242,100,2500;QS=0.836,0.164,0;VDB=0.138245;SGB=-0.556411;RPB=0.591736;MQB=0.0984309;MQSB=0.986376;BQB=0.0819237;MQ0F=0.173077  PL      0,18,170,117,182,230
-I       177     .       G       C,&lt;*&gt;     0       .       DP=31;I16=4,7,12,3,469,22643,545,20469,222,6540,255,7109,215,4545,355,8509;QS=0.461053,0.538947,0;VDB=0.0016275;SGB=-0.688148;RPB=0.460355;MQB=0.849623;MQSB=0.951229;BQB=0.999663;MQ0F=0.129032        PL      106,0,109,139,155,225
-I       188     .       C       T,&lt;*&gt;     0       .       DP=37;I16=15,12,1,5,959,34747,251,12021,444,11820,145,4441,479,10677,144,3486;QS=0.761246,0.238754,0;VDB=0.0269737;SGB=-0.616816;RPB=0.216133;MQB=0.425696;MQSB=0.937181;BQB=0.995652;MQ0F=0.135135     PL      30,0,153,112,171,222
-I       199     .       T       &lt;*&gt;       0       .       DP=28;I16=12,12,0,0,873,33811,0,0,415,12017,0,0,430,9374,0,0;QS=1,0;MQSB=0.998335;MQ0F=0.178571 PL      0,72,220
-I       210     .       C       &lt;*&gt;       0       .       DP=3;I16=1,0,0,0,34,1156,0,0,0,0,0,0,8,64,0,0;QS=1,0;MQ0F=1     PL      0,3,4
-I       221     .       A       &lt;*&gt;       0       .       DP=9;I16=6,1,0,0,245,8677,0,0,117,3419,0,0,93,1767,0,0;QS=1,0;MQSB=1;MQ0F=0.333333      PL      0,21,91
-I       232     .       A       &lt;*&gt;       0       .       DP=15;I16=9,3,0,0,375,12673,0,0,164,4066,0,0,159,2521,0,0;QS=1,0;MQSB=0.962269;MQ0F=0.2 PL      0,36,109
-I       243     .       A       &lt;*&gt;       0       .       DP=20;I16=11,4,0,0,507,17785,0,0,168,3124,0,0,246,4844,0,0;QS=1,0;MQSB=0.735784;MQ0F=0.2        PL      0,45,101
-I       254     .       C       &lt;*&gt;       0       .       DP=23;I16=11,9,0,0,617,20095,0,0,250,5400,0,0,431,9981,0,0;QS=1,0;MQSB=0.901319;MQ0F=0.26087    PL      0,60,136
-I       265     .       A       &lt;*&gt;       0       .       DP=19;I16=9,6,0,0,546,20122,0,0,220,4950,0,0,343,8305,0,0;QS=1,0;MQSB=0.918449;MQ0F=0.210526    PL      0,45,136
-I       276     .       A       &lt;*&gt;       0       .       DP=34;I16=11,11,0,0,881,40187,0,0,439,14559,0,0,535,13085,0,0;QS=1,0;MQSB=0.995161;MQ0F=0.205882        PL      0,66,223
-I       287     .       C       &lt;*&gt;       0       .       DP=34;I16=13,14,0,0,1151,54125,0,0,486,15298,0,0,675,16875,0,0;QS=1,0;MQSB=0.997354;MQ0F=0.205882       PL      0,81,245
-I       298     .       T       &lt;*&gt;       0       .       DP=38;I16=14,15,0,0,1157,52139,0,0,559,17503,0,0,678,16646,0,0;QS=1,0;MQSB=0.734495;MQ0F=0.184211       PL      0,87,248
-I       309     .       T       C,&lt;*&gt;     0       .       DP=36;I16=1,10,12,5,369,14551,674,30036,149,3673,383,12035,187,3667,362,8116;QS=0.290323,0.709677,0;VDB=0.00791951;SGB=-0.690438;RPB=0.931639;MQB=0.459798;MQSB=0.899334;BQB=0.500825;MQ0F=0.166667     PL      169,0,40,202,91,220
-I       320     .       T       &lt;*&gt;       0       .       DP=36;I16=13,16,0,0,1182,54484,0,0,565,17751,0,0,431,8439,0,0;QS=1,0;MQSB=0.667586;MQ0F=0.194444        PL      0,87,255
-I       331     .       A       &lt;*&gt;       0       .       DP=24;I16=9,10,0,0,802,39242,0,0,404,12758,0,0,284,5674,0,0;QS=1,0;MQSB=0.88692;MQ0F=0.0833333  PL      0,57,236
-I       342     .       T       &lt;*&gt;       0       .       DP=15;I16=5,6,0,0,494,24874,0,0,231,7031,0,0,189,3893,0,0;QS=1,0;MQSB=0.950952;MQ0F=0.0666667   PL      0,33,175
-I       353     .       C       &lt;*&gt;       0       .       DP=7;I16=1,3,0,0,113,3567,0,0,69,1303,0,0,100,2500,0,0;QS=1,0;MQSB=1;MQ0F=0.142857      PL      0,12,61
-I       364     .       C       &lt;*&gt;       0       .       DP=8;I16=3,5,0,0,279,9859,0,0,94,1880,0,0,158,3742,0,0;QS=1,0;MQSB=0.150134;MQ0F=0.25   PL      0,24,79
-I       375     .       A       G,&lt;*&gt;     0       .       DP=8;I16=1,3,2,2,126,4250,145,5277,47,1061,47,819,90,2068,76,1534;QS=0.484848,0.515152,0;VDB=0.281254;SGB=-0.556411;RPB=0.248092;MQB=0.992367;MQSB=0.150134;BQB=0.868321;MQ0F=0.25      PL      25,0,21,37,33,51
-I       386     .       A       &lt;*&gt;       0       .       DP=8;I16=3,5,0,0,259,8609,0,0,94,1880,0,0,133,2693,0,0;QS=1,0;MQSB=0.150134;MQ0F=0.25   PL      0,24,77
-I       397     .       T       &lt;*&gt;       0       .       DP=7;I16=2,5,0,0,215,6735,0,0,83,1759,0,0,87,1941,0,0;QS=1,0;MQSB=0;MQ0F=0.285714       PL      0,21,71
-I       408     .       T       &lt;*&gt;       0       .       DP=3;I16=1,2,0,0,107,3837,0,0,25,577,0,0,75,1875,0,0;QS=1,0;MQSB=1;MQ0F=0.333333        PL      0,9,30
-I       421     .       T       &lt;*&gt;       0       .       DP=3;I16=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;QS=0,0;MQ0F=0.333333   PL      0,0,0
-I       432     .       A       &lt;*&gt;       0       .       DP=9;I16=7,2,0,0,298,10104,0,0,126,3462,0,0,58,806,0,0;QS=1,0;MQSB=0.857143;MQ0F=0.111111       PL      0,27,97
-I       443     .       A       &lt;*&gt;       0       .       DP=10;I16=9,0,0,0,335,12639,0,0,140,3686,0,0,113,1625,0,0;QS=1,0;MQ0F=0.1       PL      0,27,92
-I       454     .       T       &lt;*&gt;       0       .       DP=15;I16=11,2,0,0,498,21068,0,0,182,4432,0,0,218,4688,0,0;QS=1,0;MQSB=0.818182;MQ0F=0.2        PL      0,39,114
-I       465     .       C       &lt;*&gt;       0       .       DP=21;I16=15,2,0,0,699,31921,0,0,258,6598,0,0,325,7385,0,0;QS=1,0;MQSB=0.8;MQ0F=0.142857        PL      0,51,130
-I       476     .       G       C,T,&lt;*&gt;   0       .       DP=23;I16=0,0,15,2,0,0,712,33112,0,0,258,6598,0,0,392,9346;QS=0,0.839552,0.160448,0;VDB=0.00075436;SGB=-0.690438;MQSB=0.8;MQ0F=0.130435 PL      109,45,0,94,8,87,109,45,94,109
-I       487     .       A       &lt;*&gt;       0       .       DP=27;I16=16,3,0,0,782,35116,0,0,302,8214,0,0,441,10665,0,0;QS=1,0;MQSB=0.904837;MQ0F=0.111111  PL      0,57,149
-I       498     .       C       &lt;*&gt;       0       .       DP=34;I16=16,10,0,0,1164,59804,0,0,426,11586,0,0,536,12298,0,0;QS=1,0;MQSB=0.818731;MQ0F=0.117647       PL      0,78,213
-I       509     .       G       T,A,&lt;*&gt;   0       .       DP=34;I16=0,0,15,9,0,0,1089,57473,0,0,362,9410,0,0,539,12371;QS=0,0.835196,0.164804,0;VDB=0.116873;SGB=-0.692831;MQSB=0.806452;MQ0F=0.117647    PL      154,54,0,159,8,141,154,54,159,154
-I       520     .       A       G,&lt;*&gt;     0       .       DP=44;I16=18,12,1,0,1434,77908,31,961,463,13127,7,49,528,11038,25,625;QS=0.985567,0.014433,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.905284;BQB=1;MQ0F=0.204545        PL      0,78,228,90,231,228
-I       531     .       C       T,&lt;*&gt;     0       .       DP=44;I16=15,17,1,0,1320,62022,75,5625,442,11082,42,1764,589,13157,21,441;QS=0.916996,0.083004,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.864177;BQB=1;MQ0F=0.204545    PL      0,57,183,96,186,210
-I       542     .       A       &lt;*&gt;       0       .       DP=40;I16=11,19,0,0,1145,49117,0,0,423,11435,0,0,611,13999,0,0;QS=1,0;MQSB=0.972375;MQ0F=0.2    PL      0,90,205
-I       553     .       C       &lt;*&gt;       0       .       DP=37;I16=10,21,0,0,1198,50022,0,0,455,12475,0,0,626,14484,0,0;QS=1,0;MQSB=0.784208;MQ0F=0.189189       PL      0,93,218
-I       564     .       A       &lt;*&gt;       0       .       DP=38;I16=10,21,0,0,1207,51683,0,0,439,11947,0,0,567,12425,0,0;QS=1,0;MQSB=0.623553;MQ0F=0.210526       PL      0,93,212
-I       575     .       C       &lt;*&gt;       0       .       DP=38;I16=11,20,0,0,1207,50495,0,0,468,13154,0,0,531,11299,0,0;QS=1,0;MQSB=0.846161;MQ0F=0.210526       PL      0,93,219
-I       586     .       A       &lt;*&gt;       0       .       DP=34;I16=12,15,0,0,1030,42690,0,0,363,9425,0,0,470,10252,0,0;QS=1,0;MQSB=0.92664;MQ0F=0.235294 PL      0,81,191
-I       597     .       T       &lt;*&gt;       0       .       DP=24;I16=11,8,0,0,802,35714,0,0,294,8448,0,0,362,7766,0,0;QS=1,0;MQSB=0.946915;MQ0F=0.208333   PL      0,57,185
-I       608     .       T       &lt;*&gt;       0       .       DP=22;I16=10,8,0,0,750,34000,0,0,300,8616,0,0,325,7581,0,0;QS=1,0;MQSB=0.991158;MQ0F=0.181818   PL      0,54,189
-I       619     .       A       &lt;*&gt;       0       .       DP=17;I16=9,6,0,0,565,23317,0,0,263,7879,0,0,282,6568,0,0;QS=1,0;MQSB=0.998265;MQ0F=0.176471    PL      0,45,171
-I       630     .       C       &lt;*&gt;       0       .       DP=15;I16=10,2,0,0,513,24051,0,0,248,8188,0,0,249,5569,0,0;QS=1,0;MQSB=1;MQ0F=0.266667  PL      0,36,159
-I       641     .       A       &lt;*&gt;       0       .       DP=15;I16=10,2,0,0,501,23467,0,0,248,8188,0,0,215,4461,0,0;QS=1,0;MQSB=1;MQ0F=0.266667  PL      0,36,153
-I       652     .       G       &lt;*&gt;       0       .       DP=12;I16=8,3,0,0,404,16256,0,0,205,6507,0,0,194,4148,0,0;QS=1,0;MQSB=0.774755;MQ0F=0.25        PL      0,33,138
-I       663     .       A       &lt;*&gt;       0       .       DP=10;I16=7,3,0,0,324,10758,0,0,210,7274,0,0,141,2785,0,0;QS=1,0;MQSB=0.274945;MQ0F=0.3 PL      0,30,135
-I       674     .       C       &lt;*&gt;       0       .       DP=9;I16=6,3,0,0,286,9448,0,0,170,5954,0,0,135,2751,0,0;QS=1,0;MQSB=0.231146;MQ0F=0.333333      PL      0,27,119
-I       685     .       C       &lt;*&gt;       0       .       DP=8;I16=5,3,0,0,239,7609,0,0,165,5859,0,0,169,3843,0,0;QS=1,0;MQSB=0.150134;MQ0F=0.25  PL      0,24,83
-I       696     .       C       &lt;*&gt;       0       .       DP=9;I16=5,4,0,0,303,10617,0,0,180,6084,0,0,201,4715,0,0;QS=1,0;MQSB=0.162433;MQ0F=0.222222     PL      0,27,124
-I       707     .       T       &lt;*&gt;       0       .       DP=12;I16=6,6,0,0,394,13628,0,0,233,7913,0,0,197,4139,0,0;QS=1,0;MQSB=0.372712;MQ0F=0.166667    PL      0,36,151
-I       718     .       G       &lt;*&gt;       0       .       DP=15;I16=6,8,0,0,479,16557,0,0,260,8278,0,0,221,4619,0,0;QS=1,0;MQSB=0.740818;MQ0F=0.133333    PL      0,42,165
-I       729     .       A       &lt;*&gt;       0       .       DP=16;I16=9,7,0,0,569,20683,0,0,291,8377,0,0,295,6533,0,0;QS=1,0;MQSB=0.86931;MQ0F=0.0625       PL      0,48,183
-I       740     .       C       &lt;*&gt;       0       .       DP=17;I16=10,5,0,0,537,19621,0,0,296,8442,0,0,306,6836,0,0;QS=1,0;MQSB=0.79702;MQ0F=0.0588235   PL      0,45,177
-I       751     .       C       &lt;*&gt;       0       .       DP=23;I16=16,7,0,0,864,32750,0,0,457,13813,0,0,425,9475,0,0;QS=1,0;MQSB=0.799943;MQ0F=0.0434783 PL      0,69,224
-I       762     .       A       &lt;*&gt;       0       .       DP=24;I16=18,6,0,0,889,33659,0,0,533,16709,0,0,461,10347,0,0;QS=1,0;MQSB=0.955997;MQ0F=0        PL      0,72,247
-I       773     .       T       C,&lt;*&gt;     0       .       DP=21;I16=3,4,13,1,267,10283,523,19991,140,4084,339,10927,164,3946,327,7837;QS=0.287815,0.712185,0;VDB=0.00864269;SGB=-0.686358;RPB=0.0018753;MQB=0.88907;MQSB=0.992359;BQB=0.872525;MQ0F=0     PL      138,0,62,159,104,212
-I       784     .       A       G,&lt;*&gt;     0       .       DP=22;I16=16,5,1,0,803,30915,37,1369,479,15011,7,49,481,11551,7,49;QS=0.985263,0.0147368,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.972757;BQB=1;MQ0F=0 PL      0,53,240,63,243,240
-I       795     .       A       &lt;*&gt;       0       .       DP=27;I16=21,2,0,0,853,32713,0,0,507,14641,0,0,457,10239,0,0;QS=1,0;MQSB=0.285714;MQ0F=0.037037 PL      0,69,194
-I       806     .       T       A,&lt;*&gt;     0       .       DP=24;I16=22,0,1,0,764,27322,41,1681,536,16786,7,49,421,9289,25,625;QS=0.986842,0.0131579,0;SGB=-0.379885;RPB=1;MQB=1;BQB=1;MQ0F=0.0833333      PL      0,56,171,66,174,171
-I       817     .       C       &lt;*&gt;       0       .       DP=36;I16=34,1,0,0,1319,50317,0,0,784,25088,0,0,638,13780,0,0;QS=1,0;MQSB=1;MQ0F=0.111111       PL      0,105,202
-I       828     .       T       &lt;*&gt;       0       .       DP=34;I16=31,2,0,0,1163,42749,0,0,760,25262,0,0,679,15807,0,0;QS=1,0;MQSB=0.919355;MQ0F=0.117647        PL      0,99,224
-I       839     .       A       &lt;*&gt;       0       .       DP=32;I16=29,2,0,0,1147,43069,0,0,728,24732,0,0,676,15866,0,0;QS=1,0;MQSB=0.913793;MQ0F=0.125   PL      0,93,219
-I       850     .       A       &lt;*&gt;       0       .       DP=29;I16=25,2,0,0,1032,39692,0,0,608,19932,0,0,613,14963,0,0;QS=1,0;MQSB=0.98;MQ0F=0.172414    PL      0,81,215
-I       861     .       T       &lt;*&gt;       0       .       DP=27;I16=22,2,0,0,923,35631,0,0,515,16563,0,0,510,11740,0,0;QS=1,0;MQSB=0.931818;MQ0F=0.185185 PL      0,72,208
-I       872     .       A       &lt;*&gt;       0       .       DP=28;I16=22,2,0,0,888,33124,0,0,506,15908,0,0,398,8838,0,0;QS=1,0;MQSB=0.886364;MQ0F=0.178571  PL      0,72,200
-I       883     .       G       &lt;*&gt;       0       .       DP=29;I16=22,4,0,0,955,35241,0,0,615,20965,0,0,373,6871,0,0;QS=1,0;MQSB=0.588055;MQ0F=0.137931  PL      0,78,228
-I       894     .       A       &lt;*&gt;       0       .       DP=27;I16=20,4,0,0,879,32647,0,0,610,21542,0,0,366,6828,0,0;QS=1,0;MQSB=0.378326;MQ0F=0.111111  PL      0,72,236
-I       905     .       C       &lt;*&gt;       0       .       DP=43;I16=28,11,0,0,1391,52399,0,0,1237,50343,0,0,619,12283,0,0;QS=1,0;MQSB=0.814918;MQ0F=0.0465116     PL      0,117,255
-I       916     .       A       &lt;*&gt;       0       .       DP=51;I16=31,15,0,0,1699,66303,0,0,1370,52870,0,0,821,18063,0,0;QS=1,0;MQSB=0.994456;MQ0F=0.0392157     PL      0,138,255
-I       927     .       A       &lt;*&gt;       0       .       DP=52;I16=32,15,0,0,1691,64049,0,0,1379,54205,0,0,995,22987,0,0;QS=1,0;MQSB=0.720226;MQ0F=0.0384615     PL      0,141,255
-I       938     .       G       &lt;*&gt;       0       .       DP=65;I16=39,19,0,0,2255,94505,0,0,1762,70210,0,0,1241,29527,0,0;QS=1,0;MQSB=0.872689;MQ0F=0.0307692    PL      0,175,255
-I       949     .       T       C,G,&lt;*&gt;   0       .       DP=80;I16=31,24,15,2,2213,97897,644,24874,1676,69022,523,20167,1042,23782,388,9250;QS=0.739107,0.258767,0.0021254,0;VDB=0.0244647;SGB=-0.690438;RPB=0.545757;MQB=0.996293;MQSB=0.941948;BQB=0.452328;MQ0F=0.025 PL      100,0,255,251,255,255,255,255,255,255
-I       960     .       C       &lt;*&gt;       0       .       DP=95;I16=50,35,0,0,3359,144699,0,0,2548,101534,0,0,1629,35797,0,0;QS=1,0;MQSB=0.953656;MQ0F=0.0315789  PL      0,255,255
-I       971     .       T       C,&lt;*&gt;     0       .       DP=92;I16=29,31,18,5,2344,102354,827,30229,1808,74036,671,25297,1204,27158,476,10370;QS=0.712967,0.287033,0;VDB=0.558229;SGB=-0.692717;RPB=0.767506;MQB=0.976358;MQSB=0.737118;BQB=0.961613;MQ0F=0.0434783      PL      133,0,255,255,255,255
-I       982     .       A       &lt;*&gt;       0       .       DP=84;I16=39,37,0,0,2829,113237,0,0,2195,86859,0,0,1626,37878,0,0;QS=1,0;MQSB=0.999663;MQ0F=0.047619    PL      0,229,255
-I       993     .       T       G,&lt;*&gt;     0       .       DP=77;I16=29,31,4,4,2178,82900,253,8617,1672,65046,132,4742,1287,30133,114,2034;QS=0.933289,0.0667111,0;VDB=0.457239;SGB=-0.651104;RPB=0.181858;MQB=0.274303;MQSB=0.944655;BQB=0.470637;MQ0F=0.0649351  PL      0,80,255,181,255,255
-I       1004    .       A       &lt;*&gt;       0       .       DP=62;I16=29,31,0,0,2211,82431,0,0,1543,59039,0,0,1134,25912,0,0;QS=1,0;MQSB=0.985635;MQ0F=0.0645161    PL      0,181,255
-I       1015    .       A       &lt;*&gt;       0       .       DP=54;I16=28,22,0,0,1796,66318,0,0,1308,50170,0,0,999,23341,0,0;QS=1,0;MQSB=0.929952;MQ0F=0.0555556     PL      0,151,255
-I       1026    .       C       T,&lt;*&gt;     0       .       DP=57;I16=25,7,8,15,1186,44208,895,36235,829,32887,723,30045,533,11309,412,8470;QS=0.5462,0.4538,0;VDB=2.5368e-05;SGB=-0.692717;RPB=0.371273;MQB=0.576604;MQSB=0.847367;BQB=0.778244;MQ0F=0.0526316     PL      233,0,213,255,255,255
-I       1037    .       C       T,&lt;*&gt;     0       .       DP=61;I16=21,18,15,0,1482,60854,475,16669,1064,40236,514,23598,445,7313,263,5613;QS=0.703113,0.296887,0;VDB=0.0434006;SGB=-0.688148;RPB=0.268259;MQB=0.345424;MQSB=0.976049;BQB=0.656557;MQ0F=0.0983607 PL      100,0,255,218,255,255
-I       1048    .       A       G,&lt;*&gt;     0       .       DP=69;I16=34,17,0,2,2097,92821,27,365,1389,53769,110,6100,753,14861,2,2;QS=0.979638,0.020362,0;VDB=0.02;SGB=-0.453602;RPB=0;MQB=0.0980392;MQSB=0.97751;BQB=0;MQ0F=0.115942      PL      0,127,255,154,255,255
-I       1059    .       T       G,&lt;*&gt;     0       .       DP=128;I16=85,30,1,0,4582,196904,26,676,3715,173191,60,3600,2296,52212,23,529;QS=0.991473,0.00852739,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.996899;BQB=1;MQ0F=0.132813      PL      0,255,255,255,255,255
-I       1070    .       T       &lt;*&gt;       0       .       DP=134;I16=93,31,0,0,5090,224346,0,0,4158,196736,0,0,2725,64587,0,0;QS=1,0;MQSB=0.753111;MQ0F=0.126866  PL      0,255,255
-I       1081    .       G       &lt;*&gt;       0       .       DP=142;I16=97,32,0,0,5169,222969,0,0,4500,217414,0,0,2859,68179,0,0;QS=1,0;MQSB=0.364575;MQ0F=0.119718  PL      0,255,255
-I       1092    .       C       &lt;*&gt;       0       .       DP=147;I16=96,36,0,0,5355,235661,0,0,4885,241845,0,0,2840,66552,0,0;QS=1,0;MQSB=0.566962;MQ0F=0.108844  PL      0,255,255
-I       1103    .       A       C,&lt;*&gt;     0       .       DP=144;I16=77,30,16,7,4031,159767,1026,51002,4428,228432,496,17286,2156,49244,489,11001;QS=0.869415,0.130585,0;VDB=6.18473e-08;SGB=-0.692717;RPB=0.183161;MQB=0.000127972;MQSB=0.585619;BQB=0.110544;MQ0F=0.104167      PL      34,0,255,255,255,255
-I       1114    .       T       &lt;*&gt;       0       .       DP=112;I16=68,34,0,0,3959,166331,0,0,4570,238960,0,0,1940,43098,0,0;QS=1,0;MQSB=0.623194;MQ0F=0.0535714 PL      0,255,255
-I       1125    .       C       &lt;*&gt;       0       .       DP=101;I16=59,36,0,0,3536,139038,0,0,4136,216052,0,0,1559,32099,0,0;QS=1,0;MQSB=0.647661;MQ0F=0.0594059 PL      0,255,255
-I       1136    .       A       &lt;*&gt;       0       .       DP=74;I16=43,28,0,0,2443,85651,0,0,3134,163632,0,0,1214,25806,0,0;QS=1,0;MQSB=0.25505;MQ0F=0.027027     PL      0,214,255
-I       1147    .       T       &lt;*&gt;       0       .       DP=56;I16=31,25,0,0,2044,76152,0,0,2674,140688,0,0,1030,23186,0,0;QS=1,0;MQSB=0.379154;MQ0F=0   PL      0,169,255
-I       1158    .       A       &lt;*&gt;       0       .       DP=45;I16=26,19,0,0,1667,62489,0,0,2045,104537,0,0,872,19634,0,0;QS=1,0;MQSB=0.305665;MQ0F=0    PL      0,135,255
-I       1169    .       A       &lt;*&gt;       0       .       DP=55;I16=34,20,0,0,2057,80837,0,0,2024,95814,0,0,1093,25077,0,0;QS=1,0;MQSB=0.830727;MQ0F=0    PL      0,163,255
-I       1180    .       G       T,&lt;*&gt;     0       .       DP=39;I16=15,5,12,6,768,31594,692,26932,526,19198,541,20159,421,9773,450,11250;QS=0.48407,0.51593,0;VDB=1.81546e-06;SGB=-0.691153;RPB=4.3279e-06;MQB=0.654399;MQSB=0.549466;BQB=0.698094;MQ0F=0 PL      231,0,176,255,230,255
-I       1191    .       T       &lt;*&gt;       0       .       DP=83;I16=51,26,0,0,2937,117081,0,0,1868,63432,0,0,1339,29003,0,0;QS=1,0;MQSB=0.944064;MQ0F=0.0361446   PL      0,232,255
-I       1202    .       G       &lt;*&gt;       0       .       DP=93;I16=51,35,0,0,3237,128405,0,0,2158,74166,0,0,1556,32758,0,0;QS=1,0;MQSB=0.857832;MQ0F=0.0430108   PL      0,255,255
-I       1213    .       C       &lt;*&gt;       0       .       DP=100;I16=56,35,0,0,3391,132019,0,0,2216,73738,0,0,1640,36304,0,0;QS=1,0;MQSB=0.663669;MQ0F=0.06       PL      0,255,255
-I       1224    .       A       G,&lt;*&gt;     0       .       DP=97;I16=25,20,23,24,1639,61945,1728,64998,984,30136,1192,40410,846,18774,999,23087;QS=0.446859,0.553141,0;VDB=4.07915e-06;SGB=-0.693147;RPB=0.718973;MQB=0.491934;MQSB=0.507538;BQB=0.268907;MQ0F=0.0824742   PL      255,0,246,255,255,255
-I       1235    .       C       &lt;*&gt;       0       .       DP=122;I16=61,54,0,0,4217,159393,0,0,2874,97006,0,0,2068,46676,0,0;QS=1,0;MQSB=0.991728;MQ0F=0.0737705  PL      0,255,255
-I       1246    .       C       &lt;*&gt;       0       .       DP=145;I16=73,62,0,0,4607,163881,0,0,3688,134426,0,0,2441,53449,0,0;QS=1,0;MQSB=0.959653;MQ0F=0.062069  PL      0,255,255
-I       1257    .       T       &lt;*&gt;       0       .       DP=174;I16=85,76,0,0,6067,241987,0,0,4477,168901,0,0,2989,65103,0,0;QS=1,0;MQSB=0.872868;MQ0F=0.0517241 PL      0,255,255
-I       1268    .       A       &lt;*&gt;       0       .       DP=192;I16=92,85,0,0,6760,270704,0,0,5248,206156,0,0,3386,74644,0,0;QS=1,0;MQSB=0.641366;MQ0F=0.046875  PL      0,255,255
-I       1279    .       C       T,&lt;*&gt;     0       .       DP=199;I16=67,48,24,39,4514,191276,2251,82615,3793,159065,1625,57149,2166,48974,1328,30896;QS=0.686138,0.313862,0;VDB=0.00919843;SGB=-0.693147;RPB=1.77914e-05;MQB=0.0807478;MQSB=0.507926;BQB=0.112635;MQ0F=0.0452261  PL      241,0,255,255,255,255
-I       1290    .       A       &lt;*&gt;       0       .       DP=195;I16=95,85,0,0,6957,285323,0,0,5667,231459,0,0,3687,85135,0,0;QS=1,0;MQSB=0.15406;MQ0F=0.0358974  PL      0,255,255
-I       1301    .       C       &lt;*&gt;       0       .       DP=196;I16=100,79,0,0,7033,294019,0,0,5685,233999,0,0,3739,87209,0,0;QS=1,0;MQSB=0.0596144;MQ0F=0.0306122       PL      0,255,255
-I       1312    .       A       &lt;*&gt;       0       .       DP=191;I16=97,79,0,0,6967,291249,0,0,5729,235941,0,0,3676,85400,0,0;QS=1,0;MQSB=0.0218864;MQ0F=0.0209424        PL      0,255,255
-I       1323    .       A       &lt;*&gt;       0       .       DP=192;I16=98,79,0,0,6705,269825,0,0,5630,231978,0,0,3354,74406,0,0;QS=1,0;MQSB=0.00390796;MQ0F=0.0208333       PL      0,255,255
-I       1334    .       C       &lt;*&gt;       0       .       DP=168;I16=91,61,0,0,5847,242935,0,0,5033,212585,0,0,2726,59372,0,0;QS=1,0;MQSB=0.0837367;MQ0F=0.00595238       PL      0,255,255
-I       1345    .       A       T,&lt;*&gt;     0       .       DP=148;I16=54,26,20,34,3169,134339,1977,74901,3162,140576,1275,45855,1486,32770,915,18631;QS=0.695562,0.304438,0;VDB=0.964633;SGB=-0.693147;RPB=0.232618;MQB=2.00066e-05;MQSB=0.457497;BQB=0.222846;MQ0F=0.0135135      PL      255,0,255,255,255,255
-I       1356    .       A       &lt;*&gt;       0       .       DP=144;I16=69,65,0,0,5017,198307,0,0,4315,178677,0,0,2257,48283,0,0;QS=1,0;MQSB=0.93929;MQ0F=0.0277778  PL      0,255,255
-I       1367    .       C       &lt;*&gt;       0       .       DP=135;I16=66,61,0,0,4587,171357,0,0,3645,142067,0,0,2267,48663,0,0;QS=1,0;MQSB=0.944546;MQ0F=0.0740741 PL      0,255,255
-I       1378    .       T       &lt;*&gt;       0       .       DP=137;I16=65,62,0,0,4479,166607,0,0,3508,131712,0,0,2279,49439,0,0;QS=1,0;MQSB=0.867601;MQ0F=0.080292  PL      0,255,255
-I       1389    .       G       &lt;*&gt;       0       .       DP=133;I16=56,69,0,0,4547,170347,0,0,3206,115986,0,0,2418,53908,0,0;QS=1,0;MQSB=0.848401;MQ0F=0.0902256 PL      0,255,255
-I       1400    .       C       &lt;*&gt;       0       .       DP=127;I16=46,74,0,0,4334,161510,0,0,2909,101865,0,0,2481,57585,0,0;QS=1,0;MQSB=0.290019;MQ0F=0.110236  PL      0,255,255
-I       1411    .       G       &lt;*&gt;       0       .       DP=133;I16=49,76,0,0,4577,173159,0,0,2934,101652,0,0,2399,55067,0,0;QS=1,0;MQSB=0.258001;MQ0F=0.12782   PL      0,255,255
-I       1422    .       T       A,&lt;*&gt;     0       .       DP=125;I16=43,75,1,0,4362,166528,41,1681,2679,91887,36,1296,2306,52646,23,529;QS=0.9861,0.0138996,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.124249;BQB=1;MQ0F=0.144    PL      0,255,255,255,255,255
-I       1433    .       A       G,&lt;*&gt;     0       .       DP=113;I16=17,13,18,54,1107,41127,2683,104337,569,18197,1832,66116,655,15817,1434,32188;QS=0.248472,0.751528,0;VDB=0.000686842;SGB=-0.693147;RPB=0.144136;MQB=0.0854644;MQSB=0.0817459;BQB=0.997307;MQ0F=0.159292       PL      255,0,129,255,255,255
-I       1444    .       T       &lt;*&gt;       0       .       DP=108;I16=37,62,0,0,3656,140616,0,0,2409,86845,0,0,1841,41257,0,0;QS=1,0;MQSB=0.312093;MQ0F=0.166667   PL      0,255,255
-I       1455    .       C       &lt;*&gt;       0       .       DP=97;I16=34,52,0,0,3108,118950,0,0,2112,79664,0,0,1459,30663,0,0;QS=1,0;MQSB=0.265052;MQ0F=0.175258    PL      0,255,255
-I       1466    .       C       &lt;*&gt;       0       .       DP=98;I16=34,56,0,0,3126,113494,0,0,2659,111563,0,0,1310,26496,0,0;QS=1,0;MQSB=0.729185;MQ0F=0.102041   PL      0,255,255
-I       1477    .       G       &lt;*&gt;       0       .       DP=95;I16=37,53,0,0,3293,125587,0,0,2834,125108,0,0,1405,29587,0,0;QS=1,0;MQSB=0.469301;MQ0F=0.105263   PL      0,255,255
-I       1488    .       C       &lt;*&gt;       0       .       DP=99;I16=43,48,0,0,3371,131683,0,0,3187,147005,0,0,1558,32916,0,0;QS=1,0;MQSB=0.355167;MQ0F=0.0909091  PL      0,255,255
-I       1499    .       T       &lt;*&gt;       0       .       DP=105;I16=52,46,0,0,3647,142829,0,0,3734,180550,0,0,1764,38758,0,0;QS=1,0;MQSB=0.118737;MQ0F=0.0666667 PL      0,255,255
-I       1510    .       G       &lt;*&gt;       0       .       DP=98;I16=48,43,0,0,3407,134787,0,0,3700,181266,0,0,1933,45235,0,0;QS=1,0;MQSB=0.0544472;MQ0F=0.0408163 PL      0,255,255
-I       1521    .       C       &lt;*&gt;       0       .       DP=119;I16=53,56,0,0,4070,160832,0,0,4337,205141,0,0,2342,54096,0,0;QS=1,0;MQSB=0.134335;MQ0F=0.0336134 PL      0,255,255
-I       1532    .       A       &lt;*&gt;       0       .       DP=118;I16=55,55,0,0,4171,166519,0,0,4303,204711,0,0,2434,57894,0,0;QS=1,0;MQSB=0.422765;MQ0F=0.0338983 PL      0,255,255
-I       1543    .       C       &lt;*&gt;       0       .       DP=114;I16=55,56,0,0,4215,166543,0,0,4389,209153,0,0,2371,55373,0,0;QS=1,0;MQSB=0.929148;MQ0F=0.0350877 PL      0,255,255
-I       1554    .       A       &lt;*&gt;       0       .       DP=112;I16=56,53,0,0,4081,159457,0,0,4198,199818,0,0,2063,46789,0,0;QS=1,0;MQSB=0.836686;MQ0F=0.0446429 PL      0,255,255
-I       1565    .       A       T,&lt;*&gt;     0       .       DP=94;I16=6,0,40,44,232,9022,3002,112110,178,6724,3013,140605,102,2160,1599,35265;QS=0.0683897,0.93161,0;VDB=3.59823e-05;SGB=-0.693147;RPB=0.00114674;MQB=0.749024;MQSB=0.74988;BQB=0.263287;MQ0F=0.0638298     PL      255,113,0,255,253,255
-I       1576    .       T       &lt;*&gt;       0       .       DP=93;I16=44,44,0,0,3207,121565,0,0,2798,125854,0,0,1502,32376,0,0;QS=1,0;MQSB=0.123662;MQ0F=0.0752688  PL      0,255,255
-I       1587    .       A       &lt;*&gt;       0       .       DP=85;I16=35,46,0,0,2782,99144,0,0,2341,99381,0,0,1251,25173,0,0;QS=1,0;MQSB=0.15654;MQ0F=0.0705882     PL      0,244,255
-I       1598    .       A       &lt;*&gt;       0       .       DP=89;I16=36,50,0,0,2985,106493,0,0,2037,74473,0,0,1180,23406,0,0;QS=1,0;MQSB=0.533797;MQ0F=0.11236     PL      0,255,255
-I       1609    .       G       A,&lt;*&gt;     0       .       DP=83;I16=0,0,35,42,0,0,2866,108028,0,0,1602,53756,0,0,1342,28502;QS=0,1,0;VDB=0.184519;SGB=-0.693147;MQSB=0.261947;MQ0F=0.144578       PL      255,232,0,255,232,255
-I       1620    .       C       &lt;*&gt;       0       .       DP=102;I16=53,45,0,0,3612,135228,0,0,2124,70144,0,0,1742,37988,0,0;QS=1,0;MQSB=0.0970052;MQ0F=0.147059  PL      0,255,255
-I       1631    .       C       &lt;*&gt;       0       .       DP=128;I16=76,51,0,0,4769,180699,0,0,2820,94360,0,0,2315,50387,0,0;QS=1,0;MQSB=0.027;MQ0F=0.15625       PL      0,255,255
-I       1642    .       A       &lt;*&gt;       0       .       DP=140;I16=86,54,0,0,5317,204113,0,0,3060,101994,0,0,2790,62800,0,0;QS=1,0;MQSB=0.0777302;MQ0F=0.157143 PL      0,255,255
-I       1653    .       A       C,&lt;*&gt;     0       .       DP=162;I16=98,55,0,1,5866,233070,22,484,3566,124014,1,1,3066,70946,20,400;QS=0.998831,0.00116891,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.105225;BQB=1;MQ0F=0.135802  PL      0,255,255,255,255,255
-I       1664    .       T       &lt;*&gt;       0       .       DP=184;I16=114,60,0,0,6753,271271,0,0,4510,171222,0,0,3403,76207,0,0;QS=1,0;MQSB=0.0102433;MQ0F=0.11413 PL      0,255,255
-I       1675    .       G       &lt;*&gt;       0       .       DP=217;I16=139,64,0,0,7659,303109,0,0,5982,248486,0,0,3776,84406,0,0;QS=1,0;MQSB=0.0219904;MQ0F=0.0967742       PL      0,255,255
-I       1686    .       T       G,&lt;*&gt;     0       .       DP=243;I16=167,60,1,0,8931,368871,30,900,7258,316834,40,1600,4184,92456,18,324;QS=0.995196,0.00480384,0;SGB=-0.379885;RPB=1;MQB=1;MQSB=0.0241302;BQB=1;MQ0F=0.0864198   PL      0,255,255,255,255,255
-I       1697    .       T       &lt;*&gt;       0       .       DP=267;I16=192,63,0,0,9850,396456,0,0,8647,387915,0,0,4670,102694,0,0;QS=1,0;MQSB=0.0752396;MQ0F=0.0749064      PL      0,255,255
-I       1708    .       C       &lt;*&gt;       0       .       DP=301;I16=228,58,0,0,10660,412804,0,0,10123,462775,0,0,5012,108938,0,0;QS=1,0;MQSB=0.0739517;MQ0F=0.0531561    PL      0,255,255
-I       1719    .       T       &lt;*&gt;       0       .       DP=332;I16=256,57,0,0,11989,479449,0,0,11679,548217,0,0,5690,124692,0,0;QS=1,0;MQSB=0.262594;MQ0F=0.0451807     PL      0,255,255
-I       1730    .       A       &lt;*&gt;       0       .       DP=390;I16=207,53,0,0,9560,378364,0,0,11915,614217,0,0,4551,100755,0,0;QS=1,0;MQSB=0.636909;MQ0F=0.0230769      PL      0,255,255
-I       1741    .       T       &lt;*&gt;       0       .       DP=412;I16=308,78,0,0,14853,601703,0,0,16064,789750,0,0,7479,166233,0,0;QS=1,0;MQSB=0.480299;MQ0F=0.0145631     PL      0,255,255
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -1080,6 +581,15 @@ I       1741    .       T       &lt;*&gt;       0       .       DP=412;I16=308,7
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="34_call_snp.html" class="btn btn-neutral float-right" title="Call SNP using bcftools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="32_genome_sort_index.html" class="btn btn-neutral float-left" title="Index Genome using Samtools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

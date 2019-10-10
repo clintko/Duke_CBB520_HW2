@@ -1,7 +1,7 @@
 Project: Calling SNPs in Yeast Strain YJF153 (Ref: S288c)
 ============================================================
 
-source material can be cloned from:
+source material can be cloned from: https://github.com/clintko/Duke_CBB520_HW2.git
 
 .. toctree::
    :maxdepth: 2
@@ -33,10 +33,12 @@ source material can be cloned from:
    
 .. toctree::
    :maxdepth: 2
-   :caption: Section 04: Alignment and calls of SNPs
+   :caption: Section 04: Alignment and Calls of SNPs
    
    31_alignment.ipynb
-   32_genome_sort_index.ipynb  
+   32_genome_sort_index.ipynb 
+   33_sort_index.ipynb
+   34_call_snp.ipynb
    
 Indices and tables
 ==================
