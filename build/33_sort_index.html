@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Sort and Index the alignment results &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Call SNP using bcftools" href="34_call_snp.html" />
+    <link rel="prev" title="Index Genome using Samtools" href="32_genome_sort_index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Project: Calling SNPs in Yeast strain YJF153
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Section 01: Data Download</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="00_check_environment.html">Check if the environment is correctly setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_fastq_download.html">Download SRA Data: SRR4841864</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_fastq_generator.html">Generator/Stream of FASTQ reads</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 02: Data Preprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="10_intro2quality_score.html">Quality Score in High-throughput Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_adapter.html">Find the adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 03: Download and Indexing Genome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_genome_indexing.html">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 04: Alignment and Calls of SNPs</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sort and Index the alignment results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Converting-SAM-to-BAM-with-samtools">Converting SAM to BAM with samtools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Observe-the-bam-files">Observe the bam files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="34_call_snp.html">Call SNP using bcftools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Project: Calling SNPs in Yeast strain YJF153</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Sort and Index the alignment results</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/33_sort_index.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Sort-and-Index-the-alignment-results">
+<h1>Sort and Index the alignment results<a class="headerlink" href="#Sort-and-Index-the-alignment-results" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">source</span> config.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="Converting-SAM-to-BAM-with-samtools">
+<h2><a class="reference external" href="http://quinlanlab.org/tutorials/samtools/samtools.html">Converting SAM to BAM with samtools</a><a class="headerlink" href="#Converting-SAM-to-BAM-with-samtools" title="Permalink to this headline">¶</a></h2>
+<p>Here I followed the instructions from the <a class="reference external" href="http://quinlanlab.org/tutorials/samtools/samtools.html">Samtools Tutorial</a> created by Aaron Quinlan.</p>
+<ul class="simple">
+<li><p>Converting SAM to BAM with samtools “view”</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### convert SAM to BAM</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="o">-</span><span class="n">S</span> <span class="o">-</span><span class="n">b</span> <span class="n">sample</span><span class="o">.</span><span class="n">sam</span> <span class="o">&gt;</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span>
+
+<span class="c1">### print the results</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">|</span> <span class="n">head</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>samtools “sort”</p></li>
+</ul>
+<p>“When you align FASTQ files with all current sequence aligners, the alignments produced are in random order with respect to their position in the reference genome. In other words, the BAM file is in the order that the sequences occurred in the input FASTQ files.”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### Before sort</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">|</span> <span class="n">head</span>
+
+<span class="c1">### sort</span>
+<span class="n">samtools</span> <span class="n">sort</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">-</span><span class="n">o</span> <span class="n">sample</span><span class="o">.</span><span class="n">sorted</span><span class="o">.</span><span class="n">bam</span>
+
+<span class="c1">### After sort</span>
+<span class="n">samtools</span> <span class="n">view</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span> <span class="o">|</span> <span class="n">head</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span><span class="nv">DIR</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$RAW_FASTQS</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TRIMMED</span><span class="s2">&quot;</span>    <span class="s2">&quot;</span><span class="nv">$FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
+<span class="nv">OUT</span><span class="o">=(</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_RAW</span><span class="s2">&quot;</span>  <span class="s2">&quot;</span><span class="nv">$ALIGN_TRIM</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$ALIGN_FILTER</span><span class="s2">&quot;</span> <span class="o">)</span>
+<span class="nv">REFFA</span><span class="o">=</span><span class="nv">$GENOME</span>/<span class="nv">$FA</span>
+
+<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span><span class="m">0</span><span class="p">;</span> i&lt;<span class="si">${#</span><span class="nv">OUT</span><span class="p">[@]</span><span class="si">}</span><span class="p">;</span> ++i<span class="o">))</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&quot;================================================&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;++++++++++++++++++++++++&quot;</span>
+
+    <span class="c1">### SAM to BAM</span>
+    samtools view -S -b <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe.sam &gt; <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe.bam
+
+    <span class="c1">### Sorting</span>
+    samtools sort <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe.bam -o <span class="si">${</span><span class="nv">OUT</span><span class="p">[i]</span><span class="si">}</span>/aln_pe_sorted.bam
+<span class="k">done</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+================================================
+/home/jovyan/work/Data/SRR4841864/align_raw
+++++++++++++++++++++++++
+[bam_sort_core] merging from 3 files and 1 in-memory blocks...
+================================================
+/home/jovyan/work/Data/SRR4841864/align_trim
+++++++++++++++++++++++++
+[bam_sort_core] merging from 3 files and 1 in-memory blocks...
+================================================
+/home/jovyan/work/Data/SRR4841864/align_filter
+++++++++++++++++++++++++
+[bam_sort_core] merging from 2 files and 1 in-memory blocks...
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="nv">$ALIGN_RAW</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="nv">$ALIGN_TRIM</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>ls <span class="nv">$ALIGN_FILTER</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Observe-the-bam-files">
+<h2>Observe the bam files<a class="headerlink" href="#Observe-the-bam-files" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>samtools view <span class="nv">$ALIGN_FILTER</span>/aln_pe.bam <span class="p">|</span> head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SRR4841864.5    99      XIII    495383  60      99M     =       495405  123     AGACTTGATGCGACCAATGTTATTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTG     =DDFFFHHGHHJIJJJJJJIJJJJJJIJJIJIJJJJJJJJIIEIGHICHI@DGIJIJHHHHHHFFCEFFDEEEEDDDDDDDDDDDDDDD:ACDDDDDDC     NM:i:0  MD:Z:99 MC:Z:101M       AS:i:99 XS:i:0
+SRR4841864.5    147     XIII    495405  60      101M    =       495383  -123    TTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTGTCTGAAATCTCTAAAGAGAAAGCA   DDDDDDDDDFEEEFFFFFFHHGHJJJJIIHHHCJJJJJIIJJJJJJJJJIIIJJJJJIIIIJJJIJIHDHGCJJJJJJJIJJJJJIIJHHHHHFFFFFCCC   NM:i:0  MD:Z:101        MC:Z:99M        AS:i:101        XS:i:0
+SRR4841864.6    99      XVI     288099  60      99M     =       288150  152     ACCGTCACGTTTCAACAAATTTTTATACGTTGCCTCCAGTGATTTTCCTCCCATATATTCCATGGCAATGTATATTGAAGAACTCTGTTCGTCGGTAAA     =DDFDAHHHCFIJIIGIIGHIJJJJIJJI?FGIEIJJJJFDGGIJIIIIIIJAFIJGIIGIJIGIIIIEE;7777=ABDEFDEEEEC@CCDBDDD=AB@     NM:i:1  MD:Z:4C94       MC:Z:101M       AS:i:94 XS:i:0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>samtools view <span class="nv">$ALIGN_FILTER</span>/aln_pe_sorted.bam <span class="p">|</span> head -3
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SRR4841864.604955       163     I       78      0       60M2I39M        =       488     512     AACACTACCCTAATCTAACCCTGATCAACCTGTCCCCCAACTTACCCTCCATTACCCTGCCTCTCCACTCGTTACCCTGTCCCATTTCACCTTACCACTCC   ?@?DDDDDHFHH3EGEG@&lt;FHFDFHGHII3?EF@FGCH&lt;GHGGEEGHHHHAGBDGGFHDHIIIIICAC;AEEE?BCCCC@@AAAACDDDCCCC@CCAC3&lt;?  NM:i:11 MD:Z:5A0G16G0C9T1T47C0A3A9      MC:Z:13M1D88M   AS:i:49 XS:i:48
+SRR4841864.4430617      65      I       78      0       60M2I39M        IX      439520  0       AACACTACCCTAATCTAACCCTGATCAACCTGTCCCCCAACTTACCCTCCATTACCCTGCCTCTCCACTCGTTACCCTGTCCCATTTCACCTTACCACTCC   CCCFFFFFGGHHHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJIJJJIJJJJJJIJJJJJJIJJIJHHHHHFFFDEEEEEDDDDDDEEEDDDDDDDDDDDD   NM:i:11 MD:Z:5A0G16G0C9T1T47C0A3A9      MC:Z:100M       AS:i:49 XS:i:48
+SRR4841864.1907733      99      I       85      39      28S55M2I15M     =       143     125     ACCCTATCTCAACCCTACTCTAACCCTACCCTACTCTAACCCTGACCATCCTGTCTCTCAGCTTACCCTCCATTACCCTGCCTCCCCACTCGTTACCCTG    CC@DFFFFHHHHHJJJIGIHIIEHGGGIJIJGBFIJIJGIJJJJHIHIGGHIFFGIIIGGIJJJJJIIJJHAEFFFFFFDBDCEDDDDDACDBBBDDDDC    NM:i:6  MD:Z:5A10G3A11A37       MC:Z:20M2I47M31S        AS:i:42 XS:i:51
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="34_call_snp.html" class="btn btn-neutral float-right" title="Call SNP using bcftools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="32_genome_sort_index.html" class="btn btn-neutral float-left" title="Index Genome using Samtools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Index Genome using Burrows-Wheeler Aligner (BWA)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "check the files"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/home/jovyan/work/Data/SRR4841864/genome\n",
+      "Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n",
+      "==========================\n",
+      "Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa\n",
+      "\u001b[0m\u001b[01;31mSaccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz\u001b[0m\n"
+     ]
+    }
+   ],
+   "source": [
+    "echo $GENOME\n",
+    "echo $FA\n",
+    "echo \"==========================\"\n",
+    "ls $GENOME"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Index the genome using [BWA](http://bio-bwa.sourceforge.net/)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[bwa_index] Pack FASTA... 0.16 sec\n",
+      "[bwa_index] Construct BWT for the packed sequence...\n",
+      "[BWTIncCreate] textLength=24314210, availableWord=13710632\n",
+      "[BWTIncConstructFromPacked] 10 iterations done. 22615426 characters processed.\n",
+      "[bwt_gen] Finished constructing BWT in 11 iterations.\n",
+      "[bwa_index] 3.32 seconds elapse.\n",
+      "[bwa_index] Update BWT... 0.11 sec\n",
+      "[bwa_index] Pack forward-only FASTA... 0.09 sec\n",
+      "[bwa_index] Construct SA from BWT and Occ... 1.41 sec\n",
+      "[main] Version: 0.7.17-r1198-dirty\n",
+      "[main] CMD: bwa index -a bwtsw -p /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa /home/jovyan/work/Data/SRR4841864/genome/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz\n",
+      "[main] Real time: 5.163 sec; CPU: 5.094 sec\n"
+     ]
+    }
+   ],
+   "source": [
+    "bwa index -a bwtsw $GENOME/$FA.gz -p $GENOME/$FA"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

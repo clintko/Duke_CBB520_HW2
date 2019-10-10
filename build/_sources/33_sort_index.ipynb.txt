@@ -1,0 +1,207 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Sort and Index the alignment results"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "source config.sh"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## [Converting SAM to BAM with samtools](http://quinlanlab.org/tutorials/samtools/samtools.html)\n",
+    "\n",
+    "Here I followed the instructions from the [Samtools Tutorial](http://quinlanlab.org/tutorials/samtools/samtools.html) created by Aaron Quinlan.\n",
+    "\n",
+    "- Converting SAM to BAM with samtools \"view\"\n",
+    "\n",
+    "```\n",
+    "### convert SAM to BAM\n",
+    "samtools view -S -b sample.sam > sample.bam\n",
+    "\n",
+    "### print the results\n",
+    "samtools view sample.bam | head\n",
+    "```\n",
+    "\n",
+    "- samtools \"sort\"\n",
+    "\n",
+    "\"When you align FASTQ files with all current sequence aligners, the alignments produced are in random order with respect to their position in the reference genome. In other words, the BAM file is in the order that the sequences occurred in the input FASTQ files.\"\n",
+    "\n",
+    "```\n",
+    "### Before sort\n",
+    "samtools view sample.bam | head\n",
+    "\n",
+    "### sort\n",
+    "samtools sort sample.bam -o sample.sorted.bam\n",
+    "\n",
+    "### After sort\n",
+    "samtools view sample.bam | head\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "================================================\n",
+      "/home/jovyan/work/Data/SRR4841864/align_raw\n",
+      "++++++++++++++++++++++++\n",
+      "[bam_sort_core] merging from 3 files and 1 in-memory blocks...\n",
+      "================================================\n",
+      "/home/jovyan/work/Data/SRR4841864/align_trim\n",
+      "++++++++++++++++++++++++\n",
+      "[bam_sort_core] merging from 3 files and 1 in-memory blocks...\n",
+      "================================================\n",
+      "/home/jovyan/work/Data/SRR4841864/align_filter\n",
+      "++++++++++++++++++++++++\n",
+      "[bam_sort_core] merging from 2 files and 1 in-memory blocks...\n"
+     ]
+    }
+   ],
+   "source": [
+    "DIR=( \"$RAW_FASTQS\" \"$TRIMMED\"    \"$FILTER\" )\n",
+    "OUT=( \"$ALIGN_RAW\"  \"$ALIGN_TRIM\" \"$ALIGN_FILTER\" )\n",
+    "REFFA=$GENOME/$FA\n",
+    "\n",
+    "for ((i=0; i<${#OUT[@]}; ++i)); do\n",
+    "    echo \"================================================\"\n",
+    "    echo \"${OUT[i]}\"\n",
+    "    echo \"++++++++++++++++++++++++\"  \n",
+    "    \n",
+    "    ### SAM to BAM\n",
+    "    samtools view -S -b ${OUT[i]}/aln_pe.sam > ${OUT[i]}/aln_pe.bam\n",
+    "    \n",
+    "    ### Sorting\n",
+    "    samtools sort ${OUT[i]}/aln_pe.bam -o ${OUT[i]}/aln_pe_sorted.bam\n",
+    "done"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $ALIGN_RAW"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $ALIGN_TRIM"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "aln_pe.bam  aln_pe.sam  aln_pe_sorted.bam\n"
+     ]
+    }
+   ],
+   "source": [
+    "ls $ALIGN_FILTER"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Observe the bam files"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864.5\t99\tXIII\t495383\t60\t99M\t=\t495405\t123\tAGACTTGATGCGACCAATGTTATTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTG\t=DDFFFHHGHHJIJJJJJJIJJJJJJIJJIJIJJJJJJJJIIEIGHICHI@DGIJIJHHHHHHFFCEFFDEEEEDDDDDDDDDDDDDDD:ACDDDDDDC\tNM:i:0\tMD:Z:99\tMC:Z:101M\tAS:i:99\tXS:i:0\n",
+      "SRR4841864.5\t147\tXIII\t495405\t60\t101M\t=\t495383\t-123\tTTCCAGGCGCAAATAAGGCATGTTGTGGTATTACTAAAATCAGTTTGGATCATGAAAGCTTTTTAGGTAACACCTTGTCTGAAATCTCTAAAGAGAAAGCA\tDDDDDDDDDFEEEFFFFFFHHGHJJJJIIHHHCJJJJJIIJJJJJJJJJIIIJJJJJIIIIJJJIJIHDHGCJJJJJJJIJJJJJIIJHHHHHFFFFFCCC\tNM:i:0\tMD:Z:101\tMC:Z:99M\tAS:i:101\tXS:i:0\n",
+      "SRR4841864.6\t99\tXVI\t288099\t60\t99M\t=\t288150\t152\tACCGTCACGTTTCAACAAATTTTTATACGTTGCCTCCAGTGATTTTCCTCCCATATATTCCATGGCAATGTATATTGAAGAACTCTGTTCGTCGGTAAA\t=DDFDAHHHCFIJIIGIIGHIJJJJIJJI?FGIEIJJJJFDGGIJIIIIIIJAFIJGIIGIJIGIIIIEE;7777=ABDEFDEEEEC@CCDBDDD=AB@\tNM:i:1\tMD:Z:4C94\tMC:Z:101M\tAS:i:94\tXS:i:0\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools view $ALIGN_FILTER/aln_pe.bam | head -3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "SRR4841864.604955\t163\tI\t78\t0\t60M2I39M\t=\t488\t512\tAACACTACCCTAATCTAACCCTGATCAACCTGTCCCCCAACTTACCCTCCATTACCCTGCCTCTCCACTCGTTACCCTGTCCCATTTCACCTTACCACTCC\t?@?DDDDDHFHH3EGEG@<FHFDFHGHII3?EF@FGCH<GHGGEEGHHHHAGBDGGFHDHIIIIICAC;AEEE?BCCCC@@AAAACDDDCCCC@CCAC3<?\tNM:i:11\tMD:Z:5A0G16G0C9T1T47C0A3A9\tMC:Z:13M1D88M\tAS:i:49\tXS:i:48\n",
+      "SRR4841864.4430617\t65\tI\t78\t0\t60M2I39M\tIX\t439520\t0\tAACACTACCCTAATCTAACCCTGATCAACCTGTCCCCCAACTTACCCTCCATTACCCTGCCTCTCCACTCGTTACCCTGTCCCATTTCACCTTACCACTCC\tCCCFFFFFGGHHHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJIJJJIJJJJJJIJJJJJJIJJIJHHHHHFFFDEEEEEDDDDDDEEEDDDDDDDDDDDD\tNM:i:11\tMD:Z:5A0G16G0C9T1T47C0A3A9\tMC:Z:100M\tAS:i:49\tXS:i:48\n",
+      "SRR4841864.1907733\t99\tI\t85\t39\t28S55M2I15M\t=\t143\t125\tACCCTATCTCAACCCTACTCTAACCCTACCCTACTCTAACCCTGACCATCCTGTCTCTCAGCTTACCCTCCATTACCCTGCCTCCCCACTCGTTACCCTG\tCC@DFFFFHHHHHJJJIGIHIIEHGGGIJIJGBFIJIJGIJJJJHIHIGGHIFFGIIIGGIJJJJJIIJJHAEFFFFFFDBDCEDDDDDACDBBBDDDDC\tNM:i:6\tMD:Z:5A10G3A11A37\tMC:Z:20M2I47M31S\tAS:i:42\tXS:i:51\n"
+     ]
+    }
+   ],
+   "source": [
+    "samtools view $ALIGN_FILTER/aln_pe_sorted.bam | head -3"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

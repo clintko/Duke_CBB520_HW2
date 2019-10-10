@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Project: Calling SNPs in Yeast Strain YJF153 (Ref: S288c) &mdash; Project: Calling SNPs in Yeast strain YJF153 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Check if the environment is correctly setup" href="00_check_environment.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Project: Calling SNPs in Yeast strain YJF153
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Section 01: Data Download</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="00_check_environment.html">Check if the environment is correctly setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_fastq_download.html">Download SRA Data: SRR4841864</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_fastq_generator.html">Generator/Stream of FASTQ reads</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 02: Data Preprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="10_intro2quality_score.html">Quality Score in High-throughput Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_adapter.html">Find the adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 03: Download and Indexing Genome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_genome_indexing.html">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Section 04: Alignment and Calls of SNPs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="33_sort_index.html">Sort and Index the alignment results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="34_call_snp.html">Call SNP using bcftools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Project: Calling SNPs in Yeast strain YJF153</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Project: Calling SNPs in Yeast Strain YJF153 (Ref: S288c)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="project-calling-snps-in-yeast-strain-yjf153-ref-s288c">
+<h1>Project: Calling SNPs in Yeast Strain YJF153 (Ref: S288c)<a class="headerlink" href="#project-calling-snps-in-yeast-strain-yjf153-ref-s288c" title="Permalink to this headline">¶</a></h1>
+<p>source material can be cloned from: <a class="reference external" href="https://github.com/clintko/Duke_CBB520_HW2.git">https://github.com/clintko/Duke_CBB520_HW2.git</a></p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Section 01: Data Download</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="00_check_environment.html">Check if the environment is correctly setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-EA-Utils">Check EA-Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-Htslib-tools">Check Htslib tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-SRA-Tools">Check SRA-Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-Samtools">Check Samtools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-BCFTools">Check BCFTools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-BWA-Tools">Check BWA Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_check_environment.html#Check-Other-tools">Check Other tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="01_fastq_download.html">Download SRA Data: SRR4841864</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_fastq_download.html#Information-of-the-data">Information of the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_fastq_download.html#Fetch-the-SRA-data">Fetch the SRA data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_fastq_download.html#Split-the-paired-end-data-into-read-1-and-read-2">Split the paired-end data into read 1 and read 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_fastq_exploration.html">Explore the data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02_fastq_exploration.html#Read-the-SRA-File">Read the SRA File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_fastq_exploration.html#Read-the-Pair-end-files">Read the Pair-end files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_fastq_generator.html">Generator/Stream of FASTQ reads</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Section 02: Data Preprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="10_intro2quality_score.html">Quality Score in High-throughput Sequencing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="10_intro2quality_score.html#How-is-the-quality-score-store-in-fastq">How is the quality score store in fastq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_intro2quality_score.html#Introduction-to-Quality-Score-in-Sequencing">Introduction to Quality Score in Sequencing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_intro2quality_score.html#Visualization-of-Phred-Score">Visualization of Phred Score</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_intro2quality_score.html#Visualization-of-Error-Probability">Visualization of Error Probability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="11_quality_score_raw.html">Quality score of raw reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="11_quality_score_raw.html#Visualization-of-Phred-scores-for-all-bases">Visualization of Phred scores for all bases</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="12_fastqc_raw.html">FASTQC Report of Raw Reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="12_fastqc_raw.html#Generate-QC-report-of-read-1-and-read-2">Generate QC report of read 1 and read 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_fastqc_raw.html#The-Quality-per-Base-from-QC-reports">The Quality per Base from QC reports</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="13_adapter.html">Find the adapter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_trim_adapters.html">Trimming Adapters of the reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="14_trim_adapters.html#Trim-the-adapters-in-pair-end-reads-using-Fastq-mcf">Trim the adapters in pair-end reads using Fastq-mcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_trim_adapters.html#Check-the-output">Check the output</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="15_filter_reads.html">Filter Reads: Select reads with high quality</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="15_filter_reads.html#Streamming-and-Filtering-Reads">Streamming and Filtering Reads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_filter_reads.html#Visualization-of-Raw,-Trimmed,-and-Filtered-Reads">Visualization of Raw, Trimmed, and Filtered Reads</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="16_fastqc_prep.html">FASTQC Report of Trimmed/Filtered (Preprocessed) Reads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="16_fastqc_prep.html#Generate-QC-report-of-read-1-and-read-2-(Trimmed)">Generate QC report of read 1 and read 2 (Trimmed)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16_fastqc_prep.html#Generate-QC-report-of-read-1-and-read-2-(Filtered)">Generate QC report of read 1 and read 2 (Filtered)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Section 03: Download and Indexing Genome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="21_genome_download.html">Download Yeast Genome (Strain S288c)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22_genome_indexing.html">Index Genome using Burrows-Wheeler Aligner (BWA)</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Section 04: Alignment and Calls of SNPs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="31_alignment.html">Align Reads (YJF153) to the Reference (S288c)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="31_alignment.html#Alignment-using-BWA-mem">Alignment using <code class="docutils literal notranslate"><span class="pre">BWA</span> <span class="pre">mem</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="32_genome_sort_index.html">Index Genome using Samtools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="32_genome_sort_index.html#Samtools-faidx">Samtools faidx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="33_sort_index.html">Sort and Index the alignment results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="33_sort_index.html#Converting-SAM-to-BAM-with-samtools">Converting SAM to BAM with samtools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="33_sort_index.html#Observe-the-bam-files">Observe the bam files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="34_call_snp.html">Call SNP using bcftools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="34_call_snp.html#bcftools-—-utilities-for-variant-calling-and-manipulating-VCFs-and-BCFs.">bcftools — utilities for variant calling and manipulating VCFs and BCFs.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="34_call_snp.html#Manual:-How-to-call-the-variants?">Manual: How to call the variants?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="34_call_snp.html#Call-SNP">Call SNP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="34_call_snp.html#View-VCF-files">View VCF files</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="00_check_environment.html" class="btn btn-neutral float-right" title="Check if the environment is correctly setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
